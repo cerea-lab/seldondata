@@ -1571,10 +1571,11 @@ namespace SeldonData
     The coordinates transformation is provided by function
     f. f takes as input old coordinates and new coordinates (in this
     order). Old coordinates are assumed to be unchanged by f.
-    \param f coordinates transformation.
+    \param f coordinates transformation. It must be an instance of
+    FuncCoords_Base<TG> or of a class derived from FuncCoords_Base<TG>.
   */
   template<class T, int N, class TG>
-  void Data<T, N, TG>::ChangeCoords(Function_Base<TG>& f)
+  void Data<T, N, TG>::ChangeCoords(FuncCoords_Base<TG>& f)
   {
     
     int i;
@@ -1888,7 +1889,8 @@ namespace SeldonData
     Function f takes as inputs all coordinates and transforms those coordinates.
     This transformation is performed in place because function f works directly
     on its inputs.
-    \param f coordinate transformation.
+    \param f coordinate transformation. It must be an instance of
+    Function_Base<TG> or of a class derived from Function_Base<TG>.
     \warning One should use ChangeCoords instead of ChangeCoordsInPlace in order
     to save memory.
   */

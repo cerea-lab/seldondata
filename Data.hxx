@@ -157,7 +157,7 @@ namespace SeldonData
     void SetZero();
     bool IsZero();
 
-    void ChangeCoords(Function_Base<TG>& f);
+    void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
 
     void Print();

@@ -290,7 +290,8 @@ namespace SeldonData
     Function f takes as inputs all coordinates and transforms those coordinates.
     This transformation is performed in place because function f works directly
     on its inputs.
-    \param f coordinate transformation.
+    \param f coordinate transformation. It must be an instance of
+    Function_Base<TG> or of a class derived from Function_Base<TG>.
     \param grids array of pointers to other grids (along other directions).
   */
   template<class T>
