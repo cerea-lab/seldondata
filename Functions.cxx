@@ -417,6 +417,123 @@ namespace SeldonData
   ////////////////
 
 
+  ///////////////
+  // DIMENSION //
+
+  //! Linear interpolation along a given dimension.
+  /*!
+    Linear interpolation only along a given dimension.
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationDimension(Data<TIn, N, TGIn>& dataIn,
+				    Data<TOut, N, TGOut>& dataOut, int dim)
+  {
+    
+    int i, j, k, l, m;
+    Array<int, 1> IndexIn(10), IndexOut(10);
+    Array<int, 1> Length(10);
+    TIn coeff, coord;
+    int Ndim_in, Ndim_out;
+
+    for (i=0; i<10; i++)
+      {
+	Length(i) = dataOut.GetLength(i);
+	IndexOut(i) = 0;
+	IndexIn(i) = 0;
+      }
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    // Checks whether dimensions match.
+    for (i=0; i<10; i++)
+      if ((i!=dim) && (Length(i) != dataIn.GetLength(i)))
+	throw WrongDim("LinearInterpolationDimension(Data&, Data&, " + to_str(dim) + ")",
+		       "Along dimension #" + to_str(i) + ", input data has "
+		       + to_str(dataIn.GetLength(i)) + " elements and ouput data"
+		       + " has " + to_str(Length(i)) + " elements. There must be the same"
+		       + " number of elements.");
+#endif
+
+    Ndim_in = dataIn.GetLength(dim);
+    Ndim_out = dataOut.GetLength(dim);
+
+    for (i=0; i<dataOut.GetNbElements() / Ndim_out; i++)
+      {
+
+	IndexIn(dim) = 1;
+	for (k=0; k<Ndim_out; k++)
+	  {
+	    IndexOut(dim) = k;
+	    coord = dataOut[dim].Value(IndexOut(0), IndexOut(1), IndexOut(2),
+				       IndexOut(3), IndexOut(4), IndexOut(5),
+				       IndexOut(6), IndexOut(7), IndexOut(8),
+				       IndexOut(9));
+	    while ( (IndexIn(dim)<Ndim_in)
+		    && (dataIn[dim].Value(IndexIn(0), IndexIn(1), IndexIn(2),
+					  IndexIn(3), IndexIn(4), IndexIn(5),
+					  IndexIn(6), IndexIn(7), IndexIn(8),
+					  IndexIn(9)) < coord) )
+	      IndexIn(dim)++;
+
+	    if (IndexIn(dim)==Ndim_in)
+	      IndexIn(dim) = Ndim_in-1;
+
+	    IndexIn(dim)--;
+	    coord = dataIn[dim].Value(IndexIn(0), IndexIn(1), IndexIn(2),
+				      IndexIn(3), IndexIn(4), IndexIn(5),
+				      IndexIn(6), IndexIn(7), IndexIn(8),
+				      IndexIn(9));
+	    IndexIn(dim)++;
+
+	    coeff = ( dataOut[dim].Value(IndexOut(0), IndexOut(1), IndexOut(2),
+					 IndexOut(3), IndexOut(4), IndexOut(5),
+					 IndexOut(6), IndexOut(7), IndexOut(8),
+					 IndexOut(9)) - coord )
+	      / ( dataIn[dim].Value(IndexIn(0), IndexIn(1), IndexIn(2),
+				    IndexIn(3), IndexIn(4), IndexIn(5),
+				    IndexIn(6), IndexIn(7), IndexIn(8),
+				    IndexIn(9)) - coord );
+
+	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			  IndexOut(3), IndexOut(4), IndexOut(5),
+			  IndexOut(6), IndexOut(7), IndexOut(8),
+			  IndexOut(9)) =
+	      coeff * dataIn.Value(IndexIn(0), IndexIn(1), IndexIn(2),
+				   IndexIn(3), IndexIn(4), IndexIn(5),
+				   IndexIn(6), IndexIn(7), IndexIn(8),
+				   IndexIn(9));
+
+	    IndexIn(dim)--;
+	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			  IndexOut(3), IndexOut(4), IndexOut(5),
+			  IndexOut(6), IndexOut(7), IndexOut(8),
+			  IndexOut(9)) +=
+	      (TIn(1.0) - coeff) * dataIn.Value(IndexIn(0), IndexIn(1), IndexIn(2),
+						IndexIn(3), IndexIn(4), IndexIn(5),
+						IndexIn(6), IndexIn(7), IndexIn(8),
+						IndexIn(9));
+	    IndexIn(dim)++;
+	  }
+
+	j = N-1;
+	while ( (j>=0) && ((IndexOut(j)==Length(j)-1) || (j==dim)) )
+	  {
+	    IndexOut(j) = 0;
+	    IndexIn(j) = 0;
+	    j--;
+	  }
+	IndexOut(j)++;
+	IndexIn(j)++;
+
+      }
+
+  }
+
+  // DIMENSION //
+  ///////////////
+
 
 }  // namespace SeldonData.
 
