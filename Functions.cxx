@@ -523,6 +523,283 @@ namespace SeldonData
   ////////////////
 
 
+  /////////////////////////
+  // ONEGENERALGETCOEFFS //
+
+  //! Saves coefficients and indices of linear interpolation for data defined
+  //! on regular grids, but one grid, to data defined on general grids.
+  /*!
+    Saves indices and coefficients of linear interpolation on data defined on regular
+    grids, except one grid which may be a general grid (i.e. depending on other 
+    coordinates).
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+    \param dim dimension related to the general grid.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn,
+					      Data<TOut, N, TGOut>& dataOut,
+					      int dim, 
+					      Array<TIn, 2>& RegularCoeffs,
+					      Array<TIn, 2>& GeneralCoeffs,
+					      Array<int, 2>& RegularIndices,
+					      Array<int, 2>& GeneralIndices)
+  {
+    
+    int i, j, k, l, m;
+    Array<int, 1> IndexIn(10), IndexOut(10);
+    Array<int, 1> LengthIn(10), LengthOut(10);
+    Array<TIn, 1> Coeff(10);
+    TIn temp;
+    Array<bool, 1> Pos(N), Pos_dim(N);
+    int NbElementsOut;
+
+    dataOut.SetZero();
+    NbElementsOut = dataOut.GetNbElements();
+
+    RegularIndices.resize(NbElementsOut, N-1);
+    RegularIndices = 0;
+    RegularCoeffs.resize(NbElementsOut, N-1);
+    RegularCoeffs = 0;
+    GeneralIndices.resize(NbElementsOut, int(pow(2., N-1)+0.5));
+    GeneralIndices = 0;
+    GeneralCoeffs.resize(NbElementsOut, int(pow(2., N-1)+0.5));
+    GeneralCoeffs = 0;
+
+    for (i=0; i<10; i++)
+      if (i < N)
+	{
+	  LengthIn(i) = dataIn.GetLength(i);
+	  LengthOut(i) = dataOut.GetLength(i);
+	}
+
+    for (i=0; i < NbElementsOut; i++)
+      {
+	// Loops over every regular dimensions to compute coefficients.
+	for (j = 0; j < N; j++)
+	  if (j!=dim)
+	    {
+	      // Searches for nearest coordinates beginning from 0.
+	      IndexIn(j) = 0;
+	      while ( (IndexIn(j) < LengthIn(j)-1)
+		      && (dataIn[j](IndexIn(j))
+			  < dataOut[j](IndexOut(j))) )
+		IndexIn(j)++;
+	      IndexIn(j) = max(1, IndexIn(j));
+	      
+	      Coeff(j) = ( dataOut[j](IndexOut(j)) - dataIn[j](IndexIn(j)-1) ) /
+		( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
+	      
+	      // Saves coeffs and indices (values for dim are not saved).
+	      if (j < dim ) 
+		{
+		  RegularCoeffs(i,j) = Coeff(j);
+		  RegularIndices(i,j) = IndexIn(j);
+		}
+	      else
+		{
+		  RegularCoeffs(i,j-1) = Coeff(j);
+		  RegularIndices(i,j-1) = IndexIn(j);
+		}
+	    }
+
+	for (k=0; k<int(pow(2.0, double(N-1))+0.5); k++)
+	  {
+	    l = k;
+	    for (m=0; m<N; m++)
+	      if (m != dim)
+		{
+		  Pos_dim(m) = l%2;
+		  l = l/2;
+		}
+	    Pos_dim(dim) = 0;
+
+	    IndexIn(dim) = 1;
+	    while ( (IndexIn(dim) < LengthIn(dim)-1)
+		    && (dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+					  IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+					  IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+					  IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+					  IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9))
+			< dataOut[dim].Value(IndexOut(0), IndexOut(1),
+					     IndexOut(2), IndexOut(3),
+					     IndexOut(4), IndexOut(5),
+					     IndexOut(6), IndexOut(7),
+					     IndexOut(8), IndexOut(9))) )
+	      IndexIn(dim)++;
+	    
+	    IndexIn(dim)--;
+	    temp = dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+				     IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+				     IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+				     IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+				     IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9));
+	    IndexIn(dim)++;
+
+	    Coeff(dim) = ( dataOut[dim].Value(IndexOut(0), IndexOut(1),
+					      IndexOut(2), IndexOut(3),
+					      IndexOut(4), IndexOut(5),
+					      IndexOut(6), IndexOut(7),
+					      IndexOut(8), IndexOut(9))
+			   - temp ) /
+	      ( dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+				  IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+				  IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+				  IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+				  IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9)) - temp );
+	    // Saves coeffs and indices (the index after).
+	    GeneralCoeffs(i, k) = Coeff(dim);
+	    GeneralIndices(i, k) = IndexIn(dim);
+	  }
+
+	j = N-1;
+	while ( (j>=0) && (IndexOut(j)==LengthOut(j)-1) )
+	  {
+	    IndexOut(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  IndexOut(j)++;
+
+      }
+
+  }
+
+  // ONEGENERALGETCOEFFS //
+  /////////////////////////
+
+
+  ///////////////////////
+  // ONEGENERALCOMPUTE //
+
+  //! Compute linear interpolation for data defined
+  //! on regular grids, but one grid, to data defined on general grids, 
+  //! using indices and coefficients previously computed.
+  /*!
+    Performs linear interpolation on data defined on regular grids,
+    except one grid which may be a general grid (i.e. depending on other coordinates).
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+    \param dim dimension related to the general grid.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralCompute(Data<TIn, N, TGIn>& dataIn,
+					    int dim,
+					    Array<TIn, 2>& RegularCoeffs,
+					    Array<TIn, 2>& GeneralCoeffs,
+					    Array<int, 2>& RegularIndices,
+					    Array<int, 2>& GeneralIndices,
+					    Data<TOut, N, TGOut>& dataOut)
+  {
+    int i, j, k, l, ldim, m;
+    Array<int, 1> IndexIn(10), IndexOut(10);
+    Array<int, 1> LengthOut(10);
+    Array<TIn, 1> Coeff(10);
+    TIn coeff;
+
+    int limit = int(pow(2.0, double(dim)) + 0.5);
+
+    IndexOut = 0;
+
+    for (i=0; i<10; i++)
+      if (i < N)
+	LengthOut(i) = dataOut.GetLength(i);
+
+    dataOut.SetZero();
+
+    for (i=0; i<dataOut.GetNbElements(); i++)
+      {
+	for (k=0; k<int(pow(2.0, double(N))+0.5); k++)
+	  {
+	    l = k;
+	    if (k < limit)
+	      ldim = k;
+	    else
+	      ldim = (k / (limit * 2)) * limit + k % limit;
+
+	    coeff = TIn(1);
+	    for (m=0; m<N; m++)
+	      {
+		if (m < dim)
+		  {
+		    if (l%2 == 1)
+		      {
+			IndexIn(m) = RegularIndices(i, m);
+			coeff *= RegularCoeffs(i, m);
+		      }
+		    else
+		      {
+			IndexIn(m) = RegularIndices(i, m) - 1;
+			coeff *= TIn(1) - RegularCoeffs(i, m);
+		      }
+		    l = l/2;
+		  }
+		else if (m > dim)
+		  {
+		    if (l%2 == 1)
+		      {
+			IndexIn(m) = RegularIndices(i, m - 1);
+			coeff *= RegularCoeffs(i, m - 1);
+		      }
+		    else
+		      {
+			IndexIn(m) = RegularIndices(i, m - 1) - 1;
+			coeff *= TIn(1) - RegularCoeffs(i, m - 1);
+		      }
+		    l = l/2;
+		  }
+		else
+		  {
+		    if (l%2 == 1)
+		      {
+			IndexIn(m) = GeneralIndices(i, ldim);
+			coeff *= GeneralCoeffs(i, ldim);
+		      }
+		    else
+		      {
+			IndexIn(m) = GeneralIndices(i, ldim) - 1;
+			coeff *= TIn(1) - GeneralCoeffs(i, ldim);
+		      }
+		    l = l/2;
+		  }
+	      }
+
+	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			  IndexOut(3), IndexOut(4), IndexOut(5),
+			  IndexOut(6), IndexOut(7), IndexOut(8),
+			  IndexOut(9)) +=
+	      TOut( coeff *
+		    dataIn.Value(IndexIn(0), IndexIn(1),
+				 IndexIn(2), IndexIn(3),
+				 IndexIn(4), IndexIn(5),
+				 IndexIn(6), IndexIn(7),
+				 IndexIn(8), IndexIn(9)) );
+
+	  }
+
+	j = N-1;
+	while ( (j>=0) && (IndexOut(j)==LengthOut(j)-1) )
+	  {
+	    IndexOut(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  IndexOut(j)++;
+      }
+  }
+
+  // ONEGENERALCOMPUTE //
+  ///////////////////////
+
+
   ///////////////
   // DIMENSION //
 
