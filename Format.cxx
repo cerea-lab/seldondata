@@ -812,6 +812,361 @@ namespace SeldonData
   }
 
 
+  /////////////////////////
+  // FORMATFORMATTEDTEXT //
+  /////////////////////////
+
+  //! Main constructor.
+  /*!
+    \param format format of the file.
+    \param commments characters that denote a comment line.
+    \param delimiters characters used to delimit elements in the file.
+  */
+  FormatFormattedText::FormatFormattedText(string format,
+					   string delimiters,
+					   string comments):
+    format_(format), delimiters_(delimiters), comments_(comments)
+  {
+    this->SetVectors();
+  }
+
+  //! Destructor.
+  FormatFormattedText::~FormatFormattedText()
+  {
+
+  }
+
+  //! Sets vectors associated with the format.
+  void FormatFormattedText::SetVectors()
+  {
+    info_str.clear();
+    info_nb0.clear();
+    info_nb1.clear();
+
+    string stmp;
+    vector<string> markup, desc;
+
+    split(format_, markup, ">");
+    for (unsigned int i=0; i<markup.size(); i++)
+      {
+	split(markup[i], desc, "<");
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	if (desc.size() == 0)
+	  throw IOError("FormatFormattedText::SetVectors()",
+			"Empty markup detected found.");
+#endif
+	split(desc[desc.size() - 1], desc, " \n\t-,|/");
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	if (desc.size() == 0)
+	  throw IOError("FormatFormattedText::SetVectors()",
+			"Empty markup found.");
+#endif
+	info_str.push_back(desc[0]);
+
+	if (info_str[i] == "c")
+	  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    if (desc.size() != 3)
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    string("Column descriptor must be followed by two numbers. ")
+			    + to_str(desc.size() - 1) + " elements were provided.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    if (!is_unsigned_integer(desc[1]))
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    string("Column descriptor must be followed by two numbers. ")
+			    + "The first element that follows 'c' is not an unsigned integer.");
+	    if (!is_unsigned_integer(desc[2]))
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    string("Column descriptor must be followed by two numbers. ")
+			    + "The second number that follows 'c' is not an unsigned integer.");
+#endif
+
+	    info_nb0.push_back(to_num<int>(desc[1]));
+	    info_nb1.push_back(to_num<int>(desc[2]));
+
+	  }
+	else if (info_str[i] == "e")
+	  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    if ( (desc.size() != 1) && (desc.size() != 2) )
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    "Element descriptor must be followed by at most one number.");
+	    if ( (desc.size() == 2) && !is_unsigned_integer(desc[1]) )
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    "If followed by something, element descriptor must be followed an unsigned integer.");
+#endif
+
+	    if (desc.size() == 1)
+	      info_nb0.push_back(1);
+	    else
+	      info_nb0.push_back(to_num<int>(desc[1]));
+
+	    info_nb1.push_back(-1);
+	    
+	  }
+	else if (info_str[i] == "s")
+	  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    if ( (desc.size() != 1) && (desc.size() != 2) )
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    "Skip descriptor must be followed by at most one number.");
+	    if ( (desc.size() == 2) && !is_unsigned_integer(desc[1]) )
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    "If followed by something, skip descriptor must be followed an unsigned integer.");
+#endif
+
+	    if (desc.size() == 1)
+	      info_nb0.push_back(1);
+	    else
+	      info_nb0.push_back(to_num<int>(desc[1]));
+
+	    info_nb1.push_back(-1);
+	    
+	  }
+	else if (info_str[i] == "a")
+	  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    if (desc.size() != 1)
+	      throw IOError("FormatFormattedText::SetVectors()",
+			    "All descriptor must not be followed by anything.");
+#endif
+
+	    info_nb0.push_back(-1);
+	    info_nb1.push_back(-1);
+	    
+	  }
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	else
+	  throw IOError("FormatFormattedText::SetVectors()",
+			"Unknown delimiter.");
+#endif
+
+      }
+  }
+
+  //! Skips data.
+  void FormatFormattedText::SkipMarkup(ExtStream& FileStream,
+				       streampos pos, int i) const
+  {
+    if (info_str[i] == "c")
+      {
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	if (info_nb0[i] < pos)
+	  throw IOError("FormatFormattedText::SkipMarkup(ExtStream& FileStream, streampos pos, int i)",
+			string("Unable to move forward to column #") + to_str(info_nb0[i] + "."));
+#endif
+	char* buf = new char[info_nb0[i] - pos];
+	FileStream.read(buf, info_nb0[i] - pos);
+	delete [] buf;
+	buf = new char[info_nb1[i] + 1];
+	FileStream.read(buf, info_nb1[i] - pos);
+	buf[info_nb1[i]] = '\0';
+      }
+    else if (info_str[i] == "e")
+      {
+	FileStream.GetElement();
+      }
+    else if (info_str[i] == "s")
+      {
+	char* buf = new char[info_nb0[i]];
+	FileStream.read(buf, info_nb0[i]);
+	delete [] buf;
+      }
+    else if (info_str[i] == "a")
+      {
+	FileStream.GetFullLine();
+	FileStream.seekg(-1, ExtStream::beg);
+      }
+  }
+
+  //! Reads data.
+  template <class T>
+  void FormatFormattedText::ReadMarkup(ExtStream& FileStream,
+				       streampos pos, int i,
+				       T& value) const
+  {
+    if (info_str[i] == "c")
+      {
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	if (info_nb0[i] < pos)
+	  throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T& value)",
+			string("Unable to move forward to column #") + to_str(info_nb0[i] + "."));
+#endif
+	char* buf = new char[info_nb0[i] - pos];
+	FileStream.read(buf, info_nb0[i] - pos);
+	delete [] buf;
+	buf = new char[info_nb1[i] + 1];
+	FileStream.read(buf, info_nb1[i] - pos);
+	buf[info_nb1[i]] = '\0';
+	string sbuf(buf);
+	DISP(sbuf);
+	convert(sbuf, value);
+      }
+    else if (info_str[i] == "e")
+      {
+	FileStream.GetElement(value);
+      }
+    else if (info_str[i] == "s")
+      {
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T& value)",
+		      "Attempted to read data supposed to be skipped.");
+#endif
+      }
+    else if (info_str[i] == "a")
+      {
+	convert(FileStream.GetFullLine(), value);
+	FileStream.seekg(-1, ExtStream::beg);
+	pos = FileStream.tellg();
+      }
+  }
+
+  //! Returns the current format description.
+  /*!
+    \return The current format description.
+  */
+  string FormatFormattedText::GetFormat() const
+  {
+    return format_;
+  }
+
+  //! Returns the current delimiters.
+  /*!
+    \return The current delimiters.
+  */
+  string FormatFormattedText::GetDelimiters() const
+  {
+    return delimiters_;
+  }
+
+  //! Returns the current characters that denote a comment line.
+  /*!
+    \return The current characters that denote a comment line.
+  */
+  string FormatFormattedText::GetComments() const
+  {
+    return comments_;
+  }
+
+  //! Sets the format description.
+  /*!
+    \param format the new format description.
+  */
+  void FormatFormattedText::SetFormat(string format)
+  {
+    format_ = format;
+    this->SetVectors();
+  }
+
+  //! Sets the delimiters.
+  /*!
+    \param delimiters the new delimiters.
+  */
+  void FormatFormattedText::SetDelimiters(string delimiters)
+  {
+    delimiters_ = delimiters;
+  }
+
+  //! Sets the characters that denote a comment line.
+  /*!
+    \param the new characters that denote a comment line.
+  */
+  void FormatFormattedText::SetComments(string comments)
+  {
+    comments_ = comments;
+  }
+
+  /*********/
+  /* Array */
+  /*********/
+
+  //! Reads a text file.
+  template<class TA, int N>
+  void FormatFormattedText::Read(ExtStream& FileStream, string extract, Array<TA, N>& A) const
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatFormattedText::Read(ExtStream& FileStream, string extract, Array<TA, N>& A)",
+		    "File is not ready.");
+#endif
+
+    string delimiters(FileStream.GetDelimiters()),
+      comments(FileStream.GetComments());
+    
+    streampos pos_beg = FileStream.tellg();
+    streampos pos_cur(pos_beg);
+    
+    vector<int> markups;
+    split(extract, markups, " \t\n,;:/|");
+
+    int nb_elements = A.numElements();
+    int i = 0;
+    int j, k(0), l(0);
+    Array<int, 1> Index(10), Length(10);
+
+    for (j=0; j<10; j++)
+      {
+	Index(j) = 0;
+	Length(j) = A.extent(j);
+      }
+
+    j = N-1;
+    while ((i<nb_elements) && (FileStream.good()))
+      {
+
+	if (k<markups.size())
+	  {
+	    while (l!=markups[k])
+	      {
+		this->SkipMarkup(FileStream, pos_cur - pos_beg, l);
+		pos_cur = FileStream.tellg();
+		l++;
+	      }
+
+	    this->ReadMarkup(FileStream, pos_cur - pos_beg, l,
+			     A(Index(0), Index(1), Index(2),
+			       Index(3), Index(4), Index(5),
+			       Index(6), Index(7), Index(8),
+			       Index(9)));
+	    pos_cur = FileStream.tellg();
+	    
+	    j = N-1;
+	    while ( (j>=0) && (Index(j)==Length(j)-1) )
+	      {
+		Index(j) = 0;
+		j--;
+	      }
+	    
+	    if (j!=-1)
+	      Index(j)++;
+	    
+	    i++;
+
+	    k++; l++;
+	  }
+	else
+	  {
+	    k = 0; l = 0;
+	    FileStream.GetFullLine();
+	    pos_beg = FileStream.tellg();
+	    pos_cur = pos_beg;
+	  }
+      }
+
+    FileStream.SetDelimiters(delimiters);
+    FileStream.SetComments(comments);
+
+  }
+
+
   //////////////////
   // FORMATNETCDF //
   //////////////////

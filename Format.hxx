@@ -193,6 +193,72 @@ namespace SeldonData
   };
 
 
+  //! Input/ouput class to read formatted text files.
+  class FormatFormattedText: public Format
+  {
+
+  protected:
+    //! Description of the file format.
+    string format_;
+    //! Characters that denote a comment line.
+    string comments_;
+    //! Characters considered as delimiters.
+    string delimiters_;
+    //! First vector describing the format.
+    vector<string> info_str;
+    //! Second vector describing the format.
+    vector<int> info_nb0;
+    //! Third vector describing the format.
+    vector<int> info_nb1;
+
+  private:
+    void SetVectors();
+    void SkipMarkup(ExtStream&, streampos pos, int) const;
+    template <class T>
+    void ReadMarkup(ExtStream&, streampos pos, int, T&) const;
+
+  public:
+    FormatFormattedText(string format,
+			string delimiters = " \t:;,|\n",
+			string comments = "#%");
+    ~FormatFormattedText();
+
+    string GetFormat() const;
+    string GetDelimiters() const;
+    string GetComments() const;
+
+    void SetFormat(string format);
+    void SetDelimiters(string delimiters);
+    void SetComments(string comments);
+
+    // Grid.
+
+    template<class TG>
+    void Read(string FileName, RegularGrid<TG>& G) const;
+    template<class TG>
+    void Read(ExtStream& FileStream, RegularGrid<TG>& G) const;
+    template<class TG, int N>
+    void Read(string FileName, GeneralGrid<TG, N>& G) const;
+    template<class TG, int N>
+    void Read(ExtStream& FileStream, GeneralGrid<TG, N>& G) const;
+
+    // Data.
+
+    template<class TD, int N, class TG>
+    void Read(string FileName, Data<TD, N, TG>& D) const;
+    template<class TD, int N, class TG>
+    void Read(ExtStream& FileStream, Data<TD, N, TG>& D) const;
+
+    // Array.
+
+    template<class TA, int N>
+    void Read(string FileName, Array<TA, N>& A) const;
+    template<class TA, int N>
+    void Read(ExtStream& FileStream, string extract, Array<TA, N>& A) const;
+
+  };
+
+
 #ifdef SELDONDATA_WITH_NETCDF
   //! Input/ouput class to read netCDF files.
   template<class T>
