@@ -112,14 +112,6 @@ cout << "Unknown error..." <<endl;\
 }
 #endif
 
-
-//! To display a message... call Hermes!
-#define ERR(x) cout << "Hermes - " #x << endl
-//! To display a variable (with its name); same as DISPLAY.
-#define DISP(x) cout << #x ": " << x << endl
-//! To display a variable (with its name); same as DISP.
-#define DISPLAY(x) cout << #x ": " << x << endl
-
 // To get 'min' and 'max' functions.
 #include <algorithm>
 
