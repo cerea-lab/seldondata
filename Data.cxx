@@ -1855,7 +1855,7 @@ namespace SeldonData
 	var0 += temp0 * temp0;	
       }
 
-    corr = covar * T(NbElements) / (var * var0);
+    corr = covar / sqrt(var * var0);
 
     return corr;
   }
