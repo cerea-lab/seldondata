@@ -173,7 +173,8 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if (i!=0) throw WrongIndex("reference Grid<T>::operator() (int)", "Index is " + i);
+    if (i!=0) throw WrongIndex("reference Grid<T>::operator() (int)",
+			       "Index is " + to_str(i) + " and should be 0.");
 #endif
 
     return zero_;
@@ -191,7 +192,8 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if (i!=0) throw WrongIndex("value_type Grid<T>::operator() (int)", "Index is " + i);
+    if (i!=0) throw WrongIndex("value_type Grid<T>::operator() (int)",
+			       "Index is " + to_str(i) + " and should be 0.");
 #endif
 
     return zero_;
@@ -233,7 +235,8 @@ namespace SeldonData
 	    ((variable_==7)&&(i7!=0)) ||
 	    ((variable_==8)&&(i8!=0)) ||
 	    ((variable_==9)&&(i9!=0)) );
-    if (out) throw WrongIndex("reference Grid<T>::Value");
+    if (out) throw WrongIndex("reference Grid<T>::Value",
+			      "Index should be 0.");
 #endif
 
     return zero_;
@@ -275,7 +278,8 @@ namespace SeldonData
 	    ((variable_==7)&&(i7!=0)) ||
 	    ((variable_==8)&&(i8!=0)) ||
 	    ((variable_==9)&&(i9!=0)) );
-    if (out) throw WrongIndex("value_type Grid<T>::Value");
+    if (out) throw WrongIndex("value_type Grid<T>::Value",
+			      "Index should be 0 (empty grid).");
 #endif
 
     return zero_;
@@ -684,7 +688,7 @@ namespace SeldonData
   template<class T>
   inline int RegularGrid<T>::GetLength() const
   {
-    return values_.numElements();
+    return values_.extent(0);
   }
 
   //! Returns grid length along dimension #i.
@@ -696,7 +700,7 @@ namespace SeldonData
   inline int RegularGrid<T>::GetLength(int i) const
   {
     if (i==variable_)
-      return values_.numElements();
+      return values_.extent(0);
     else
       return 0;
   }
@@ -708,7 +712,7 @@ namespace SeldonData
   template<class T>
   inline int RegularGrid<T>::GetNbElements() const
   {
-    return length_;
+    return values_.extent(0);
   }
 
   //! Returns a reference to the array storing points coordinates.
@@ -763,8 +767,11 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)",
-						"Index is " + to_str(i) + ".");
+    if ((i<0) || (i>=values_.extent(0)))
+      throw WrongIndex("reference RegularGrid<T>::operator() (int)",
+		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
+		       + to_str(values_.extent(0)-1) + "], but is equal to "
+		       + to_str(i) + ".");
 #endif
 
     return values_(i);
@@ -782,8 +789,11 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)",
-						"Index is " + to_str(i) + ".");
+    if ((i<0) || (i>=values_.extent(0)))
+      throw WrongIndex("value_type RegularGrid<T>::operator() (int)",
+		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
+		       + to_str(values_.extent(0)-1) + "], but is equal to "
+		       + to_str(i) + ".");
 #endif
 
     return values_(i);
@@ -815,17 +825,54 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out;
-    out = ( ((variable_==0)&&((i0<0)||(i0>=length_)) ) ||
-	    ((variable_==1)&&((i1<0)||(i1>=length_)) ) ||
-	    ((variable_==2)&&((i2<0)||(i2>=length_)) ) ||
-	    ((variable_==3)&&((i3<0)||(i3>=length_)) ) ||
-	    ((variable_==4)&&((i4<0)||(i4>=length_)) ) ||
-	    ((variable_==5)&&((i5<0)||(i5>=length_)) ) ||
-	    ((variable_==6)&&((i6<0)||(i6>=length_)) ) ||
-	    ((variable_==7)&&((i7<0)||(i7>=length_)) ) ||
-	    ((variable_==8)&&((i8<0)||(i8>=length_)) ) ||
-	    ((variable_==9)&&((i9<0)||(i9>=length_)) ) );
-    if (out) throw WrongIndex("reference RegularGrid<T>::Value");
+    int j;
+    if ( (variable_==0) && ((i0<0)||(i0>=values_.extent(0))) )
+      {
+	out = true; j = i0;
+      }
+    else if ( (variable_==1) && ((i1<0)||(i1>=values_.extent(0))) )
+      {
+	out = true; j = i1;
+      }
+    else if ( (variable_==2) && ((i2<0)||(i2>=values_.extent(0))) )
+      {
+	out = true; j = i2;
+      }
+    else if ( (variable_==3) && ((i3<0)||(i3>=values_.extent(0))) )
+      {
+	out = true; j = i3;
+      }
+    else if ( (variable_==4) && ((i4<0)||(i4>=values_.extent(0))) )
+      {
+	out = true; j = i4;
+      }
+    else if ( (variable_==5) && ((i5<0)||(i5>=values_.extent(0))) )
+      {
+	out = true; j = i5;
+      }
+    else if ( (variable_==6) && ((i6<0)||(i6>=values_.extent(0))) )
+      {
+	out = true; j = i6;
+      }
+    else if ( (variable_==7) && ((i7<0)||(i7>=values_.extent(0))) )
+      {
+	out = true; j = i7;
+      }
+    else if ( (variable_==8) && ((i8<0)||(i8>=values_.extent(0))) )
+      {
+	out = true; j = i8;
+      }
+    else if ( (variable_==9) && ((i9<0)||(i9>=values_.extent(0))) )
+      {
+	out = true; j = i9;
+      }
+    
+    if (out) throw WrongIndex("reference RegularGrid<T>::Value",
+		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
+		       + to_str(values_.extent(0)-1) + "], but is equal to "
+		       + to_str(j) + ".");
+
+    return values_(j);
 #endif
 
     if (variable_==0)
@@ -876,17 +923,54 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out;
-    out = ( ((variable_==0)&&((i0<0)||(i0>=length_)) ) ||
-	    ((variable_==1)&&((i1<0)||(i1>=length_)) ) ||
-	    ((variable_==2)&&((i2<0)||(i2>=length_)) ) ||
-	    ((variable_==3)&&((i3<0)||(i3>=length_)) ) ||
-	    ((variable_==4)&&((i4<0)||(i4>=length_)) ) ||
-	    ((variable_==5)&&((i5<0)||(i5>=length_)) ) ||
-	    ((variable_==6)&&((i6<0)||(i6>=length_)) ) ||
-	    ((variable_==7)&&((i7<0)||(i7>=length_)) ) ||
-	    ((variable_==8)&&((i8<0)||(i8>=length_)) ) ||
-	    ((variable_==9)&&((i9<0)||(i9>=length_)) ) );
-    if (out) throw WrongIndex("reference RegularGrid<T>::Value");
+    int j;
+    if ( (variable_==0) && ((i0<0)||(i0>=values_.extent(0))) )
+      {
+	out = true; j = i0;
+      }
+    else if ( (variable_==1) && ((i1<0)||(i1>=values_.extent(0))) )
+      {
+	out = true; j = i1;
+      }
+    else if ( (variable_==2) && ((i2<0)||(i2>=values_.extent(0))) )
+      {
+	out = true; j = i2;
+      }
+    else if ( (variable_==3) && ((i3<0)||(i3>=values_.extent(0))) )
+      {
+	out = true; j = i3;
+      }
+    else if ( (variable_==4) && ((i4<0)||(i4>=values_.extent(0))) )
+      {
+	out = true; j = i4;
+      }
+    else if ( (variable_==5) && ((i5<0)||(i5>=values_.extent(0))) )
+      {
+	out = true; j = i5;
+      }
+    else if ( (variable_==6) && ((i6<0)||(i6>=values_.extent(0))) )
+      {
+	out = true; j = i6;
+      }
+    else if ( (variable_==7) && ((i7<0)||(i7>=values_.extent(0))) )
+      {
+	out = true; j = i7;
+      }
+    else if ( (variable_==8) && ((i8<0)||(i8>=values_.extent(0))) )
+      {
+	out = true; j = i8;
+      }
+    else if ( (variable_==9) && ((i9<0)||(i9>=values_.extent(0))) )
+      {
+	out = true; j = i9;
+      }
+    
+    if (out) throw WrongIndex("value_type RegularGrid<T>::Value",
+			      "Index along dimension #" + to_str(variable_) + " should be in [0, "
+			      + to_str(values_.extent(0)-1) + "], but is equal to "
+			      + to_str(j) + ".");
+
+    return values_(j);
 #endif
 
     if (variable_==0)
@@ -1278,10 +1362,19 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out = false;
+    int j;
     for (int i=0; i<n; i++)
-      out = out || (Indices(dependencies_(i))<0) ||
-	Indices(dependencies_(i))>=values_.extent(i);
-    if (out) throw WrongIndex("reference GeneralGrid<T>::Value");
+      if ( !out || (Indices(dependencies_(i))<0) ||
+	   Indices(dependencies_(i))>=values_.extent(i) )
+	{
+	  out = true;
+	  j = i;
+	}
+    if (out) throw WrongIndex("reference GeneralGrid<T>::Value",
+			      "Index along dimension #" + to_str(dependencies_(j))
+			      + " should be in [0, "
+			      + to_str(values_.extent(j)-1) + "], but is equal to "
+			      + to_str(Indices(dependencies_(j)) + ".");
 #endif
 
     if (n==1)
@@ -1385,10 +1478,19 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out = false;
+    int j;
     for (int i=0; i<n; i++)
-      out = out || (Indices(dependencies_(i))<0) ||
-	Indices(dependencies_(i))>=values_.extent(i);
-    if (out) throw WrongIndex("reference GeneralGrid<T>::Value");
+      if ( !out || (Indices(dependencies_(i))<0) ||
+	   Indices(dependencies_(i))>=values_.extent(i) )
+	{
+	  out = true;
+	  j = i;
+	}
+    if (out) throw WrongIndex("value_type GeneralGrid<T>::Value",
+			      "Index along dimension #" + to_str(dependencies_(j))
+			      + " should be in [0, "
+			      + to_str(values_.extent(j)-1) + "], but is equal to "
+			      + to_str(Indices(dependencies_(j)) + ".");
 #endif
 
     if (n==1)
