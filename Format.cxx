@@ -200,7 +200,7 @@ namespace SeldonData
     ifstream FileStream;
     FileStream.open(FileName.c_str(), ifstream::binary);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
       throw IOError("FormatBinary<T>::Read(string FileName, Array<TA, N>& A)",
@@ -222,7 +222,7 @@ namespace SeldonData
     unsigned long data_size = A.numElements() * sizeof(T);
     T* data = A.data();
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
@@ -259,7 +259,7 @@ namespace SeldonData
 
     TA* data_output = A.data();
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
@@ -306,7 +306,7 @@ namespace SeldonData
     ofstream FileStream;
     FileStream.open(FileName.c_str(), ofstream::binary);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
       throw IOError("FormatBinary<T>::Write(Array<TA, N>& A, string FileName)",
@@ -329,7 +329,7 @@ namespace SeldonData
 
     T* data = A.data();
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatBinary<T>::Write(Array<T, N>& A, ofstream& FileStream)",
@@ -353,7 +353,7 @@ namespace SeldonData
 
     TA* data_input = A.data();
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatBinary<T>::Write(Array<TA, N>& A, ofstream& FileStream)",
@@ -598,7 +598,7 @@ namespace SeldonData
     if (width_!=-1)
       FileStream.width(width_);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
       throw IOError("FormatText::Read(string FileName, Array<TA, N>& A)",
@@ -616,7 +616,7 @@ namespace SeldonData
   void FormatText::Read(ifstream& FileStream, Array<TA, N>& A) const
   {
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatText::Read(ifstream& FileStream, Array<TA, N>& A)",
@@ -668,7 +668,7 @@ namespace SeldonData
 	i++;
       }
     
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if all was read.
     if (i!=nb_elements)
       throw IOError("FormatText::Read(ifstream& FileStream, Array<TA, N>& A)",
@@ -694,7 +694,7 @@ namespace SeldonData
     if (width_!=-1)
       FileStream.width(width_);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
       throw IOError("FormatText::Write(Array<TA, N>& A, string FileName)",
@@ -712,7 +712,7 @@ namespace SeldonData
   void FormatText::Write(Array<TA, N>& A, ofstream& FileStream) const
   {
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatText::Write(Array<TA, N>& A, ofstream& FileStream)",
@@ -828,7 +828,7 @@ namespace SeldonData
 
     NcFile File(FileName.c_str());
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file is valid.
     if (!File.is_valid())
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
@@ -841,7 +841,7 @@ namespace SeldonData
     while ( (i<Nb_vars) && (string(File.get_var(i)->name()) != variable) )
       i++;
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether the variable was found.
     if (i==Nb_vars)
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
@@ -851,7 +851,7 @@ namespace SeldonData
 
     NcVar* var = File.get_var(i);
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks the dimension.
     if (var->num_dims() != N)
       throw WrongDim("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
@@ -859,7 +859,7 @@ namespace SeldonData
 		     + to_str(var->num_dims()) + "dimensions.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     long* input_dimensions = var->edges();
     for (i=0; i<var->num_dims(); i++)
       if (A.extent(i) > input_dimensions[i])
@@ -877,7 +877,7 @@ namespace SeldonData
 
     bool op = var->get(A.data(), extents);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether input operation succeeded.
     if (!op)
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
@@ -968,7 +968,7 @@ namespace SeldonData
 
     grib_file = fopen(FileName.c_str(), "r");
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (grib_file==NULL)
       throw IOError("FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)",
@@ -997,7 +997,7 @@ namespace SeldonData
 	    
 	    for (n=0; n<grib_rec.ny; n++)
 	      for (m=0; m<grib_rec.nx; m++)
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
 		if (i<nb_elements)
 #endif
 		  {
@@ -1019,7 +1019,7 @@ namespace SeldonData
 		    
 		    i++;
 		  }
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
 		else
 		  i++;
 #endif
@@ -1028,7 +1028,7 @@ namespace SeldonData
 
       }
     
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
 
     if (status == 1)
       throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
@@ -1138,7 +1138,7 @@ namespace SeldonData
     FileStream.open(FileName.c_str(), ifstream::in);
     FileStream.flags(fstream::scientific | fstream::skipws);
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
       throw IOError("FormatChimere::Read(string FileName, Array<TA, N>& A, int nb_lines)",
@@ -1156,7 +1156,7 @@ namespace SeldonData
   void FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A, int nb_lines) const
   {
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
       throw IOError("FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A, int nb_lines)",
@@ -1292,7 +1292,7 @@ namespace SeldonData
 
       }
 
-#ifdef DEBUG_SELDONDATA_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if all was read.
     if (!reading)
       throw IOError("FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A)",

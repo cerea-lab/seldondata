@@ -141,7 +141,7 @@ namespace SeldonData
   inline bool Grid<T>::IsDependent(int i) const
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if ( (i<0) || (i>9) )
       throw WrongDim("Grid<T>::IsDependent", "Dimension number is " + i);
 #endif
@@ -225,7 +225,7 @@ namespace SeldonData
 
     Grid<T>* G = new Grid<T>(*this);
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("Grid<T>::Duplicate");
 #endif
@@ -255,7 +255,7 @@ namespace SeldonData
 	pointers_++;
       }
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("Grid<T>::Copy");
 #endif
@@ -275,7 +275,7 @@ namespace SeldonData
   inline Grid<T>::operator() (int i)
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if (i!=0) throw WrongIndex("reference Grid<T>::operator() (int)",
 			       "Index is " + to_str(i) + " and should be 0.");
 #endif
@@ -294,7 +294,7 @@ namespace SeldonData
   inline Grid<T>::operator() (int i) const
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if (i!=0) throw WrongIndex("value_type Grid<T>::operator() (int)",
 			       "Index is " + to_str(i) + " and should be 0.");
 #endif
@@ -326,7 +326,7 @@ namespace SeldonData
 			int i8, int i9)
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
     out = ( ((variable_==0)&&(i0!=0)) ||
 	    ((variable_==1)&&(i1!=0)) ||
@@ -369,7 +369,7 @@ namespace SeldonData
 			int i8, int i9) const
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
     out = ( ((variable_==0)&&(i0!=0)) ||
 	    ((variable_==1)&&(i1!=0)) ||
@@ -853,7 +853,7 @@ namespace SeldonData
   {
     Grid<T>* G = new RegularGrid<T>(*this);
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("RegularGrid<T>::Duplicate");
 #endif
@@ -883,7 +883,7 @@ namespace SeldonData
 	pointers_++;
       }
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("RegularGrid<T>::Copy");
 #endif
@@ -903,7 +903,7 @@ namespace SeldonData
   RegularGrid<T>::operator() (int i)
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ((i<0) || (i>=values_.extent(0)))
       throw WrongIndex("reference RegularGrid<T>::operator() (int)",
 		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
@@ -925,7 +925,7 @@ namespace SeldonData
   RegularGrid<T>::operator() (int i) const
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ((i<0) || (i>=values_.extent(0)))
       throw WrongIndex("value_type RegularGrid<T>::operator() (int)",
 		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
@@ -960,7 +960,7 @@ namespace SeldonData
 			int i8, int i9)
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
     int j;
 
@@ -1041,7 +1041,7 @@ namespace SeldonData
 			int i8, int i9) const
   {
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
     int j;
 
@@ -1260,7 +1260,7 @@ namespace SeldonData
     length_ = G.GetLength();
     variable_ = G.GetVariable();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     bool dim = true;
     for (int i=0; i<n; i++)
       dim = dim && (values_.extent(i) == (G.GetArray()).extent(i));
@@ -1387,7 +1387,7 @@ namespace SeldonData
   inline bool GeneralGrid<T, n>::IsDependent(int i) const
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if ( (i<0) || (i>9) )
       throw WrongDim("GeneralGrid<T, n>::IsDependent", "Dimension number is " + i);
 #endif
@@ -1409,7 +1409,7 @@ namespace SeldonData
   {
     Grid<T>* G = new GeneralGrid<T, n>(*this);
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("GeneralGrid<T, n>::Duplicate");
 #endif
@@ -1439,7 +1439,7 @@ namespace SeldonData
 	pointers_++;
       }
 
-#ifdef DEBUG_SELDONDATA_MEMORY
+#ifdef SELDONDATA_DEBUG_CHECK_MEMORY
     if ( G == NULL )
       throw NoMemory("GeneralGrid<T, n>::Copy");
 #endif
@@ -1498,7 +1498,7 @@ namespace SeldonData
     Indices(6) = i6; Indices(7) = i7;
     Indices(8) = i8; Indices(9) = i9;
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out = false;
     int j;
     for (int i=0; i<n; i++)
@@ -1614,7 +1614,7 @@ namespace SeldonData
     Indices(6) = i6; Indices(7) = i7;
     Indices(8) = i8; Indices(9) = i9;
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out = false;
     int j;
     for (int i=0; i<n; i++)

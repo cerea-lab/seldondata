@@ -325,6 +325,7 @@ namespace SeldonData
     T Norm2() const;
     T Norm(T p) const;
 
+    void Fill();
     void Fill(T value);
 
     void SetZero();

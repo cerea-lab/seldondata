@@ -554,7 +554,7 @@ namespace SeldonData
 	IndexIn(i) = 0;
       }
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks whether dimensions match.
     for (i=0; i<10; i++)
       if ((i!=dim) && (Length(i) != dataIn.GetLength(i)))

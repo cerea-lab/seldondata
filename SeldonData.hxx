@@ -69,7 +69,50 @@ namespace SeldonData
 
 }  // namespace SeldonData.
 
+
+//////////////////
+// DEBUG LEVELS //
+//////////////////
+
+#ifdef SELDONDATA_DEBUG_LEVEL_4
+#ifndef SELDONDATA_DEBUG_LEVEL_3
+#define SELDONDATA_DEBUG_LEVEL_3
+#endif
+#endif
+
+#ifdef SELDONDATA_DEBUG_LEVEL_3
+#ifndef SELDONDATA_DEBUG_CHECK_INDICES
+#define SELDONDATA_DEBUG_CHECK_INDICES
+#endif
+#ifndef SELDONDATA_DEBUG_LEVEL_2
+#define SELDONDATA_DEBUG_LEVEL_2
+#endif
+#endif
+
+#ifdef SELDONDATA_DEBUG_LEVEL_2
+#ifndef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+#define SELDONDATA_DEBUG_CHECK_DIMENSIONS
+#endif
+#ifndef SELDONDATA_DEBUG_LEVEL_1
+#define SELDONDATA_DEBUG_LEVEL_1
+#endif
+#endif
+
+#ifdef SELDONDATA_DEBUG_LEVEL_1
+#ifndef SELDONDATA_DEBUG_CHECK_MEMORY
+#define SELDONDATA_DEBUG_CHECK_MEMORY
+#endif
+#ifndef SELDONDATA_DEBUG_CHECK_IO
+#define SELDONDATA_DEBUG_CHECK_IO
+#endif
+#ifndef SELDONDATA_DEBUG_LEVEL_0
+#define SELDONDATA_DEBUG_LEVEL_0
+#endif
+#endif
+
+
 #include "Errors.hxx"
+
 
 ////////////
 // MACROS //
