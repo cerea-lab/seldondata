@@ -264,6 +264,8 @@ namespace SeldonData
     template <class T0, class TG0>
     T ErrorLessThan(Data<T0, N, TG0>& data, T threshold);
 
+    void ReverseData(int dim = 0);
+
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
 

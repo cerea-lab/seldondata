@@ -2836,6 +2836,58 @@ namespace SeldonData
     return ( T(nb_err) / T(NbElements) );
   }
 
+  //! Reverses data along a given dimension.
+  /*! Reverses data along dimension 'dim'. For example, if a three dimensional
+    array A is reversed along dimension #1, on exit, A(i, j, k) = A(i, Ny-1-j, k),
+    where Ny is the length along dimension #1.
+    \param j dimension
+   */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ReverseData(int dim)
+  {
+    int i, j, k;
+
+    int Ndim = this->GetLength(dim);
+
+    Array<T, 1> tmp(Ndim);
+    Array<int, 1> Index(10);
+
+    for (int i=0; i<10; i++)
+      Index(i) = 0;
+
+    j = N-1;
+    for (i=0; i<this->GetNbElements()/Ndim; i++)
+      {
+
+	for (k=0; k<Ndim; k++)
+	  {
+	    Index(dim) = k;
+	    tmp(Ndim-1-k) = this->Value(Index(0), Index(1), Index(2),
+					Index(3), Index(4), Index(5),
+					Index(6), Index(7), Index(8),
+					Index(9));
+	  }
+
+	for (k=0; k<Ndim; k++)
+	  {
+	    Index(dim) = k;
+	    this->Value(Index(0), Index(1), Index(2),
+			Index(3), Index(4), Index(5),
+			Index(6), Index(7), Index(8),
+			Index(9)) = tmp(k);
+	  }
+
+	j = N-1;
+	while ( (j==dim) || ( (j>=0) && (Index(j)==this->GetLength(j)-1) ) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
   //! Change coordinates.
   /*!
     The coordinates transformation is provided by function
