@@ -1015,6 +1015,7 @@ namespace SeldonData
       return values_(i8);
     else if (variable_==9)
       return values_(i9);
+    return values_(i0);
   }
 
   //! Returns an element of the grid.
@@ -1096,6 +1097,7 @@ namespace SeldonData
       return values_(i8);
     else if (variable_==9)
       return values_(i9);
+    return values_(i0);
   }
 
   //! Applies a given function on all elements.

@@ -392,16 +392,16 @@ namespace SeldonData
 
     int i = 0;
     int j = 0;
-    for (i=0; i < data_size / sizeof(T) / length; i++)
+    for (i=0; i < int(data_size / sizeof(T) / length); i++)
       {
-	for (j=0; j<length; j++)
+	for (j=0; j<int(length); j++)
 	  data[j] = data_input[j+ i*length];
 	FileStream.write(reinterpret_cast<char*>(data), length * sizeof(T));
       }
 
     if (data_size % (length * sizeof(T)) != 0)
       {
-	for (j=0; j < (data_size % (length * sizeof(T))) / sizeof(T); j++)
+	for (j=0; j < int((data_size % (length * sizeof(T))) / sizeof(T)); j++)
 	  data[j] = data_input[j + i*length];
 	FileStream.write(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
       }
@@ -1487,7 +1487,6 @@ namespace SeldonData
 
     GRIBRecord grib_rec;
     FILE *grib_file;
-    size_t n, m;
     size_t nrec(0);
 
     int status;
@@ -1511,10 +1510,11 @@ namespace SeldonData
     
     while (max_length != 0
 	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
-      if (grib_rec.param == variable)
+      if (int(grib_rec.param) == variable)
 	{
 	  max_length -=  grib_rec.nx * grib_rec.ny;
 	  data = &A.data()[nb_elements - max_length];
+	  nrec++;
 	}
     
 #ifdef SELDONDATA_DEBUG_CHECK_IO
@@ -1589,6 +1589,7 @@ namespace SeldonData
 	  delete[] data;
 	  data = NULL;
 	  max_length -=  grib_rec.nx * grib_rec.ny;
+	  nrec++;
 	}
     
 #ifdef SELDONDATA_DEBUG_CHECK_IO

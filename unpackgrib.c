@@ -329,7 +329,7 @@ int unpackIS(FILE *fp,GRIBRecord *grib_rec)
   memcpy(grib_rec->buffer,temp,8);
   num=grib_rec->total_len-8;
   status=fread(&grib_rec->buffer[8],1,num,fp);
-  if (status != num)
+  if (size_t(status) != num)
     return 1;
   else {
     if (strncmp(&((char *)grib_rec->buffer)[grib_rec->total_len-4],"7777",4) != 0)
@@ -343,7 +343,6 @@ int unpackIS(FILE *fp,GRIBRecord *grib_rec)
 
 void unpackPDS(GRIBRecord *grib_rec)
 {
-  short ext_length;
   size_t n;
   int flag,min,cent,sign;
   size_t *buf=(size_t *)grib_rec->buffer;
@@ -701,9 +700,8 @@ void unpackBDS(GRIBRecord *grib_rec)
 
 void skipBDS(GRIBRecord *grib_rec)
 {
-  size_t n,m;
   size_t num_packed;
-  int bms_length,sign,ub;
+  int bms_length,ub;
   int tref;
   size_t *buf=(size_t *)grib_rec->buffer;
 
@@ -773,16 +771,15 @@ void skipBDS(GRIBRecord *grib_rec)
 int unpackgrib(FILE *fp, int variable, double** data,
 	       int max_length, GRIBRecord *grib_rec)
 {
-  size_t n,off;
   int status;
 
   if ( (status=unpackIS(fp,grib_rec)) != 0)
     return status;
   unpackPDS(grib_rec);
   if (grib_rec->gds_included == 1) unpackGDS(grib_rec);
-  if (grib_rec->param == variable)
+  if (grib_rec->param == size_t(variable))
     {
-      if (max_length < grib_rec->nx * grib_rec->ny)
+      if (size_t(max_length) < grib_rec->nx * grib_rec->ny)
 	return -2;
       if (*data != NULL)
 	grib_rec->gridpoints = *data;
