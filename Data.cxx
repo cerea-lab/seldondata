@@ -1110,6 +1110,9 @@ namespace SeldonData
   Data<T, N, TG>::Data(const TinyVector<int, N>& shape)  throw():
     grids_(N)
   {
+    for (int i=0; i<N; i++)
+      grids_(i) = NULL;
+
     if (N == 1)
       this->Resize(shape(0));
     else if (N == 2)
@@ -1153,6 +1156,9 @@ namespace SeldonData
 		       preexistingMemoryPolicy policy)  throw():
     data_(data, shape, policy), grids_(N)
   {
+    for (int i=0; i<N; i++)
+      grids_(i) = NULL;
+
     if (N == 1)
       this->Resize(shape(0));
     else if (N == 2)
