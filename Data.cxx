@@ -30,7 +30,7 @@ namespace SeldonData
     grids_(N)
   {
     for (int i=0; i<N; i++)
-      grid_(i) = NULL;
+      grids_(i) = NULL;
   }
 
   //! Constructor for one-dimensional data.
@@ -564,14 +564,11 @@ namespace SeldonData
   Data<T, N, TG>::~Data()  throw()
   {
     for (int i=0; i<N; i++)
-      if (grids_(i)->GetPointers()==1)
-	{
+      if (grids_(i)!=NULL)
+	if (grids_(i)->GetPointers()==1)
 	  delete grids_(i);
-	}
-      else
-	{
+	else
 	  grids_(i)->SetPointers(grids_(i)->GetPointers()-1);
-	}
   }
 
   //! Access operator for one-dimensional data.
