@@ -29,6 +29,8 @@ namespace SeldonData
 
   //! Linear interpolation for data defined on regular grids.
   /*!
+    Linear interpolation from data defined on regular grids to
+    data defined on regular grids.
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
   */
@@ -147,6 +149,9 @@ namespace SeldonData
   /*!
     Performs linear interpolation on data defined on regular grids,
     except one grid which may be a general grid (i.e. depending on other coordinates).
+    Both input and output data may be defined on a general grid along
+    dimension 'dim', but only along this dimension. Moreover, input data or
+    output data can still be defined on regular grids along dimension 'dim'.
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
     \param dim dimension related to the general grid.
