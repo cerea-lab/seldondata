@@ -1644,12 +1644,19 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1692,6 +1699,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1737,6 +1751,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1784,6 +1805,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1833,6 +1861,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1883,6 +1918,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1936,6 +1978,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -1990,6 +2039,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -2046,6 +2102,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
@@ -2104,6 +2167,13 @@ namespace SeldonData
 		 << grids_(j)->GetLength() << "." << endl;
 	    abort();
 	  }
+
+    for (i=0; i<N; i++)
+      if (grids_(i)->GetLength(i)!=data_.extent(i))
+	throw WrongDim("Data<T, " + to_str(N) + ">::ResizeGrid(Grid<TG>, ...)",
+		       "Length of grid #" + to_str(i) + " is "
+		       + to_str(grids_(i)->GetLength(i)) + " but should be "
+		       + to_str(data_.extent(i)) + ".");
 #endif
 
   }
