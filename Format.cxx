@@ -788,7 +788,7 @@ namespace SeldonData
   void FormatNetCDF<T>::Read(string FileName, string variable, RegularGrid<TG>& G) const
   {
 
-    this->Read(FileName, G.GetArray());
+    this->Read(FileName, variable, G.GetArray());
 
   }
 
@@ -798,7 +798,7 @@ namespace SeldonData
   void FormatNetCDF<T>::Read(string FileName, string variable, GeneralGrid<TG, n>& G) const
   {
 
-    this->Read(FileName, G.GetArray());
+    this->Read(FileName, variable, G.GetArray());
 
   }
 
@@ -812,7 +812,7 @@ namespace SeldonData
   void FormatNetCDF<T>::Read(string FileName, string variable, Data<TD, N, TG>& D) const
   {
 
-    this->Read(FileName, D.GetArray());
+    this->Read(FileName, variable, D.GetArray());
 
   }
 
@@ -845,7 +845,7 @@ namespace SeldonData
     // Checks whether the variable was found.
     if (i==Nb_vars)
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
-		    "Unable to find variable " + "\"" + variable
+		    "Unable to find variable \"" + variable
 		    + "\" in \"" + FileName + "\".");
 #endif
 
@@ -855,25 +855,26 @@ namespace SeldonData
     // Checks the dimension.
     if (var->num_dims() != N)
       throw WrongDim("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
-		     "Data has " + N + "dimensions, but stored data has "
-		     + var->num_dims() + "dimensions.");
+		     "Data has " + to_str(N) + "dimensions, but stored data has "
+		     + to_str(var->num_dims()) + "dimensions.");
 #endif
 
 #ifdef DEBUG_SELDONDATA_INDICES
   long* input_dimensions = var->edges();
   for (i=0; i<var->num_dims(); i++)
-    if (A.extend(i) > input_dimensions[i])
+    if (A.extent(i) > input_dimensions[i])
       throw WrongIndex("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
-		       "Array extend is " + A.extend(i) + " along dimension #" + i
+		       "Array extent is " + to_str(A.extent(i))
+		       + " along dimension #" + to_str(i)
 		       + " , but it should not be strictly more than "
-		       + input_dimensions[i] + ".");
+		       + to_str(input_dimensions[i]) + ".");
 #endif
 
-  long* extends = new long[N];
+  long* extents = new long[N];
   for (i=0; i<N; i++)
-    extends[i] = A.extend(i);
+    extents[i] = A.extent(i);
 
-  bool op = var->get(A.data(), extends);
+  bool op = var->get(A.data(), extents);
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks whether input operation succeeded.
