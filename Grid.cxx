@@ -683,9 +683,9 @@ namespace SeldonData
   */
   template<class T>
   RegularGrid<T>::RegularGrid(int length, int variable)  throw():
-    Grid<T>(length, variable), values_(length_)
+    Grid<T>(length, variable), values_(this->length_)
   {
-    for (int i=0; i<length_; i++)
+    for (int i=0; i<this->length_; i++)
       values_(i) = value_type(i);
   }
 
@@ -702,9 +702,9 @@ namespace SeldonData
   RegularGrid<T>::RegularGrid(typename RegularGrid<T>::value_type start,
 			      typename RegularGrid<T>::value_type inc,
 			      int length, int variable)  throw():
-    Grid<T>(length, variable), values_(length_)
+    Grid<T>(length, variable), values_(this->length_)
   {
-    for (int i=0; i<length_; i++)
+    for (int i=0; i<this->length_; i++)
       values_(i) = start + value_type(i) * inc;
   }
 
@@ -764,8 +764,8 @@ namespace SeldonData
   template<class T>
   RegularGrid<T>& RegularGrid<T>::operator= (const Grid<T>& G)
   {
-    length_ = G.GetLength();
-    variable_ = G.GetVariable();
+    this->length_ = G.GetLength();
+    this->variable_ = G.GetVariable();
 
     return (*this);
   }
@@ -779,8 +779,8 @@ namespace SeldonData
   RegularGrid<T>&
   RegularGrid<T>::operator= (const RegularGrid<T>& G)
   {
-    length_ = G.GetLength();
-    variable_ = G.GetVariable();
+    this->length_ = G.GetLength();
+    this->variable_ = G.GetVariable();
 
     values_ = G.GetArray();
 
@@ -805,7 +805,7 @@ namespace SeldonData
   template<class T>
   inline int RegularGrid<T>::GetLength(int i) const
   {
-    if (i==variable_)
+    if (i==this->variable_)
       return values_.extent(0);
     else
       return 0;
@@ -875,12 +875,12 @@ namespace SeldonData
 
     Grid<T>* G;
 
-    if (duplicate_)
+    if (this->duplicate_)
       G = new RegularGrid<T>(*this);
     else
       {
 	G = this;
-	pointers_++;
+	this->pointers_++;
       }
 
 #ifdef SELDONDATA_DEBUG_CHECK_MEMORY
@@ -906,9 +906,9 @@ namespace SeldonData
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ((i<0) || (i>=values_.extent(0)))
       throw WrongIndex("reference RegularGrid<T>::operator() (int)",
-		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
-		       + to_str(values_.extent(0)-1) + "], but is equal to "
-		       + to_str(i) + ".");
+		       "Index along dimension #" + to_str(this->variable_)
+		       + " should be in [0, " + to_str(values_.extent(0)-1)
+		       + "], but is equal to " + to_str(i) + ".");
 #endif
 
     return values_(i);
@@ -928,9 +928,9 @@ namespace SeldonData
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ((i<0) || (i>=values_.extent(0)))
       throw WrongIndex("value_type RegularGrid<T>::operator() (int)",
-		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
-		       + to_str(values_.extent(0)-1) + "], but is equal to "
-		       + to_str(i) + ".");
+		       "Index along dimension #" + to_str(this->variable_)
+		       + " should be in [0, " + to_str(values_.extent(0)-1)
+		       + "], but is equal to " + to_str(i) + ".");
 #endif
 
     return values_(i);
@@ -964,56 +964,56 @@ namespace SeldonData
     bool out;
     int j;
 
-    if (variable_==0)
+    if (this->variable_==0)
       j = i0;
-    else if (variable_==1)
+    else if (this->variable_==1)
       j = i1;
-    else if (variable_==2)
+    else if (this->variable_==2)
       j = i2;
-    else if (variable_==3)
+    else if (this->variable_==3)
       j = i3;
-    else if (variable_==4)
+    else if (this->variable_==4)
       j = i4;
-    else if (variable_==5)
+    else if (this->variable_==5)
       j = i7;
-    else if (variable_==6)
+    else if (this->variable_==6)
       j = i6;
-    else if (variable_==7)
+    else if (this->variable_==7)
       j = i7;
-    else if (variable_==8)
+    else if (this->variable_==8)
       j = i8;
-    else if (variable_==9)
+    else if (this->variable_==9)
       j = i9;
 
     out = ( (j<0) || (j>=values_.extent(0)) );
 
     if (out) throw WrongIndex("reference RegularGrid<T>::Value",
-			      "Index along dimension #" + to_str(variable_) + " should be in [0, "
-			      + to_str(values_.extent(0)-1) + "], but is equal to "
-			      + to_str(j) + ".");
+			      "Index along dimension #" + to_str(this->variable_)
+			      + " should be in [0, " + to_str(values_.extent(0)-1)
+			      + "], but is equal to " + to_str(j) + ".");
 
     return values_(j);
 #endif
 
-    if (variable_==0)
+    if (this->variable_==0)
       return values_(i0);
-    else if (variable_==1)
+    else if (this->variable_==1)
       return values_(i1);
-    else if (variable_==2)
+    else if (this->variable_==2)
       return values_(i2);
-    else if (variable_==3)
+    else if (this->variable_==3)
       return values_(i3);
-    else if (variable_==4)
+    else if (this->variable_==4)
       return values_(i4);
-    else if (variable_==5)
+    else if (this->variable_==5)
       return values_(i7);
-    else if (variable_==6)
+    else if (this->variable_==6)
       return values_(i6);
-    else if (variable_==7)
+    else if (this->variable_==7)
       return values_(i7);
-    else if (variable_==8)
+    else if (this->variable_==8)
       return values_(i8);
-    else if (variable_==9)
+    else if (this->variable_==9)
       return values_(i9);
     return values_(i0);
   }
@@ -1046,56 +1046,56 @@ namespace SeldonData
     bool out;
     int j;
 
-    if (variable_==0)
+    if (this->variable_==0)
       j = i0;
-    else if (variable_==1)
+    else if (this->variable_==1)
       j = i1;
-    else if (variable_==2)
+    else if (this->variable_==2)
       j = i2;
-    else if (variable_==3)
+    else if (this->variable_==3)
       j = i3;
-    else if (variable_==4)
+    else if (this->variable_==4)
       j = i4;
-    else if (variable_==5)
+    else if (this->variable_==5)
       j = i7;
-    else if (variable_==6)
+    else if (this->variable_==6)
       j = i6;
-    else if (variable_==7)
+    else if (this->variable_==7)
       j = i7;
-    else if (variable_==8)
+    else if (this->variable_==8)
       j = i8;
-    else if (variable_==9)
+    else if (this->variable_==9)
       j = i9;
 
     out = ( (j<0) || (j>=values_.extent(0)) );
 
     if (out) throw WrongIndex("value_type RegularGrid<T>::Value",
-			      "Index along dimension #" + to_str(variable_) + " should be in [0, "
-			      + to_str(values_.extent(0)-1) + "], but is equal to "
-			      + to_str(j) + ".");
+			      "Index along dimension #" + to_str(this->variable_)
+			      + " should be in [0, " + to_str(values_.extent(0)-1)
+			      + "], but is equal to " + to_str(j) + ".");
 
     return values_(j);
 #endif
 
-    if (variable_==0)
+    if (this->variable_==0)
       return values_(i0);
-    else if (variable_==1)
+    else if (this->variable_==1)
       return values_(i1);
-    else if (variable_==2)
+    else if (this->variable_==2)
       return values_(i2);
-    else if (variable_==3)
+    else if (this->variable_==3)
       return values_(i3);
-    else if (variable_==4)
+    else if (this->variable_==4)
       return values_(i4);
-    else if (variable_==5)
+    else if (this->variable_==5)
       return values_(i7);
-    else if (variable_==6)
+    else if (this->variable_==6)
       return values_(i6);
-    else if (variable_==7)
+    else if (this->variable_==7)
       return values_(i7);
-    else if (variable_==8)
+    else if (this->variable_==8)
       return values_(i8);
-    else if (variable_==9)
+    else if (this->variable_==9)
       return values_(i9);
     return values_(i0);
   }
@@ -1125,7 +1125,7 @@ namespace SeldonData
   template<class T0, class F>
   void RegularGrid<T>::Apply(RegularGrid<T0>& G, F& function)
   {
-    T* data = value_.data();
+    T* data = values_.data();
     T0* data_in = G.GetArray().data();
 
     int nb_elements = this->Length();
@@ -1194,17 +1194,17 @@ namespace SeldonData
     for (i=0; i<n; i++)
       dependencies_(i) = dependencies(i);
 
-    variable_ = variable;
+    this->variable_ = variable;
 
     // Searching for the array dimension-number related to
     // the main dependency of the grid.
     i = 0;
     // To add: error if variable_ is not in dependencies_.
-    while ((i<n) && (dependencies_(i)!=variable_))
+    while ((i<n) && (dependencies_(i)!=this->variable_))
       i++;
     main_variable_ = i;
 
-    length_ = values_.extent(main_variable_);      
+    this->length_ = values_.extent(main_variable_);      
   }
 
   //! Main constructor.
@@ -1232,17 +1232,17 @@ namespace SeldonData
     for (i=0; i<n; i++)
       dependencies_(i) = dependencies(i);
 
-    variable_ = variable;
+    this->variable_ = variable;
 
     // Searching for the array dimension-number related to
     // the main dependency of the grid.
     i = 0;
     // To add: error if variable_ is not in dependencies_.
-    while ((i<n) && (dependencies_(i)!=variable_))
+    while ((i<n) && (dependencies_(i)!=this->variable_))
       i++;
     main_variable_ = i;
 
-    length_ = values_.extent(main_variable_);      
+    this->length_ = values_.extent(main_variable_);      
   }
  
   //! Copy constructor.
@@ -1284,8 +1284,8 @@ namespace SeldonData
   template<class T, int n>
   GeneralGrid<T, n>& GeneralGrid<T, n>::operator= (const Grid<T>& G)
   {
-    length_ = G.GetLength();
-    variable_ = G.GetVariable();
+    this->length_ = G.GetLength();
+    this->variable_ = G.GetVariable();
 
     return (*this);
   }
@@ -1299,8 +1299,8 @@ namespace SeldonData
   GeneralGrid<T, n>&
   GeneralGrid<T, n>::operator= (const GeneralGrid<T, n>& G)
   {
-    length_ = G.GetLength();
-    variable_ = G.GetVariable();
+    this->length_ = G.GetLength();
+    this->variable_ = G.GetVariable();
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     bool dim = true;
@@ -1473,12 +1473,12 @@ namespace SeldonData
 
     Grid<T>* G;
 
-    if (duplicate_)
+    if (this->duplicate_)
       G = new GeneralGrid<T, n>(*this);
     else
       {
 	G = this;
-	pointers_++;
+	this->pointers_++;
       }
 
 #ifdef SELDONDATA_DEBUG_CHECK_MEMORY
@@ -1775,10 +1775,10 @@ namespace SeldonData
   template<class T0, class F>
   void GeneralGrid<T, n>::Apply(GeneralGrid<T0, n>& G, F& function)
   {
-    T* data = value_.data();
+    T* data = values_.data();
     T0* data_in = G.GetArray().data();
 
-    int nb_elements = value_.numElements();
+    int nb_elements = values_.numElements();
     
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (nb_elements != G.GetArray().numElements())
