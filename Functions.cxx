@@ -526,10 +526,92 @@ namespace SeldonData
   /////////////////////////
   // ONEGENERALGETCOEFFS //
 
-  //! Saves coefficients and indices of linear interpolation for data defined
+  //! Saves coefficients and indices of linear interpolation from data defined
   //! on regular grids, but one grid, to data defined on general grids.
   /*!
-    Saves indices and coefficients of linear interpolation on data defined on regular
+    Saves indices and coefficients of linear interpolation from data defined on regular
+    grids, except one grid which may be a general grid (i.e. depending on other 
+    coordinates).
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dataOut data to be interpolated.
+    \param dim dimension related to the general grid.
+    \param FileName file into which interpolation coefficients and indices are to be stored (on exit).
+    \note dataOut is not modified. Interpolation oefficients and indices are just computed,
+    not used for interpolation.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn,
+					      Data<TOut, N, TGOut>& dataOut,
+					      int dim, string FileName)
+  {
+    ofstream FileStream;
+    FileStream.open(FileName.c_str(), ofstream::binary | ofstream::app);
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("SeldonData::LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn, Data<TOut, N, TGOut>& dataOut, int dim, string FileName)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    LinearInterpolationOneGeneralGetCoeffs(dataIn, dataOut, dim, FileStream);
+    FileStream.close();
+  }
+
+
+  //! Saves coefficients and indices of linear interpolation from data defined
+  //! on regular grids, but one grid, to data defined on general grids.
+  /*!
+    Saves indices and coefficients of linear interpolation from data defined on regular
+    grids, except one grid which may be a general grid (i.e. depending on other 
+    coordinates).
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dataOut data to be interpolated.
+    \param dim dimension related to the general grid.
+    \param FileStream stream into which interpolation coefficients and indices are to be stored (on exit).
+    \note dataOut is not modified. Interpolation oefficients and indices are just computed,
+    not used for interpolation.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn,
+					      Data<TOut, N, TGOut>& dataOut,
+					      int dim, ofstream& FileStream)
+  {
+    
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is ready.
+    if (!FileStream.good())
+      throw IOError("SeldonData::LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn, Data<TOut, N, TGOut>& dataOut, int dim, ofstream& FileStream",
+		    "File is not ready.");
+#endif
+
+    Array<TIn, 2> RegularCoeffs;
+    Array<TIn, 2> GeneralCoeffs;
+    Array<int, 2> RegularIndices;
+    Array<int, 2> GeneralIndices;
+    FormatBinary<int> IntOutput;
+    FormatBinary<TIn> TInOutput;
+    LinearInterpolationOneGeneralGetCoeffs(dataIn, dataOut, dim,
+					   RegularCoeffs, GeneralCoeffs,
+					   RegularIndices, GeneralIndices);
+    TInOutput.Write(RegularCoeffs, FileStream);
+    TInOutput.Write(GeneralCoeffs, FileStream);
+    IntOutput.Write(RegularIndices, FileStream);
+    IntOutput.Write(GeneralIndices, FileStream);
+  }
+
+
+  //! Saves coefficients and indices of linear interpolation from data defined
+  //! on regular grids, but one grid, to data defined on general grids.
+  /*!
+    Saves indices and coefficients of linear interpolation from data defined on regular
     grids, except one grid which may be a general grid (i.e. depending on other 
     coordinates).
     Input data may be defined on a general grid along dimension 'dim', but only along
@@ -538,6 +620,12 @@ namespace SeldonData
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
     \param dim dimension related to the general grid.
+    \param RegularCoeffs interpolation coefficients associated with regular grids (on exit).
+    \param GeneralCoeffs interpolation coefficients associated with the input general grid (on exit).
+    \param RegularIndices interpolation indices associated with regular grids (on exit).
+    \param GeneralIndices interpolation indices associated with the input general grid (on exit).
+    \note dataOut is not modified. Interpolation oefficients and indices are just computed,
+    not used for interpolation.
   */
   template<int N, class TIn, class TGIn,
 	   class TOut, class TGOut>
@@ -677,18 +765,116 @@ namespace SeldonData
   ///////////////////////
   // ONEGENERALCOMPUTE //
 
-  //! Compute linear interpolation for data defined
+  //! Compute linear interpolation from data defined
   //! on regular grids, but one grid, to data defined on general grids, 
   //! using indices and coefficients previously computed.
   /*!
-    Performs linear interpolation on data defined on regular grids,
-    except one grid which may be a general grid (i.e. depending on other coordinates).
+    Performs linear interpolation from data defined on regular grids,
+    except one grid which may be a general grid.
     Input data may be defined on a general grid along dimension 'dim', but only along
     this dimension. Output data may be defined on general or regular grids.
     Moreover, input data can still be defined on regular grids along dimension 'dim'.
     \param dataIn reference data.
-    \param dataOut interpolated data (on exit).
     \param dim dimension related to the general grid.
+    \param FileName file into which interpolation coefficients and indices are stored.
+    \param dataOut interpolated data (on exit).
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralCompute(Data<TIn, N, TGIn>& dataIn,
+					    int dim, string FileName,
+					    Data<TOut, N, TGOut>& dataOut)
+  {
+    ifstream FileStream;
+    FileStream.open(FileName.c_str(), ifstream::binary);
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("SeldonData::LinearInterpolationOneGeneralCompute(Data<TIn, N, TGIn>& dataIn, int dim, string FileName, Data<TOut, N, TGOut>& dataOut)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    LinearInterpolationOneGeneralCompute(dataIn, dim, FileStream, dataOut);
+    FileStream.close();
+  }
+
+
+  //! Compute linear interpolation from data defined
+  //! on regular grids, but one grid, to data defined on general grids, 
+  //! using indices and coefficients previously computed.
+  /*!
+    Performs linear interpolation from data defined on regular grids,
+    except one grid which may be a general grid.
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dim dimension related to the general grid.
+    \param FileStream stream into which interpolation coefficients and indices are stored.
+    \param dataOut interpolated data (on exit).
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationOneGeneralCompute(Data<TIn, N, TGIn>& dataIn,
+					    int dim, ifstream& FileStream,
+					    Data<TOut, N, TGOut>& dataOut)
+  {
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is ready.
+    if (!FileStream.good())
+      throw IOError("SeldonData::LinearInterpolationOneGeneralCompute(Data<TIn, N, TGIn>& dataIn, int dim, ifstream& FileStream, Data<TOut, N, TGOut>& dataOut)",
+		    "File is not ready.");
+#endif
+
+    int NbElementsOut;
+    FormatBinary<int> IntInput;
+    FormatBinary<TIn> TInInput;
+
+    Array<TIn, 2> RegularCoeffs;
+    Array<TIn, 2> GeneralCoeffs;
+    Array<int, 2> RegularIndices;
+    Array<int, 2> GeneralIndices;
+
+    NbElementsOut = dataOut.GetNbElements();
+
+    // Resizes arrays to the right size.
+    RegularIndices.resize(NbElementsOut, N-1);
+    RegularIndices = 0;
+    RegularCoeffs.resize(NbElementsOut, N-1);
+    RegularCoeffs = 0;
+    GeneralIndices.resize(NbElementsOut, int(pow(2., N-1)+0.5));
+    GeneralIndices = 0;
+    GeneralCoeffs.resize(NbElementsOut, int(pow(2., N-1)+0.5));
+    GeneralCoeffs = 0;
+
+    TInInput.Read(FileStream, RegularCoeffs);
+    TInInput.Read(FileStream, GeneralCoeffs);
+    IntInput.Read(FileStream, RegularIndices);
+    IntInput.Read(FileStream, GeneralIndices);
+
+    LinearInterpolationOneGeneralCompute(dataIn, dim, 
+					 RegularCoeffs, GeneralCoeffs,
+					 RegularIndices, GeneralIndices,
+					 dataOut);
+  }
+
+
+  //! Compute linear interpolation from data defined
+  //! on regular grids, but one grid, to data defined on general grids, 
+  //! using indices and coefficients previously computed.
+  /*!
+    Performs linear interpolation from data defined on regular grids,
+    except one grid which may be a general grid.
+    Input data may be defined on a general grid along dimension 'dim', but only along
+    this dimension. Output data may be defined on general or regular grids.
+    Moreover, input data can still be defined on regular grids along dimension 'dim'.
+    \param dataIn reference data.
+    \param dim dimension related to the general grid.
+    \param RegularCoeffs interpolation coefficients associated with regular grids.
+    \param GeneralCoeffs interpolation coefficients associated with the input general grid.
+    \param RegularIndices interpolation indices associated with regular grids.
+    \param GeneralIndices interpolation indices associated with the input general grid.
+    \param dataOut interpolated data (on exit).
   */
   template<int N, class TIn, class TGIn,
 	   class TOut, class TGOut>
