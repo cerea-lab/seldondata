@@ -968,6 +968,12 @@ namespace SeldonData
 
     grib_file = fopen(FileName.c_str(), "r");
 
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (grib_file==NULL)
+      throw IOError("FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
 
     int nb_elements = A.numElements();
     int i = 0;
