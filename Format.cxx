@@ -1171,8 +1171,7 @@ namespace SeldonData
   void FormatFormattedText::Read(string FileName, string extract, Array<TA, N>& A) const
   {
 
-    ExtStream FileStream;
-    FileStream.Open(FileName, comments_, delimiters_);
+    ExtStream FileStream(FileName, comments_, delimiters_);
     
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
