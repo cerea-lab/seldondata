@@ -531,6 +531,8 @@ namespace SeldonData
   /*!
     \param i0 index for dimension #0.
     \return A reference to element #i0.
+    \exception SeldonData::WrongDim data dimension is not 1.
+    \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0)  
@@ -558,6 +560,8 @@ namespace SeldonData
     \param i0 index for dimension #0.
     \param i1 index for dimension #1.
     \return A reference to element (i0, i1).
+    \exception SeldonData::WrongDim data dimension is not 2.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1)  
@@ -591,6 +595,8 @@ namespace SeldonData
     \param i1 index for dimension #1.
     \param i2 index for dimension #2.
     \return A reference to element (i0, i1, i2).
+    \exception SeldonData::WrongDim data dimension is not 3.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2)
@@ -630,6 +636,8 @@ namespace SeldonData
     \param i2 index for dimension #2.
     \param i3 index for dimension #3.
     \return A reference to element (i0, i1, i2, i3).
+    \exception SeldonData::WrongDim data dimension is not 4.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
@@ -677,6 +685,8 @@ namespace SeldonData
     \param i3 index for dimension #3.
     \param i4 index for dimension #4.
     \return A reference to element (i0, i1, i2, i3, i4).
+    \exception SeldonData::WrongDim data dimension is not 5.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
@@ -730,6 +740,8 @@ namespace SeldonData
     \param i4 index for dimension #4.
     \param i5 index for dimension #5.
     \return A reference to element (i0, i1, i2, i3, i4, i5).
+    \exception SeldonData::WrongDim data dimension is not 6.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
@@ -791,6 +803,8 @@ namespace SeldonData
     \param i6 index for dimension #6.
     \return A reference to element (i0, i1, i2, i3,
     i4, i5, i6).
+    \exception SeldonData::WrongDim data dimension is not 7.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 					int i3, int i4, int i5,
@@ -858,6 +872,8 @@ namespace SeldonData
     \param i7 index for dimension #7.
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7).
+    \exception SeldonData::WrongDim data dimension is not 8.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 					int i3, int i4, int i5,
@@ -931,6 +947,8 @@ namespace SeldonData
     \param i8 index for dimension #8.
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7, i8).
+    \exception SeldonData::WrongDim data dimension is not 9.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 					int i3, int i4, int i5,
@@ -1009,6 +1027,8 @@ namespace SeldonData
     \param i9 index for dimension #9.
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7, i8, i9).
+    \exception SeldonData::WrongDim data dimension is not 10.
+    \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2,

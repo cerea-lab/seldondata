@@ -13,4 +13,4 @@ Empty Grid && vérif des tailles... Que faire?
 
 Function.hxx: Undefined functions!
 
-Data: constructor: ajouter \exception.
+Data: access operators: ajouter \exception.
