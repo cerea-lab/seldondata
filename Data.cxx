@@ -2002,6 +2002,17 @@ namespace SeldonData
     return *grids_(i);
   }
 
+  //! Returns a reference to the grid #i.
+  /*!
+    \param i grid to be returned.
+    \return A const reference to the grid #i.
+  */
+  template<class T, int N, class TG>
+  inline const Grid<TG>& Data<T, N, TG>::operator[] (int i) const
+  {
+    return *grids_(i);
+  }
+
   //! Returns the array of pointers to grids.
   /*!
     For every Data, an array gathers pointers to grids.

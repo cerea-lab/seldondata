@@ -159,6 +159,7 @@ namespace SeldonData
 
     Grid<TG>* GetGrid(int i);
     Grid<TG>& operator [] (int i);
+    const Grid<TG>& operator [] (int i) const;
     Array<Grid<TG>*, 1>& GetGrids();
 
     Array<T, N>& GetArray();
