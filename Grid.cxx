@@ -874,7 +874,7 @@ namespace SeldonData
     Grid<T>* G;
 
     if (duplicate_)
-      G = new Grid<T>(*this);
+      G = new RegularGrid<T>(*this);
     else
       {
 	G = this;
@@ -1426,7 +1426,7 @@ namespace SeldonData
     Grid<T>* G;
 
     if (duplicate_)
-      G = new Grid<T>(*this);
+      G = new GeneralGrid<T, n>(*this);
     else
       {
 	G = this;
