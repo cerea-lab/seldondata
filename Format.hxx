@@ -59,52 +59,50 @@ namespace SeldonData
     template<class TG>
     void Read(string FileName, RegularGrid<TG>& G) const;
     template<class TG>
-    void Read(FILE* FileDes, RegularGrid<TG>& G) const;
+    void Read(ifstream& FileStream, RegularGrid<TG>& G) const;
     template<class TG, int N>
     void Read(string FileName, GeneralGrid<TG, N>& G) const;
     template<class TG, int N>
-    void Read(FILE* FileDes, GeneralGrid<TG, N>& G) const;
+    void Read(ifstream& FileStream, GeneralGrid<TG, N>& G) const;
 
     template<class TG>
     void Write(RegularGrid<TG>& G, string FileName) const;
     template<class TG>
-    void Write(RegularGrid<TG>& G, FILE* FileDes) const;
+    void Write(RegularGrid<TG>& G, ofstream FileStream) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
-    void Write(GeneralGrid<TG, N>& G, FILE* FileDes) const;
+    void Write(GeneralGrid<TG, N>& G, ofstream FileStream) const;
 
     // Data.
 
     template<class TD, int N>
     void Read(string FileName, Data<TD, N>& D) const;
     template<class TD, int N>
-    void Read(FILE* FileDes, Data<TD, N>& D) const;
+    void Read(ifstream& FileStream, Data<TD, N>& D) const;
 
     template<class TD, int N>
     void Write(Data<TD, N>& D, string FileName) const;
     template<class TD, int N>
-    void Write(Data<TD, N>& D, FILE* FileDes) const;
+    void Write(Data<TD, N>& D, ofstream FileStream) const;
 
     // Array.
 
-    template<int N>
-    void Read(string FileName, Array<T, N>& A) const;
     template<class TA, int N>
     void Read(string FileName, Array<TA, N>& A) const;
     template<int N>
-    void Read(FILE* FileDes, Array<T, N>& A) const;
+    void Read(ifstream& FileStream, Array<T, N>& A) const;
     template<class TA, int N>
-    void Read(FILE* FileDes, Array<TA, N>& A) const;
+    void Read(ifstream& FileStream, Array<TA, N>& A) const;
 
     template<int N>
     void Write(Array<T, N>& A, string FileName) const;
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
     template<int N>
-    void Write(Array<T, N>& A, FILE* FileDes) const;
+    void Write(Array<T, N>& A, ofstream FileStream) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, FILE* FileDes) const;
+    void Write(Array<TA, N>& A, ofstream FileStream) const;
 
   };
 
@@ -127,48 +125,48 @@ namespace SeldonData
     template<class TG>
     void Read(string FileName, RegularGrid<TG>& G) const;
     template<class TG>
-    void Read(FILE* FileDes, RegularGrid<TG>& G) const;
+    void Read(ifstream& FileStream, RegularGrid<TG>& G) const;
     template<class TG, int N>
     void Read(string FileName, GeneralGrid<TG, N>& G) const;
     template<class TG, int N>
-    void Read(FILE* FileDes, GeneralGrid<TG, N>& G) const;
+    void Read(ifstream& FileStream, GeneralGrid<TG, N>& G) const;
 
     template<class TG>
     void Write(RegularGrid<TG>& G, string FileName) const;
     template<class TG>
-    void Write(RegularGrid<TG>& G, FILE* FileDes) const;
+    void Write(RegularGrid<TG>& G, ofstream FileStream) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
-    void Write(GeneralGrid<TG, N>& G, FILE* FileDes) const;
+    void Write(GeneralGrid<TG, N>& G, ofstream FileStream) const;
 
     // Data.
 
     template<class TD, int N>
     void Read(string FileName, Data<TD, N>& D) const;
     template<class TD, int N>
-    void Read(FILE* FileDes, Data<TD, N>& D) const;
+    void Read(ifstream& FileStream, Data<TD, N>& D) const;
 
     template<class TD, int N>
     void Write(Data<TD, N>& D, string FileName) const;
     template<class TD, int N>
-    void Write(Data<TD, N>& D, FILE* FileDes) const;
+    void Write(Data<TD, N>& D, ofstream FileStream) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, Array<TA, N>& A) const;
     template<int N>
-    void Read(FILE* FileDes, Array<T, N>& A) const;
+    void Read(ifstream& FileStream, Array<T, N>& A) const;
     template<class TA, int N>
-    void Read(FILE* FileDes, Array<TA, N>& A) const;
+    void Read(ifstream& FileStream, Array<TA, N>& A) const;
 
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
     template<int N>
-    void Write(Array<T, N>& A, FILE* FileDes) const;
+    void Write(Array<T, N>& A, ofstream FileStream) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, FILE* FileDes) const;
+    void Write(Array<TA, N>& A, ofstream FileStream) const;
 
   };
 

@@ -74,10 +74,10 @@ namespace SeldonData
   //! Reads a binary file.
   template<class T>
   template<class TG>
-  void FormatBinary<T>::Read(FILE* FileDes, RegularGrid<TG>& G) const
+  void FormatBinary<T>::Read(ifstream& FileStream, RegularGrid<TG>& G) const
   {
 
-    this->Read(FileDes, G.GetValues());
+    this->Read(FileStream, G.GetValues());
 
   }
 
@@ -94,10 +94,10 @@ namespace SeldonData
   //! Reads a binary file.
   template<class T>
   template<class TG, int n>
-  void FormatBinary<T>::Read(FILE* FileDes, GeneralGrid<TG, n>& G) const
+  void FormatBinary<T>::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
   {
 
-    this->Read(FileDes, G.GetValues());
+    this->Read(FileStream, G.GetValues());
 
   }
 
@@ -114,10 +114,10 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TG>
-  void FormatBinary<T>::Write(RegularGrid<TG>& G, FILE* FileDes) const
+  void FormatBinary<T>::Write(RegularGrid<TG>& G, ofstream FileStream) const
   {
 
-    this->Write(G.GetValues(), FileDes);
+    this->Write(G.GetValues(), FileStream);
     
   }
 
@@ -134,10 +134,10 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TG, int n>
-  void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, FILE* FileDes) const
+  void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, ofstream FileStream) const
   {
 
-    this->Write(G.GetValues(), FileDes);
+    this->Write(G.GetValues(), FileStream);
     
   }
 
@@ -158,10 +158,10 @@ namespace SeldonData
   //! Reads a binary file.
   template<class T>
   template<class TD, int N>
-  void FormatBinary<T>::Read(FILE* FileDes, Data<TD, N>& D) const
+  void FormatBinary<T>::Read(ifstream& FileStream, Data<TD, N>& D) const
   {
 
-    this->Read(FileDes, D.GetArray());
+    this->Read(FileStream, D.GetArray());
 
   }
 
@@ -178,28 +178,16 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TD, int N>
-  void FormatBinary<T>::Write(Data<TD, N>& D, FILE* FileDes) const
+  void FormatBinary<T>::Write(Data<TD, N>& D, ofstream FileStream) const
   {
 
-    this->Write(D.GetArray(), FileDes);
+    this->Write(D.GetArray(), FileStream);
 
   }
 
   /*********/
   /* Array */
   /*********/
-
-  //! Reads a binary file.
-  template<class T>
-  template<int N>
-  void FormatBinary<T>::Read(string FileName, Array<T, N>& A) const
-  {
-
-    FILE* f = fopen(FileName.c_str(), "rb");
-    this->Read(f, A);
-    fclose(f);
-    
-  }
 
   //! Reads a binary file.
   template<class T>
@@ -207,482 +195,492 @@ namespace SeldonData
   void FormatBinary<T>::Read(string FileName, Array<TA, N>& A) const
   {
 
-    FILE* f = fopen(FileName.c_str(), "rb");
-    this->Read(f, A);
-    fclose(f);
+    ifstream FileStream;
+    FileStream.open(FileName.c_str(), ios::in|ios::binary);
+    this->Read(FileStream, A);
+    FileStream.close();
 
   }
 
   //! Reads a binary file.
   template<class T>
   template<int N>
-  void FormatBinary<T>::Read(FILE* FileDes, Array<T, N>& A) const
+  void FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A) const
   {
 
-    int NbElements = A.numElements();
-
+    unsigned long DataSize = sizeof(T) * A.numElements();
     T* data = A.data();
 
-    fread(data, sizeof(T), NbElements, FileDes);
+    // Checks file length.
+    FileStream.seekg(0, ios::end);
+    unsigned long FileSize = FileStream.tellg();
+
+    if (DataSize>FileSize)
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
+		    "Reading " + to_str(DataSize) + " bytes is impossible." +
+		    " The input file is only " + to_str(FileSize) + " bytes-long.");
+
+    FileStream.seekg(0, ios::beg);
+    FileStream.read(reinterpret_cast<char*>(data), DataSize);
     
   }
 
-  //! Reads a binary file.
-  template<class T>
-  template<class TA, int N>
-  void FormatBinary<T>::Read(FILE* FileDes, Array<TA, N>& A) const
-  {
+//    //! Reads a binary file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatBinary<T>::Read(ifstream FileStream, Array<TA, N>& A) const
+//    {
 
-    int NbElements = A.numElements();
+//      int NbElements = A.numElements();
 
-    T* data = new T[NbElements];
-    TA* data0 = A.data();
+//      T* data = new T[NbElements];
+//      TA* data0 = A.data();
 
-    fread(data, sizeof(T), NbElements, FileDes);
+//      fread(data, sizeof(T), NbElements, FileStream);
 
-    for (int i=0; i<NbElements; i++)
-      data0[i] = data[i];
+//      for (int i=0; i<NbElements; i++)
+//        data0[i] = data[i];
 
-  }
+//    }
 
-  //! Writes a binary file.
-  template<class T>
-  template<int N>
-  void FormatBinary<T>::Write(Array<T, N>& A, string FileName) const
-  {
+//    //! Writes a binary file.
+//    template<class T>
+//    template<int N>
+//    void FormatBinary<T>::Write(Array<T, N>& A, string FileName) const
+//    {
 
-    FILE* f = fopen(FileName.c_str(), "wb");
-    this->Write(A, f);
-    fclose(f);
+//      ofstream f = fopen(FileName.c_str(), "wb");
+//      this->Write(A, f);
+//      fclose(f);
     
-  }
+//    }
 
-  //! Writes a binary file.
-  template<class T>
-  template<class TA, int N>
-  void FormatBinary<T>::Write(Array<TA, N>& A, string FileName) const
-  {
+//    //! Writes a binary file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatBinary<T>::Write(Array<TA, N>& A, string FileName) const
+//    {
 
-    FILE* f = fopen(FileName.c_str(), "wb");
-    this->Write(A, f);
-    fclose(f);
+//      ofstream f = fopen(FileName.c_str(), "wb");
+//      this->Write(A, f);
+//      fclose(f);
 
-  }
+//    }
 
-  //! Writes a binary file.
-  template<class T>
-  template<int N>
-  void FormatBinary<T>::Write(Array<T, N>& A, FILE* FileDes) const
-  {
+//    //! Writes a binary file.
+//    template<class T>
+//    template<int N>
+//    void FormatBinary<T>::Write(Array<T, N>& A, ofstream FileStream) const
+//    {
 
-    int NbElements = A.numElements();
+//      int NbElements = A.numElements();
 
-    T* data = A.data();
+//      T* data = A.data();
 
-    fwrite(data, sizeof(T), NbElements, FileDes);
+//      fwrite(data, sizeof(T), NbElements, FileStream);
     
-  }
+//    }
 
-  //! Writes a binary file.
-  template<class T>
-  template<class TA, int N>
-  void FormatBinary<T>::Write(Array<TA, N>& A, FILE* FileDes) const
-  {
+//    //! Writes a binary file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatBinary<T>::Write(Array<TA, N>& A, ofstream FileStream) const
+//    {
 
-    int NbElements = G.A.numElements();
+//      int NbElements = G.A.numElements();
 
-    T* data = new T[NbElements];
-    TG* data0 = A.data();
+//      T* data = new T[NbElements];
+//      TG* data0 = A.data();
 
-    for (int i=0; i<NbElements; i++)
-      data[i] = data0[i];
+//      for (int i=0; i<NbElements; i++)
+//        data[i] = data0[i];
 
-    fwrite(data, sizeof(T), NbElements, FileDes);
+//      fwrite(data, sizeof(T), NbElements, FileStream);
 
-  }
+//    }
 
 
-  ////////////////
-  // FORMATTEXT //
-  ////////////////
+//    ////////////////
+//    // FORMATTEXT //
+//    ////////////////
 
-  //! Default constructor.
-  template<class T>
-  FormatText<T>::FormatText()  throw()
-  {
-    format_ = "e";
-  }
+//    //! Default constructor.
+//    template<class T>
+//    FormatText<T>::FormatText()  throw()
+//    {
+//      format_ = "e";
+//    }
 
-  //! Main constructor.
-  template<class T>
-  FormatText<T>::FormatText(string format)  throw()
-  {
-    format_ = format;
-  }
+//    //! Main constructor.
+//    template<class T>
+//    FormatText<T>::FormatText(string format)  throw()
+//    {
+//      format_ = format;
+//    }
 
-  //! Destructor.
-  template<class T>
-  FormatText<T>::~FormatText()  throw()
-  {
+//    //! Destructor.
+//    template<class T>
+//    FormatText<T>::~FormatText()  throw()
+//    {
 
-  }
+//    }
 
-  /********/
-  /* Grid */
-  /********/
+//    /********/
+//    /* Grid */
+//    /********/
 
-  //! Reads a text file.
-  template<class T>
-  template<class TG>
-  void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TG>
+//    void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
+//    {
 
-    this->Read(FileName, G.GetValues());
+//      this->Read(FileName, G.GetValues());
 
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<class TG>
-  void FormatText<T>::Read(FILE* FileDes, RegularGrid<TG>& G) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TG>
+//    void FormatText<T>::Read(ifstream FileStream, RegularGrid<TG>& G) const
+//    {
 
-    this->Read(FileDes, G.GetValues());
+//      this->Read(FileStream, G.GetValues());
 
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<class TG, int n>
-  void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TG, int n>
+//    void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
+//    {
 
-    this->Read(FileName, G.GetValues());
+//      this->Read(FileName, G.GetValues());
 
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<class TG, int n>
-  void FormatText<T>::Read(FILE* FileDes, GeneralGrid<TG, n>& G) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TG, int n>
+//    void FormatText<T>::Read(ifstream FileStream, GeneralGrid<TG, n>& G) const
+//    {
 
-    this->Read(FileDes, G.GetValues());
+//      this->Read(FileStream, G.GetValues());
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TG>
-  void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TG>
+//    void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
+//    {
 
-    this->Write(G.GetValues(), FileName);
+//      this->Write(G.GetValues(), FileName);
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TG>
-  void FormatText<T>::Write(RegularGrid<TG>& G, FILE* FileDes) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TG>
+//    void FormatText<T>::Write(RegularGrid<TG>& G, ofstream FileStream) const
+//    {
 
-    this->Write(G.GetValues(), FileDes);
+//      this->Write(G.GetValues(), FileStream);
     
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TG, int n>
-  void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TG, int n>
+//    void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
+//    {
 
-    this->Write(G.GetValues(), FileName);
+//      this->Write(G.GetValues(), FileName);
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TG, int n>
-  void FormatText<T>::Write(GeneralGrid<TG, n>& G, FILE* FileDes) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TG, int n>
+//    void FormatText<T>::Write(GeneralGrid<TG, n>& G, ofstream FileStream) const
+//    {
 
-    this->Write(G.GetValues(), FileDes);
+//      this->Write(G.GetValues(), FileStream);
     
-  }
+//    }
 
-  /********/
-  /* Data */
-  /********/
+//    /********/
+//    /* Data */
+//    /********/
   
-  //! Reads a text file.
-  template<class T>
-  template<class TD, int N>
-  void FormatText<T>::Read(string FileName, Data<TD, N>& D) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatText<T>::Read(string FileName, Data<TD, N>& D) const
+//    {
 
-    this->Read(FileName, D.GetArray());
+//      this->Read(FileName, D.GetArray());
 
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<class TD, int N>
-  void FormatText<T>::Read(FILE* FileDes, Data<TD, N>& D) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatText<T>::Read(ifstream FileStream, Data<TD, N>& D) const
+//    {
 
-    this->Read(FileDes, D.GetArray());
+//      this->Read(FileStream, D.GetArray());
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TD, int N>
-  void FormatText<T>::Write(Data<TD, N>& D, string FileName) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatText<T>::Write(Data<TD, N>& D, string FileName) const
+//    {
 
-    this->Write(D.GetArray(), FileName);
+//      this->Write(D.GetArray(), FileName);
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TD, int N>
-  void FormatText<T>::Write(Data<TD, N>& D, FILE* FileDes) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatText<T>::Write(Data<TD, N>& D, ofstream FileStream) const
+//    {
 
-    this->Write(D.GetArray(), FileDes);
+//      this->Write(D.GetArray(), FileStream);
 
-  }
+//    }
 
-  /*********/
-  /* Array */
-  /*********/
+//    /*********/
+//    /* Array */
+//    /*********/
 
-  //! Reads a text file.
-  template<class T>
-  template<class TA, int N>
-  void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
+//    {
 
-    FILE* f = fopen(FileName.c_str(), "r");
-    this->Read(f, A);
-    fclose(f);
+//      ifstream f = fopen(FileName.c_str(), "r");
+//      this->Read(f, A);
+//      fclose(f);
 
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<int N>
-  void FormatText<T>::Read(FILE* FileDes, Array<T, N>& A) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<int N>
+//    void FormatText<T>::Read(ifstream FileStream, Array<T, N>& A) const
+//    {
 
-    string format = "%" + format_;
+//      string format = "%" + format_;
 
-    int NbElements = A.numElements();
-    T* data = A.data();
+//      int NbElements = A.numElements();
+//      T* data = A.data();
 
-    for (int i=0; i<NbElements; i++)
-      fscanf(FileDes, format, data + i * sizeof(T));
+//      for (int i=0; i<NbElements; i++)
+//        fscanf(FileStream, format, data + i * sizeof(T));
     
-  }
+//    }
 
-  //! Reads a text file.
-  template<class T>
-  template<class TA, int N>
-  void FormatText<T>::Read(FILE* FileDes, Array<TA, N>& A) const
-  {
+//    //! Reads a text file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatText<T>::Read(ifstream FileStream, Array<TA, N>& A) const
+//    {
 
-    string format = "%" + format_;
+//      string format = "%" + format_;
 
-    int NbElements = A.numElements();
+//      int NbElements = A.numElements();
 
-    T* data = new T[NbElements];
-    TG* data0 = A.data();
+//      T* data = new T[NbElements];
+//      TG* data0 = A.data();
 
-    for (int i=0; i<NbElements; i++)
-      fscanf(FileDes, format, data + i * sizeof(T));
+//      for (int i=0; i<NbElements; i++)
+//        fscanf(FileStream, format, data + i * sizeof(T));
 
-    for (int i=0; i<NbElements; i++)
-      data0[i] = data[i];
+//      for (int i=0; i<NbElements; i++)
+//        data0[i] = data[i];
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TA, int N>
-  void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
+//    {
 
-    FILE* f = fopen(FileName.c_str(), "wb");
-    this->Write(A, f);
-    fclose(f);
+//      ofstream f = fopen(FileName.c_str(), "wb");
+//      this->Write(A, f);
+//      fclose(f);
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<int N>
-  void FormatText<T>::Write(Array<T, N>& A, FILE* FileDes) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<int N>
+//    void FormatText<T>::Write(Array<T, N>& A, ofstream FileStream) const
+//    {
 
-    string format = "%" + format_ + "%c";
+//      string format = "%" + format_ + "%c";
 
-    int NbElements = A.numElements();
+//      int NbElements = A.numElements();
 
-    T* data = A.data();
+//      T* data = A.data();
 
-    char* elt = new char[100];
+//      char* elt = new char[100];
 
-    for (int i=0; i<NbElements-1; i++)
-      {
-	sprintf(elt, format.c_str(), data[i], ' ');
-	fwrite(elt, sizeof(char), strlen(elt), FileDes);
-      }
-    format = "%" + format_;
-    sprintf(elt, format.c_str(), data[NbElements-1]);
-    fwrite(elt, sizeof(char), strlen(elt), FileDes);
+//      for (int i=0; i<NbElements-1; i++)
+//        {
+//  	sprintf(elt, format.c_str(), data[i], ' ');
+//  	fwrite(elt, sizeof(char), strlen(elt), FileStream);
+//        }
+//      format = "%" + format_;
+//      sprintf(elt, format.c_str(), data[NbElements-1]);
+//      fwrite(elt, sizeof(char), strlen(elt), FileStream);
 
-  }
+//    }
 
-  //! Writes a text file.
-  template<class T>
-  template<class TA, int N>
-  void FormatText<T>::Write(Array<TA, N>& A, FILE* FileDes) const
-  {
+//    //! Writes a text file.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatText<T>::Write(Array<TA, N>& A, ofstream FileStream) const
+//    {
 
-    string format = "%" + format_ + "%c";
+//      string format = "%" + format_ + "%c";
 
-    int NbElements = A.numElements();
+//      int NbElements = A.numElements();
 
-    T* data = new T[NbElements];
-    TA* data0 = A.data();
+//      T* data = new T[NbElements];
+//      TA* data0 = A.data();
 
-    for (int i=0; i<NbElements; i++)
-      data[i] = data0[i];
+//      for (int i=0; i<NbElements; i++)
+//        data[i] = data0[i];
 
-    char* elt = new char[100];
+//      char* elt = new char[100];
 
-    for (int i=0; i<NbElements-1; i++)
-      {
-	sprintf(elt, format.c_str(), data[i], ' ');
-	fwrite(elt, sizeof(char), strlen(elt), FileDes);
-      }
-    format = "%" + format_;
-    sprintf(elt, format.c_str(), data[NbElements-1]);
-    fwrite(elt, sizeof(char), strlen(elt), FileDes);
+//      for (int i=0; i<NbElements-1; i++)
+//        {
+//  	sprintf(elt, format.c_str(), data[i], ' ');
+//  	fwrite(elt, sizeof(char), strlen(elt), FileStream);
+//        }
+//      format = "%" + format_;
+//      sprintf(elt, format.c_str(), data[NbElements-1]);
+//      fwrite(elt, sizeof(char), strlen(elt), FileStream);
 
-  }
+//    }
 
 
-  ///////////////////
-  // FORMATCHIMERE //
-  ///////////////////
+//    ///////////////////
+//    // FORMATCHIMERE //
+//    ///////////////////
 
-  //! Default constructor.
-  template<class T>
-  FormatChimere<T>::FormatChimere()  throw()
-  {
-  }
+//    //! Default constructor.
+//    template<class T>
+//    FormatChimere<T>::FormatChimere()  throw()
+//    {
+//    }
 
-  //! Destructor.
-  template<class T>
-  FormatChimere<T>::~FormatChimere()  throw()
-  {
-  }
+//    //! Destructor.
+//    template<class T>
+//    FormatChimere<T>::~FormatChimere()  throw()
+//    {
+//    }
 
-  /********/
-  /* Data */
-  /********/
+//    /********/
+//    /* Data */
+//    /********/
  
-  //! Reads a file in "Chimere" format.
-  template<class T>
-  template<class TD, int N>
-  void FormatChimere<T>::Read(string FileName, int date, Data<TD, N>& D) const
-  {
+//    //! Reads a file in "Chimere" format.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatChimere<T>::Read(string FileName, int date, Data<TD, N>& D) const
+//    {
 
-    this->Read(FileName, date, D.GetArray());
+//      this->Read(FileName, date, D.GetArray());
 
-  }
+//    }
 
-  //! Writes a file in "Chimere" format.
-  template<class T>
-  template<class TD, int N>
-  void FormatChimere<T>::Write(Data<TD, N>& D, int date, string FileName) const
-  {
+//    //! Writes a file in "Chimere" format.
+//    template<class T>
+//    template<class TD, int N>
+//    void FormatChimere<T>::Write(Data<TD, N>& D, int date, string FileName) const
+//    {
 
-    this->Write(D.GetArray(), date, FileName);
+//      this->Write(D.GetArray(), date, FileName);
 
-  }
+//    }
 
-  /*********/
-  /* Array */
-  /*********/
+//    /*********/
+//    /* Array */
+//    /*********/
 
-  //! Reads a file in "Chimere" format.
-  template<class T>
-  template<class TA, int N>
-  void FormatChimere<T>::Read(string FileName, int date, Array<TA, N>& A) const
-  {
+//    //! Reads a file in "Chimere" format.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatChimere<T>::Read(string FileName, int date, Array<TA, N>& A) const
+//    {
 
-    ifstream File(FileName.c_str());
-    int t, h, i, j, k, z;TA x;
-    int Nt = A.extent(0), Nlon = A.extent(1), Nlat = A.extent(2),
-      Nz = A.numElements() / (Nt * Nlon * Nlat);
-    string line;
+//      ifstream File(FileName.c_str());
+//      int t, h, i, j, k, z;TA x;
+//      int Nt = A.extent(0), Nlon = A.extent(1), Nlat = A.extent(2),
+//        Nz = A.numElements() / (Nt * Nlon * Nlat);
+//      string line;
 
-    File >> t; File >> z;
-    while ( (File.good()) && (t!=date) )
-      for (k=0; k<Nz; k++)
-	{
-	  // Read the field.
-	  for (j=0; j<Nlat; j++)
-	    getline(File, line);
-	  // Read the date.
-	  File >> t;
-	  // Read level number.
-	  File >> z;
-	}
+//      File >> t; File >> z;
+//      while ( (File.good()) && (t!=date) )
+//        for (k=0; k<Nz; k++)
+//  	{
+//  	  // Read the field.
+//  	  for (j=0; j<Nlat; j++)
+//  	    getline(File, line);
+//  	  // Read the date.
+//  	  File >> t;
+//  	  // Read level number.
+//  	  File >> z;
+//  	}
 
-    for (h=0; h<Nt; h++)
-      for (k=0; k<Nz; k++)
-	{
-	  // Read the field.
-	  for (j=0; j<Nlat; j++)
-	    for (i=0; i<Nlon; i++)
-	      File >> scientific >> A(h, i, j, k);
-	  // Read the date.
-	  File >> t;
-	  // Read level number.
-	  File >> z;
-	}
+//      for (h=0; h<Nt; h++)
+//        for (k=0; k<Nz; k++)
+//  	{
+//  	  // Read the field.
+//  	  for (j=0; j<Nlat; j++)
+//  	    for (i=0; i<Nlon; i++)
+//  	      File >> scientific >> A(h, i, j, k);
+//  	  // Read the date.
+//  	  File >> t;
+//  	  // Read level number.
+//  	  File >> z;
+//  	}
     
-  }
+//    }
 
-  //! Writes a file in "Chimere" format.
-  template<class T>
-  template<class TA, int N>
-  void FormatChimere<T>::Write(Array<TA, N>& A, int date, string FileName) const
-  {
+//    //! Writes a file in "Chimere" format.
+//    template<class T>
+//    template<class TA, int N>
+//    void FormatChimere<T>::Write(Array<TA, N>& A, int date, string FileName) const
+//    {
 
-//     string format = "%" + format_ + "%c";
+//  //     string format = "%" + format_ + "%c";
 
-//     int NbElements = A.numElements();
+//  //     int NbElements = A.numElements();
 
-//     T* data = A.data();
+//  //     T* data = A.data();
 
-//     char* elt = new char[100];
+//  //     char* elt = new char[100];
 
-//     for (int i=0; i<NbElements-1; i++)
-//       {
-// 	sprintf(elt, format.c_str(), data[i], ' ');
-// 	fwrite(elt, sizeof(char), strlen(elt), FileDes);
-//       }
-//     format = "%" + format_;
-//     sprintf(elt, format.c_str(), data[NbElements-1]);
-//     fwrite(elt, sizeof(char), strlen(elt), FileDes);
+//  //     for (int i=0; i<NbElements-1; i++)
+//  //       {
+//  // 	sprintf(elt, format.c_str(), data[i], ' ');
+//  // 	fwrite(elt, sizeof(char), strlen(elt), FileStream);
+//  //       }
+//  //     format = "%" + format_;
+//  //     sprintf(elt, format.c_str(), data[NbElements-1]);
+//  //     fwrite(elt, sizeof(char), strlen(elt), FileStream);
 
-  }
+//    }
 
 }  // namespace SeldonData.
 
