@@ -36,7 +36,7 @@ namespace SeldonData
     A function f should be a class derived from Function_Base.
     Then, operator() should be overloaded to define the function f.
    */
-  template<class T>
+  template<class T, class TOut = void>
   class Function_Base
   {
 
@@ -48,33 +48,33 @@ namespace SeldonData
     ~Function_Base() {}
     
     //! Undefined function.
-    virtual void operator () (T& i0)
+    virtual TOut operator () (T& i0)
     { 
       throw Undefined("Function_Base<T>::operator()");
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1)
+    virtual TOut operator () (T& i0, T& i1)
     { 
       throw Undefined("Function_Base<T>::operator()");
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2)
     { 
       throw Undefined("Function_Base<T>::operator()");
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3)
     { 
       throw Undefined("Function_Base<T>::operator()");
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4)
     { 
@@ -82,7 +82,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5)
     { 
@@ -90,7 +90,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6)
@@ -99,7 +99,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7)
@@ -108,7 +108,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -118,7 +118,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -128,7 +128,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -139,7 +139,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -150,7 +150,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -162,7 +162,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -174,7 +174,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -187,7 +187,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -200,7 +200,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -214,7 +214,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -228,7 +228,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
@@ -243,7 +243,7 @@ namespace SeldonData
     }
 
     //! Undefined function.
-    virtual void operator () (T& i0, T& i1,
+    virtual TOut operator () (T& i0, T& i1,
 			      T& i2, T& i3,
 			      T& i4, T& i5,
 			      T& i6, T& i7,
