@@ -9,6 +9,11 @@ namespace SeldonData
   /////////////
   // UNIFORM //
 
+  //! Linear interpolation for data defined on regular grids.
+  /*!
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+   */
   template<int N, class TIn, class TGIn,
     class TOut, class TGOut>
   void LinearInterpolation(Data<TIn, N, TGIn>& dataIn,
@@ -118,7 +123,15 @@ namespace SeldonData
   //////////
   // LAST //
 
-  // The last coordinate depends upon other coordinates.
+  //! Linear interpolation for data defined on regular grids,
+  //! but the last grid.
+  /*!
+    Performs linear interpolation on data defined on regular grids,
+    except the last grid (the grid related to the last dimension)
+    which may be a general grid (i.e. depending on other coordinates).
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+   */
   template<int N, class TIn, class TGIn,
     class TOut, class TGOut>
   void LinearInterpolationLast(Data<TIn, N, TGIn>& dataIn,
@@ -289,7 +302,11 @@ namespace SeldonData
   /////////////
   // GENERAL //
 
-  // All coordinates depend upon all others.
+  //! Linear interpolation for any kind of data.
+  /*!
+    \param dataIn reference data.
+    \param dataOut interpolated data (on exit).
+   */
   template<int N, class TIn, class TGIn,
     class TOut, class TGOut>
   void LinearInterpolationGeneral(Data<TIn, N, TGIn>& dataIn,
