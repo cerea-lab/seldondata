@@ -3,6 +3,59 @@ o--------------------o
 o--------------------o
 
 
+Version 1.4 (2004-10-02)
+-----------
+
+** Improvements:
+
+- Added:
+   + Data::Data(T*, const TinyVector<int, N>&, preexistingMemoryPolicy)
+   + Data::Data(TinyVector)
+   + Data::Resize(TinyVector)
+   + Data::ResizeGrid(int, int, ...)
+   + Data::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>&, ...)
+   + Data::Fill()
+   + Data::ThresholdMin
+   + Data::ThresholdMax
+   + Data::Apply(Data& D, F& function)
+   + Data::PrintInfo
+   + Data::InfoString
+- 'Data::Threshold' now takes two arguments (the minimum and the maximum).
+- Added a const access operator to 'Data'.
+- Added 'FormatFormattedText'.
+- Added:
+   + FormatBinary::Append
+   + FormatBinary::ReadSteps
+   + FormatBinary::ReadRecord
+   + FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)
+- 'FormatGrib' is not template anymore.
+- Strongly improved 'FormatGrib' efficiency for large Grib files.
+- Added within SeldonData the C code to read Grib files.
+- 'END' also catches C++ exceptions, strings and it returns 1.
+- All debug flags now start with 'SELDONDATA_DEBUG_'.
+- Added debug level flags 'SELDONDATA_DEBUG_LEVEL_x' where x ranges
+  from 0 to 4.
+- Added:
+   + RegularGrid::Apply(F& function)
+   + RegularGrid::Apply(RegularGrid<T0>&, F& function)
+   + GeneralGrid::Apply(F& function)
+   + GeneralGrid::Apply(GeneralGrid<T0, n>&, F& function)
+- Added:
+   + LinearInterpolationOneGeneralGetCoeffs
+   + LinearInterpolationOneGeneralCompute
+
+** Bug fixes:
+
+- In 'FormatBinary', the size of the binary file could be badly checked.
+- Memory leak was found in FormatBinary, FormatText and FormatNetCDF.
+- Fixed harmless bugs in interpolation functions, FormatText::Read and
+  FormatText::Write that led to access to uninitialized values.
+
+** Other changes:
+
+- SeldonData now includes the C++ library Talos.
+
+
 Version 1.3 (2004-02-26)
 -----------
 
