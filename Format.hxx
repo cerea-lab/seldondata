@@ -76,15 +76,15 @@ namespace SeldonData
 
     // Data.
 
-    template<class TD, int N>
-    void Read(string FileName, Data<TD, N>& D) const;
-    template<class TD, int N>
-    void Read(ifstream& FileStream, Data<TD, N>& D) const;
+    template<class TD, int N, class TG>
+    void Read(string FileName, Data<TD, N, TG>& D) const;
+    template<class TD, int N, class TG>
+    void Read(ifstream& FileStream, Data<TD, N, TG>& D) const;
 
-    template<class TD, int N>
-    void Write(Data<TD, N>& D, string FileName) const;
-    template<class TD, int N>
-    void Write(Data<TD, N>& D, ofstream FileStream) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, string FileName) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, ofstream FileStream) const;
 
     // Array.
 
@@ -95,14 +95,12 @@ namespace SeldonData
     template<class TA, int N>
     void Read(ifstream& FileStream, Array<TA, N>& A) const;
 
-    template<int N>
-    void Write(Array<T, N>& A, string FileName) const;
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
     template<int N>
-    void Write(Array<T, N>& A, ofstream FileStream) const;
+    void Write(Array<T, N>& A, ofstream& FileStream) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, ofstream FileStream) const;
+    void Write(Array<TA, N>& A, ofstream& FileStream) const;
 
   };
 
@@ -113,12 +111,23 @@ namespace SeldonData
   {
 
   protected:
-    string format_;
+    string separator_;
+    fstream::fmtflags flags_;
+    streamsize precision_;
+    streamsize width_;
 
   public:
     FormatText()  throw();
-    FormatText(string format)  throw();
+    FormatText(string separator)  throw();
+    FormatText(fstream::fmtflags flags, string separator = "\t\t")  throw();
+    FormatText(fstream::fmtflags flags, streamsize precision,
+	       streamsize width = -1, string separator = "\t\t")  throw();
     ~FormatText()  throw();
+
+    void SetSeparator(string separator);
+    void SetFlags(ofstream::fmtflags flags);
+    void SetPrecision(streamsize precision);
+    void SetWidth(streamsize width);
 
     // Grid.
 
@@ -134,39 +143,35 @@ namespace SeldonData
     template<class TG>
     void Write(RegularGrid<TG>& G, string FileName) const;
     template<class TG>
-    void Write(RegularGrid<TG>& G, ofstream FileStream) const;
+    void Write(RegularGrid<TG>& G, ofstream& FileStream) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
-    void Write(GeneralGrid<TG, N>& G, ofstream FileStream) const;
+    void Write(GeneralGrid<TG, N>& G, ofstream& FileStream) const;
 
     // Data.
 
-    template<class TD, int N>
-    void Read(string FileName, Data<TD, N>& D) const;
-    template<class TD, int N>
-    void Read(ifstream& FileStream, Data<TD, N>& D) const;
+    template<class TD, int N, class TG>
+    void Read(string FileName, Data<TD, N, TG>& D) const;
+    template<class TD, int N, class TG>
+    void Read(ifstream& FileStream, Data<TD, N, TG>& D) const;
 
-    template<class TD, int N>
-    void Write(Data<TD, N>& D, string FileName) const;
-    template<class TD, int N>
-    void Write(Data<TD, N>& D, ofstream FileStream) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, string FileName) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, ofstream& FileStream) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, Array<TA, N>& A) const;
-    template<int N>
-    void Read(ifstream& FileStream, Array<T, N>& A) const;
     template<class TA, int N>
     void Read(ifstream& FileStream, Array<TA, N>& A) const;
 
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
-    template<int N>
-    void Write(Array<T, N>& A, ofstream FileStream) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, ofstream FileStream) const;
+    void Write(Array<TA, N>& A, ofstream& FileStream) const;
 
   };
 
@@ -184,11 +189,11 @@ namespace SeldonData
 
     // Data.
 
-    template<class TD, int N>
-    void Read(string FileName, int date, Data<TD, N>& D) const;
+    template<class TD, int N, class TG>
+    void Read(string FileName, int date, Data<TD, N, TG>& D) const;
 
-    template<class TD, int N>
-    void Write(Data<TD, N>& D, int date, string FileName) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, int date, string FileName) const;
 
     // Array.
 

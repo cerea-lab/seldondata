@@ -20,6 +20,10 @@
 
 #include "Format.hxx"
 
+#ifndef CONST_SELDONDATA_BUFFER_SIZE
+#define CONST_SELDONDATA_BUFFER_SIZE 16384
+#endif
+
 namespace SeldonData
 {
 
@@ -147,8 +151,8 @@ namespace SeldonData
   
   //! Reads a binary file.
   template<class T>
-  template<class TD, int N>
-  void FormatBinary<T>::Read(string FileName, Data<TD, N>& D) const
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::Read(string FileName, Data<TD, N, TG>& D) const
   {
 
     this->Read(FileName, D.GetArray());
@@ -157,8 +161,8 @@ namespace SeldonData
 
   //! Reads a binary file.
   template<class T>
-  template<class TD, int N>
-  void FormatBinary<T>::Read(ifstream& FileStream, Data<TD, N>& D) const
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
   {
 
     this->Read(FileStream, D.GetArray());
@@ -167,8 +171,8 @@ namespace SeldonData
 
   //! Writes a binary file.
   template<class T>
-  template<class TD, int N>
-  void FormatBinary<T>::Write(Data<TD, N>& D, string FileName) const
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::Write(Data<TD, N, TG>& D, string FileName) const
   {
 
     this->Write(D.GetArray(), FileName);
@@ -177,8 +181,8 @@ namespace SeldonData
 
   //! Writes a binary file.
   template<class T>
-  template<class TD, int N>
-  void FormatBinary<T>::Write(Data<TD, N>& D, ofstream FileStream) const
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::Write(Data<TD, N, TG>& D, ofstream FileStream) const
   {
 
     this->Write(D.GetArray(), FileStream);
@@ -196,12 +200,12 @@ namespace SeldonData
   {
 
     ifstream FileStream;
-    FileStream.open(FileName.c_str(), ios::in|ios::binary);
+    FileStream.open(FileName.c_str(), ifstream::binary);
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
-      throw IOError("FormatBinary<T>::Read(string FileName, Array<T, N>& A)",
+      throw IOError("FormatBinary<T>::Read(string FileName, Array<TA, N>& A)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
@@ -217,7 +221,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A) const
   {
 
-    unsigned long data_size = sizeof(T) * A.numElements();
+    unsigned long data_size = A.numElements() * sizeof(T);
     T* data = A.data();
 
 #ifdef DEBUG_SELDONDATA_IO
@@ -234,8 +238,8 @@ namespace SeldonData
 
     if (data_size>file_size)
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
-		    "Unable to read " + to_str(data_size) + " bytes." +
-		    " The input stream is only " + to_str(file_size) + " bytes-long.");
+		    "Unable to read " + to_str(data_size) + " byte(s)." +
+		    " The input stream is only " + to_str(file_size) + " byte(s) long.");
 
     FileStream.seekg(position);
 #endif
@@ -244,352 +248,543 @@ namespace SeldonData
     
   }
 
-//    //! Reads a binary file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatBinary<T>::Read(ifstream FileStream, Array<TA, N>& A) const
-//    {
+   //! Reads a binary file.
+   template<class T>
+   template<class TA, int N>
+   void FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A) const
+   {
 
-//      int NbElements = A.numElements();
+     unsigned long data_size = A.numElements() * sizeof(T);
 
-//      T* data = new T[NbElements];
-//      TA* data0 = A.data();
+     unsigned long length = CONST_SELDONDATA_BUFFER_SIZE / sizeof(T);
+     T* data = new T[length];
 
-//      fread(data, sizeof(T), NbElements, FileStream);
+     TA* data_output = A.data();
 
-//      for (int i=0; i<NbElements; i++)
-//        data0[i] = data[i];
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+		    "File is not ready.");
 
-//    }
+    // Checks file length.
+    streampos position;
+    position = FileStream.tellg();
+    FileStream.seekg(0, ios::end);
+    unsigned long file_size = FileStream.tellg() - position;
 
-//    //! Writes a binary file.
-//    template<class T>
-//    template<int N>
-//    void FormatBinary<T>::Write(Array<T, N>& A, string FileName) const
-//    {
+    if (data_size>file_size)
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+		    "Unable to read " + to_str(data_size) + " byte(s)." +
+		    " The input stream is only " + to_str(file_size) + " byte(s) long.");
 
-//      ofstream f = fopen(FileName.c_str(), "wb");
-//      this->Write(A, f);
-//      fclose(f);
+    FileStream.seekg(position);
+#endif
+
+    int i = 0;
+    int j = 0;
+    for (i=0; i < data_size / sizeof(T) / length; i++)
+      {
+	FileStream.read(reinterpret_cast<char*>(data), length * sizeof(T));
+	for (j=0; j<length; j++)
+	  data_output[j + i*length] = data[j];
+      }
+
+    if (data_size % (length * sizeof(T)) != 0)
+      {
+	FileStream.read(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
+	for (j=0; j < (data_size % (length * sizeof(T))) / sizeof(T); j++)
+	  data_output[j + i*length] = data[j];
+      }
+
+   }
+
+   //! Writes a binary file.
+   template<class T>
+   template<class TA, int N>
+   void FormatBinary<T>::Write(Array<TA, N>& A, string FileName) const
+   {
+
+     ofstream FileStream;
+     FileStream.open(FileName.c_str(), ofstream::binary);
+
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatBinary<T>::Write(Array<TA, N>& A, string FileName)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+     this->Write(A, FileStream);
+
+     FileStream.close();
     
-//    }
+   }
 
-//    //! Writes a binary file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatBinary<T>::Write(Array<TA, N>& A, string FileName) const
-//    {
+   //! Writes a binary file.
+   template<class T>
+   template<int N>
+   void FormatBinary<T>::Write(Array<T, N>& A, ofstream& FileStream) const
+   {
 
-//      ofstream f = fopen(FileName.c_str(), "wb");
-//      this->Write(A, f);
-//      fclose(f);
+     unsigned long data_size = A.numElements() * sizeof(T);
 
-//    }
+     T* data = A.data();
 
-//    //! Writes a binary file.
-//    template<class T>
-//    template<int N>
-//    void FormatBinary<T>::Write(Array<T, N>& A, ofstream FileStream) const
-//    {
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatBinary<T>::Write(Array<T, N>& A, ofstream& FileStream)",
+		    "File is not ready.");
+#endif
 
-//      int NbElements = A.numElements();
-
-//      T* data = A.data();
-
-//      fwrite(data, sizeof(T), NbElements, FileStream);
+     FileStream.write(reinterpret_cast<char*>(data), data_size);
     
-//    }
+   }
 
-//    //! Writes a binary file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatBinary<T>::Write(Array<TA, N>& A, ofstream FileStream) const
-//    {
+   //! Writes a binary file.
+   template<class T>
+   template<class TA, int N>
+   void FormatBinary<T>::Write(Array<TA, N>& A, ofstream& FileStream) const
+   {
 
-//      int NbElements = G.A.numElements();
+     unsigned long data_size = A.numElements() * sizeof(T);
 
-//      T* data = new T[NbElements];
-//      TG* data0 = A.data();
+     unsigned long length = CONST_SELDONDATA_BUFFER_SIZE / sizeof(T);
+     T* data = new T[length];
 
-//      for (int i=0; i<NbElements; i++)
-//        data[i] = data0[i];
+     TA* data_input = A.data();
 
-//      fwrite(data, sizeof(T), NbElements, FileStream);
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatBinary<T>::Write(Array<TA, N>& A, ofstream& FileStream)",
+		    "File is not ready.");
+#endif
 
-//    }
+    int i = 0;
+    int j = 0;
+    for (i=0; i < data_size / sizeof(T) / length; i++)
+      {
+	for (j=0; j<length; j++)
+	  data[j] = data_input[j+ i*length];
+	FileStream.write(reinterpret_cast<char*>(data), length * sizeof(T));
+      }
+
+    if (data_size % (length * sizeof(T)) != 0)
+      {
+	for (j=0; j < (data_size % (length * sizeof(T))) / sizeof(T); j++)
+	  data[j] = data_input[j + i*length];
+	FileStream.write(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
+      }
+
+   }
 
 
-//    ////////////////
-//    // FORMATTEXT //
-//    ////////////////
+   ////////////////
+   // FORMATTEXT //
+   ////////////////
 
-//    //! Default constructor.
-//    template<class T>
-//    FormatText<T>::FormatText()  throw()
-//    {
-//      format_ = "e";
-//    }
+   //! Default constructor.
+   template<class T>
+   FormatText<T>::FormatText()  throw()
+   {
+     separator_ = "\t\t";
+     flags_ = fstream::scientific | fstream::skipws;
+     precision_ = -1;
+     width_ = -1;
+   }
 
-//    //! Main constructor.
-//    template<class T>
-//    FormatText<T>::FormatText(string format)  throw()
-//    {
-//      format_ = format;
-//    }
+   //! Constructor.
+   template<class T>
+   FormatText<T>::FormatText(string separator)  throw()
+   {
+     separator_ = separator;
+     flags_ = fstream::scientific | fstream::skipws;
+     precision_ = -1;
+     width_ = -1;
+   }
 
-//    //! Destructor.
-//    template<class T>
-//    FormatText<T>::~FormatText()  throw()
-//    {
+   //! Constructor.
+   template<class T>
+   FormatText<T>::FormatText(fstream::fmtflags flags, string separator)  throw()
+   {
+     separator_ = separator;
+     flags_ = flags | fstream::skipws;
+     precision_ = -1;
+     width_ = -1;
+   }
 
-//    }
+   //! Constructor.
+   template<class T>
+   FormatText<T>::FormatText(fstream::fmtflags flags, streamsize precision,
+			     streamsize width, string separator)  throw()
+   {
+     separator_ = separator;
+     flags_ = flags | fstream::skipws;
+     precision_ = precision;
+     width_ = width;
+   }
 
-//    /********/
-//    /* Grid */
-//    /********/
+   //! Destructor.
+   template<class T>
+   FormatText<T>::~FormatText()  throw()
+   {
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TG>
-//    void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
-//    {
+   }
 
-//      this->Read(FileName, G.GetValues());
+  //! Sets the separator.
+  /*!
+    \param separator the new separator.
+   */
+   template<class T>
+   void FormatText<T>::SetSeparator(string separator)
+   {
+     separator_ = separator;
+   }
 
-//    }
+  //! Sets format flags.
+  /*!
+    \param flags format flags.
+   */
+   template<class T>
+   void FormatText<T>::SetFlags(fstream::fmtflags flags)
+   {
+     flags_ = flags;
+   }
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TG>
-//    void FormatText<T>::Read(ifstream FileStream, RegularGrid<TG>& G) const
-//    {
+  //! Sets floating-point decimal presision.
+  /*!
+    \param precision floating-point decimal presision.
+   */
+   template<class T>
+   void FormatText<T>::SetPrecision(streamsize precision)
+   {
+     precision_ = precision;
+   }
 
-//      this->Read(FileStream, G.GetValues());
+  //! Sets field width.
+  /*!
+    \param width field width.
+   */
+   template<class T>
+   void FormatText<T>::SetWidth(streamsize width)
+   {
+     width_ = width;
+   }
 
-//    }
+   /********/
+   /* Grid */
+   /********/
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TG, int n>
-//    void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TG>
+   void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
+   {
 
-//      this->Read(FileName, G.GetValues());
+     this->Read(FileName, G.GetValues());
 
-//    }
+   }
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TG, int n>
-//    void FormatText<T>::Read(ifstream FileStream, GeneralGrid<TG, n>& G) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TG>
+   void FormatText<T>::Read(ifstream& FileStream, RegularGrid<TG>& G) const
+   {
 
-//      this->Read(FileStream, G.GetValues());
+     this->Read(FileStream, G.GetValues());
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TG>
-//    void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TG, int n>
+   void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
+   {
 
-//      this->Write(G.GetValues(), FileName);
+     this->Read(FileName, G.GetValues());
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TG>
-//    void FormatText<T>::Write(RegularGrid<TG>& G, ofstream FileStream) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TG, int n>
+   void FormatText<T>::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
+   {
 
-//      this->Write(G.GetValues(), FileStream);
+     this->Read(FileStream, G.GetValues());
+
+   }
+
+   //! Writes a text file.
+   template<class T>
+   template<class TG>
+   void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
+   {
+
+     this->Write(G.GetValues(), FileName);
+
+   }
+
+   //! Writes a text file.
+   template<class T>
+   template<class TG>
+   void FormatText<T>::Write(RegularGrid<TG>& G, ofstream& FileStream) const
+   {
+
+     this->Write(G.GetValues(), FileStream);
     
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TG, int n>
-//    void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
-//    {
+   //! Writes a text file.
+   template<class T>
+   template<class TG, int n>
+   void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
+   {
 
-//      this->Write(G.GetValues(), FileName);
+     this->Write(G.GetValues(), FileName);
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TG, int n>
-//    void FormatText<T>::Write(GeneralGrid<TG, n>& G, ofstream FileStream) const
-//    {
+   //! Writes a text file.
+   template<class T>
+   template<class TG, int n>
+   void FormatText<T>::Write(GeneralGrid<TG, n>& G, ofstream& FileStream) const
+   {
 
-//      this->Write(G.GetValues(), FileStream);
+     this->Write(G.GetValues(), FileStream);
     
-//    }
+   }
 
-//    /********/
-//    /* Data */
-//    /********/
+   /********/
+   /* Data */
+   /********/
   
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TD, int N>
-//    void FormatText<T>::Read(string FileName, Data<TD, N>& D) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TD, int N, class TG>
+   void FormatText<T>::Read(string FileName, Data<TD, N, TG>& D) const
+   {
 
-//      this->Read(FileName, D.GetArray());
+     this->Read(FileName, D.GetArray());
 
-//    }
+   }
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TD, int N>
-//    void FormatText<T>::Read(ifstream FileStream, Data<TD, N>& D) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TD, int N, class TG>
+   void FormatText<T>::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
+   {
 
-//      this->Read(FileStream, D.GetArray());
+     this->Read(FileStream, D.GetArray());
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TD, int N>
-//    void FormatText<T>::Write(Data<TD, N>& D, string FileName) const
-//    {
+   //! Writes a text file.
+   template<class T>
+   template<class TD, int N, class TG>
+   void FormatText<T>::Write(Data<TD, N, TG>& D, string FileName) const
+   {
 
-//      this->Write(D.GetArray(), FileName);
+     this->Write(D.GetArray(), FileName);
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TD, int N>
-//    void FormatText<T>::Write(Data<TD, N>& D, ofstream FileStream) const
-//    {
+   //! Writes a text file.
+   template<class T>
+   template<class TD, int N, class TG>
+   void FormatText<T>::Write(Data<TD, N, TG>& D, ofstream& FileStream) const
+   {
 
-//      this->Write(D.GetArray(), FileStream);
+     this->Write(D.GetArray(), FileStream);
 
-//    }
+   }
 
-//    /*********/
-//    /* Array */
-//    /*********/
+   /*********/
+   /* Array */
+   /*********/
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
-//    {
+   //! Reads a text file.
+   template<class T>
+   template<class TA, int N>
+   void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
+   {
 
-//      ifstream f = fopen(FileName.c_str(), "r");
-//      this->Read(f, A);
-//      fclose(f);
-
-//    }
-
-//    //! Reads a text file.
-//    template<class T>
-//    template<int N>
-//    void FormatText<T>::Read(ifstream FileStream, Array<T, N>& A) const
-//    {
-
-//      string format = "%" + format_;
-
-//      int NbElements = A.numElements();
-//      T* data = A.data();
-
-//      for (int i=0; i<NbElements; i++)
-//        fscanf(FileStream, format, data + i * sizeof(T));
+    ifstream FileStream;
+    FileStream.open(FileName.c_str(), ifstream::in);
     
-//    }
+    FileStream.flags(flags_);
 
-//    //! Reads a text file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatText<T>::Read(ifstream FileStream, Array<TA, N>& A) const
-//    {
+    if (precision_!=-1)
+      FileStream.precision(precision_);
 
-//      string format = "%" + format_;
+    if (width_!=-1)
+      FileStream.width(width_);
 
-//      int NbElements = A.numElements();
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatText<T>::Read(string FileName, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
 
-//      T* data = new T[NbElements];
-//      TG* data0 = A.data();
+    this->Read(FileStream, A);
 
-//      for (int i=0; i<NbElements; i++)
-//        fscanf(FileStream, format, data + i * sizeof(T));
+    FileStream.close();
 
-//      for (int i=0; i<NbElements; i++)
-//        data0[i] = data[i];
+   }
 
-//    }
+   //! Reads a text file.
+   template<class T>
+   template<class TA, int N>
+   void FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A) const
+   {
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
-//    {
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+		    "File is not ready.");
+#endif
 
-//      ofstream f = fopen(FileName.c_str(), "wb");
-//      this->Write(A, f);
-//      fclose(f);
+     int nb_elements = A.numElements();
+     char c;
+     int i = 0;
+     int j, k;
+     Array<int, 1> Index(10), Length(10);
+     int sep_length = separator_.length();
 
-//    }
+     for (j=0; j<10; j++)
+       {
+	 Index(j) = 0;
+	 Length(j) = A.extent(j);
+       }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<int N>
-//    void FormatText<T>::Write(Array<T, N>& A, ofstream FileStream) const
-//    {
+     j = N-1;
+     while ( (i<nb_elements) && (FileStream.good()) )
+       {
 
-//      string format = "%" + format_ + "%c";
+	 FileStream >> A(Index(0), Index(1), Index(2),
+			 Index(3), Index(4), Index(5),
+			 Index(6), Index(7), Index(8),
+			 Index(9));
 
-//      int NbElements = A.numElements();
+	 c = FileStream.peek();
+	 while ( (FileStream.good())
+		 && ( (c<'0') || (c>'9') )
+		 && (c!='.') && (c!='-')
+		 && (c!='+') )
+	   {
+	     FileStream.ignore(1);
+	     c = FileStream.peek();
+	   }
 
-//      T* data = A.data();
+	j = N-1;
+	while ( (j>=0) && (Index(j)==Length(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
 
-//      char* elt = new char[100];
+	if (j!=-1)
+	  Index(j)++;
 
-//      for (int i=0; i<NbElements-1; i++)
-//        {
-//  	sprintf(elt, format.c_str(), data[i], ' ');
-//  	fwrite(elt, sizeof(char), strlen(elt), FileStream);
-//        }
-//      format = "%" + format_;
-//      sprintf(elt, format.c_str(), data[NbElements-1]);
-//      fwrite(elt, sizeof(char), strlen(elt), FileStream);
+	i++;
+       }
+    
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if all was read.
+    if (i!=nb_elements)
+      throw IOError("FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+		    to_str(i) + " elements were read instead of "
+		    + to_str(nb_elements) + ".");
+#endif
 
-//    }
+   }
 
-//    //! Writes a text file.
-//    template<class T>
-//    template<class TA, int N>
-//    void FormatText<T>::Write(Array<TA, N>& A, ofstream FileStream) const
-//    {
+   //! Writes a text file.
+   template<class T>
+   template<class TA, int N>
+   void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
+   {
 
-//      string format = "%" + format_ + "%c";
+     ofstream FileStream;
+     FileStream.open(FileName.c_str(), ofstream::out);
+     
+     FileStream.flags(flags_);
+     
+     if (precision_!=-1)
+       FileStream.precision(precision_);
+     
+     if (width_!=-1)
+       FileStream.width(width_);
 
-//      int NbElements = A.numElements();
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatText<T>::Write(Array<TA, N>& A, string FileName)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
 
-//      T* data = new T[NbElements];
-//      TA* data0 = A.data();
+     this->Write(A, FileStream);
 
-//      for (int i=0; i<NbElements; i++)
-//        data[i] = data0[i];
+     FileStream.close();
 
-//      char* elt = new char[100];
+   }
 
-//      for (int i=0; i<NbElements-1; i++)
-//        {
-//  	sprintf(elt, format.c_str(), data[i], ' ');
-//  	fwrite(elt, sizeof(char), strlen(elt), FileStream);
-//        }
-//      format = "%" + format_;
-//      sprintf(elt, format.c_str(), data[NbElements-1]);
-//      fwrite(elt, sizeof(char), strlen(elt), FileStream);
+   //! Writes a text file.
+   template<class T>
+   template<class TA, int N>
+   void FormatText<T>::Write(Array<TA, N>& A, ofstream& FileStream) const
+   {
 
-//    }
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError("FormatText<T>::Write(Array<TA, N>& A, ofstream& FileStream)",
+		    "File is not ready.");
+#endif
+
+     int nb_elements = A.numElements();
+     int i = 0;
+     int j;
+     Array<int, 1> Index(10), Length(10);
+
+     for (j=0; j<10; j++)
+       {
+	 Index(j) = 0;
+	 Length(j) = A.extent(j);
+       }
+
+     j = N-1;
+     while ((i<nb_elements) && (FileStream.good()))
+       {
+
+	 FileStream << A(Index(0), Index(1), Index(2),
+			 Index(3), Index(4), Index(5),
+			 Index(6), Index(7), Index(8),
+			 Index(9));
+
+	 j = N-1;
+	 while ( (j>=0) && (Index(j)==Length(j)-1) )
+	   {
+	     Index(j) = 0;
+	     j--;
+	   }
+	 
+	 if (j!=-1)
+	   Index(j)++;
+
+	 if ((j!=N-1) || (N==1))
+	   FileStream << '\n';
+	 else
+	   FileStream << separator_;
+	 
+	 i++;
+       }
+
+   }
 
 
 //    ///////////////////
@@ -614,8 +809,8 @@ namespace SeldonData
  
 //    //! Reads a file in "Chimere" format.
 //    template<class T>
-//    template<class TD, int N>
-//    void FormatChimere<T>::Read(string FileName, int date, Data<TD, N>& D) const
+//    template<class TD, int N, class TG>
+//    void FormatChimere<T>::Read(string FileName, int date, Data<TD, N, TG>& D) const
 //    {
 
 //      this->Read(FileName, date, D.GetArray());
@@ -624,8 +819,8 @@ namespace SeldonData
 
 //    //! Writes a file in "Chimere" format.
 //    template<class T>
-//    template<class TD, int N>
-//    void FormatChimere<T>::Write(Data<TD, N>& D, int date, string FileName) const
+//    template<class TD, int N, class TG>
+//    void FormatChimere<T>::Write(Data<TD, N, TG>& D, int date, string FileName) const
 //    {
 
 //      this->Write(D.GetArray(), date, FileName);
