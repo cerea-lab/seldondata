@@ -1310,6 +1310,8 @@ namespace SeldonData
     FileStream.SetDelimiters(delimiters_);
     FileStream.SetComments(comments_);
 
+    FileStream.Skip();
+
     streampos pos_beg = FileStream.tellg();
     streampos pos_cur(pos_beg);
     streampos position;
