@@ -228,7 +228,6 @@ namespace SeldonData
 
 #ifdef SELDONDATA_WITH_GRIB
   //! Input/ouput class to read Grib files.
-  template<class T>
   class FormatGrib: public Format
   {
 

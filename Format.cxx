@@ -948,14 +948,12 @@ namespace SeldonData
 #ifdef SELDONDATA_WITH_GRIB
 
   //! Default constructor.
-  template<class T>
-  FormatGrib<T>::FormatGrib()  throw()
+  FormatGrib::FormatGrib()  throw()
   {
   }
 
   //! Destructor.
-  template<class T>
-  FormatGrib<T>::~FormatGrib()  throw()
+  FormatGrib::~FormatGrib()  throw()
   {
   }
 
@@ -964,9 +962,8 @@ namespace SeldonData
   /********/
 
   //! Reads a Grib file.
-  template<class T>
   template<class TG>
-  void FormatGrib<T>::Read(string FileName, int variable, RegularGrid<TG>& G) const
+  void FormatGrib::Read(string FileName, int variable, RegularGrid<TG>& G) const
   {
 
     this->Read(FileName, variable, G.GetArray());
@@ -974,9 +971,8 @@ namespace SeldonData
   }
 
   //! Reads a Grib file.
-  template<class T>
   template<class TG, int n>
-  void FormatGrib<T>::Read(string FileName, int variable, GeneralGrid<TG, n>& G) const
+  void FormatGrib::Read(string FileName, int variable, GeneralGrid<TG, n>& G) const
   {
 
     this->Read(FileName, variable, G.GetArray());
@@ -988,9 +984,8 @@ namespace SeldonData
   /********/
   
   //! Reads a Grib file.
-  template<class T>
   template<class TD, int N, class TG>
-  void FormatGrib<T>::Read(string FileName, int variable, Data<TD, N, TG>& D) const
+  void FormatGrib::Read(string FileName, int variable, Data<TD, N, TG>& D) const
   {
 
     this->Read(FileName, variable, D.GetArray());
@@ -1002,9 +997,8 @@ namespace SeldonData
   /*********/
 
   //! Reads a Grib file.
-  template<class T>
   template<class TA, int N>
-  void FormatGrib<T>::Read(string FileName, int variable, Array<TA, N>& A) const
+  void FormatGrib::Read(string FileName, int variable, Array<TA, N>& A) const
   {
 
     GRIBRecord grib_rec;
