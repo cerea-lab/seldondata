@@ -181,6 +181,15 @@ namespace SeldonData
     T GetMaxAbs() const;
     T GetMin() const;
 
+    T Sum() const;
+    T Mean() const;
+    T Variance() const;
+    T StandardDeviation() const;
+
+    T Norm1() const;
+    T Norm2() const;
+    T Norm(T p) const;
+
     void Fill(T value);
 
     void SetZero();

@@ -1613,6 +1613,23 @@ namespace SeldonData
     return maximum;
   }
 
+  //! Returns the maximum (absolute value).
+  /*!
+    \return The maximum (absolute value).
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::GetMaxAbs() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T maximum = abs(data[0]);
+    for (int i=1; i<NbElements; i++)
+      maximum = max(maximum, abs(data[i]));
+
+    return maximum;
+  }
+
   //! Returns the minimum.
   /*!
     \return The minimum.
@@ -1630,21 +1647,114 @@ namespace SeldonData
     return minimum;
   }
 
-  //! Returns the maximum (absolute value).
+  //! Returns the sum of all values.
   /*!
-    \return The maximum (absolute value).
+    \return The sum of all values.
    */
   template<class T, int N, class TG>
-  T Data<T, N, TG>::GetMaxAbs() const
+  T Data<T, N, TG>::Sum() const
   {
     const T* data = data_.data();
     int NbElements = data_.numElements();
     
-    T maximum = abs(data[0]);
-    for (int i=1; i<NbElements; i++)
-      maximum = max(maximum, abs(data[i]));
+    T sum = T(0);
+    for (int i=0; i<NbElements; i++)
+      sum += data[i];
 
-    return maximum;
+    return sum;
+  }
+
+  //! Returns the mean.
+  /*!
+    \return The mean.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Mean() const
+  {
+    return ( this->Sum() / data_.numElements() );
+  }
+
+  //! Returns the variance.
+  /*!
+    \return The variance.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Variance() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T mean = this->Mean();
+    T var = T(0);
+    for (int i=0; i<NbElements; i++)
+      var += ( data[i] - mean ) * ( data[i] - mean );
+
+    if (NbElements!=1)
+      var = var / T(NbElements-1);
+
+    return var;
+  }
+
+  //! Returns the standard deviation.
+  /*!
+    \return The standard deviation.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::StandardDeviation() const
+  {
+    return sqrt(this->Variance());
+  }
+
+  //! Returns the norm 1.
+  /*!
+    \return The norm 1.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Norm1() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T norm = T(0);
+    for (int i=0; i<NbElements; i++)
+      norm += abs(data[i]);
+
+    return norm;
+  }
+
+  //! Returns the norm 2.
+  /*!
+    \return The norm 2.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Norm2() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T norm = T(0);
+    for (int i=0; i<NbElements; i++)
+      norm += data[i] * data[i];
+
+    return sqrt(norm);
+  }
+
+  //! Returns the norm p.
+  /*!
+    \param p norm parameter.
+    \return The norm p.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Norm(T p) const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T norm = T(0);
+    for (int i=0; i<NbElements; i++)
+      norm += pow(data[i], p);
+
+    return pow(norm, 1./p);
   }
 
   //! Sets data to a constant value.
