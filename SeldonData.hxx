@@ -97,11 +97,16 @@ using namespace Talos;
   the problem (name of the involved function and comments).
 
 */
-#ifndef TRY
+
+#ifdef TRY
+#undef TRY
+#endif
 #define TRY try\
 {
+
+#ifdef END
+#undef END
 #endif
-#ifndef END
 #define END \
 }\
 catch(SeldonData::Error& Err)\
@@ -129,7 +134,6 @@ catch(...)\
 cout << "Unknown error..." <<endl;\
 return 1;\
 }
-#endif
 
 // To get 'min' and 'max' functions.
 #include <algorithm>
