@@ -772,6 +772,16 @@ namespace SeldonData
   void FormatText::Read(ifstream& FileStream, Array<TA, N>& A) const
   {
 
+    Array<TA, 1> B(A.data(), shape(A.numElements()), neverDeleteData);
+    this->Read(FileStream, B);
+
+  }
+
+  //! Reads a text file.
+  template<class TA>
+  void FormatText::Read(ifstream& FileStream, Array<TA, 1>& A) const
+  {
+
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file ready.
     if (!FileStream.good())
@@ -782,23 +792,11 @@ namespace SeldonData
     int nb_elements = A.numElements();
     char c;
     int i = 0;
-    int j;
-    Array<int, 1> Index(10), Length(10);
 
-    for (j=0; j<10; j++)
-      {
-	Index(j) = 0;
-	Length(j) = A.extent(j);
-      }
-
-    j = N-1;
     while ( (i<nb_elements) && (FileStream.good()) )
       {
 
-	FileStream >> A(Index(0), Index(1), Index(2),
-			Index(3), Index(4), Index(5),
-			Index(6), Index(7), Index(8),
-			Index(9));
+	FileStream >> A(i);
 
 	c = FileStream.peek();
 	while ( (FileStream.good())
@@ -809,16 +807,6 @@ namespace SeldonData
 	    FileStream.ignore(1);
 	    c = FileStream.peek();
 	  }
-
-	j = N-1;
-	while ( (j>=0) && (Index(j)==Length(j)-1) )
-	  {
-	    Index(j) = 0;
-	    j--;
-	  }
-
-	if (j!=-1)
-	  Index(j)++;
 
 	i++;
       }
@@ -875,6 +863,7 @@ namespace SeldonData
 #endif
 
     int nb_elements = A.numElements();
+    Data<TA, N> DA(A.data(), A.shape(), neverDeleteData);
     int i = 0;
     int j;
     Array<int, 1> Index(10), Length(10);
@@ -889,10 +878,10 @@ namespace SeldonData
     while ((i<nb_elements) && (FileStream.good()))
       {
 
-	FileStream << A(Index(0), Index(1), Index(2),
-			Index(3), Index(4), Index(5),
-			Index(6), Index(7), Index(8),
-			Index(9));
+	FileStream << DA.Value(Index(0), Index(1), Index(2),
+			       Index(3), Index(4), Index(5),
+			       Index(6), Index(7), Index(8),
+			       Index(9));
 
 	j = N-1;
 	while ( (j>=0) && (Index(j)==Length(j)-1) )

@@ -194,6 +194,8 @@ namespace SeldonData
     void Read(string FileName, Array<TA, N>& A) const;
     template<class TA, int N>
     void Read(ifstream& FileStream, Array<TA, N>& A) const;
+    template<class TA>
+    void Read(ifstream& FileStream, Array<TA, 1>& A) const;
 
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
