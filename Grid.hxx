@@ -177,6 +177,11 @@ namespace SeldonData
 		     int i6 = -1, int i7 = -1,
 		     int i8 = -1, int i9 = -1) const;
 
+    template <class F>
+    void Apply(F& function);
+    template <class T0, class F>
+    void Apply(RegularGrid<T0>&, F& function);
+
     void Print() const;
 
   };
@@ -258,6 +263,11 @@ namespace SeldonData
 		     int i8 = -1, int i9 = -1) const;
 
     void ChangeCoordsInPlace(Function_Base<T>& f, Array<Grid<T>*, 1> grids);
+
+    template <class F>
+    void Apply(F& function);
+    template <class T0, class F>
+    void Apply(GeneralGrid<T0, n>&, F& function);
 
     void Print() const;
 

@@ -1098,6 +1098,46 @@ namespace SeldonData
       return values_(i9);
   }
 
+  //! Applies a given function on all elements.
+  /*!
+    \param function function to be applied.
+  */
+  template<class T>
+  template<class F>
+  void RegularGrid<T>::Apply(F& function)
+  {
+    T* data = values_.data();
+    int nb_elements = this->GetLength();
+    
+    for (int i=0; i<nb_elements; i++)
+      data[i] = function(data[i]);
+  }
+
+  //! Applies a given function on all elements of a 'RegularGrid' instance
+  //! and put the result in the current instance.
+  /*!
+    \param G grid.
+    \param function function to be applied on 'G'.
+  */
+  template<class T>
+  template<class T0, class F>
+  void RegularGrid<T>::Apply(RegularGrid<T0>& G, F& function)
+  {
+    T* data = value_.data();
+    T0* data_in = G.GetArray().data();
+
+    int nb_elements = this->Length();
+    
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (nb_elements != G.GetLength())
+      throw WrongDim("RegularGrid<T>::Apply(RegularGrid<T0>&, F& function)",
+		     "Grid lengths differ.");
+#endif
+
+    for (int i=0; i<nb_elements; i++)
+      data[i] = function(data_in[i]);
+  }
+
   //! Displays grid values.
   /*!
     Displays "Regular grid:" followed by the dimension and
@@ -1706,6 +1746,47 @@ namespace SeldonData
   {
     throw Undefined("GeneralGrid<T, n>::ChangeCoordsInPlace",
 		    "Not defined for general grids.");
+  }
+
+  //! Applies a given function on all elements.
+  /*!
+    \param function function to be applied.
+  */
+  template<class T, int n>
+  template<class F>
+  void GeneralGrid<T, n>::Apply(F& function)
+  {
+    T* data = values_.data();
+    int nb_elements = values_.numElements();
+    
+    for (int i=0; i<nb_elements; i++)
+      data[i] = function(data[i]);
+  }
+
+  //! Applies a given function on all elements of a 'GeneralGrid' instance
+  //! and put the result in the current instance.
+  /*!
+    \param G grid.
+    \param function function to be applied on 'G'.
+  */
+  template<class T, int n>
+  template<class T0, class F>
+  void GeneralGrid<T, n>::Apply(GeneralGrid<T0, n>& G, F& function)
+  {
+    T* data = value_.data();
+    T0* data_in = G.GetArray().data();
+
+    int nb_elements = value_.numElements();
+    
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (nb_elements != G.GetArray().numElements())
+      throw WrongDim("GeneralGrid<T, " + to_str(n) + ">::Apply(GeneralGrid<T0, "
+		     + to_str(n) + ">&, F& function)",
+		     "Grid lengths differ.");
+#endif
+
+    for (int i=0; i<nb_elements; i++)
+      data[i] = function(data_in[i]);
   }
 
   //! Displays grid values.
