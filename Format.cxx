@@ -143,6 +143,26 @@ namespace SeldonData
     
   }
 
+  //! Appends data to a binary file.
+  template<class T>
+  template<class TG>
+  void FormatBinary<T>::Append(RegularGrid<TG>& G, string FileName) const
+  {
+
+    this->Append(G.GetArray(), FileName);
+
+  }
+
+  //! Appends data to a binary file.
+  template<class T>
+  template<class TG, int n>
+  void FormatBinary<T>::Append(GeneralGrid<TG, n>& G, string FileName) const
+  {
+
+    this->Append(G.GetArray(), FileName);
+
+  }
+
   /********/
   /* Data */
   /********/
@@ -184,6 +204,16 @@ namespace SeldonData
   {
 
     this->Write(D.GetArray(), FileStream);
+
+  }
+
+  //! Appends data to a binary file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::Append(Data<TD, N, TG>& D, string FileName) const
+  {
+
+    this->Append(D.GetArray(), FileName);
 
   }
 
@@ -376,6 +406,28 @@ namespace SeldonData
 	FileStream.write(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
       }
 
+  }
+
+  //! Appends data to a binary file.
+  template<class T>
+  template<class TA, int N>
+  void FormatBinary<T>::Append(Array<TA, N>& A, string FileName) const
+  {
+
+    ofstream FileStream;
+    FileStream.open(FileName.c_str(), ofstream::binary | ios::app);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatBinary<T>::Append(Array<TA, N>& A, string FileName)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    this->Write(A, FileStream);
+
+    FileStream.close();
+    
   }
 
 
