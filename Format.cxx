@@ -197,7 +197,16 @@ namespace SeldonData
 
     ifstream FileStream;
     FileStream.open(FileName.c_str(), ios::in|ios::binary);
+
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
+		    "Unable to open file " + FileName + ".");
+#endif
+
     this->Read(FileStream, A);
+
     FileStream.close();
 
   }
@@ -211,6 +220,7 @@ namespace SeldonData
     unsigned long DataSize = sizeof(T) * A.numElements();
     T* data = A.data();
 
+#ifdef DEBUG_SELDONDATA_IO
     // Checks file length.
     FileStream.seekg(0, ios::end);
     unsigned long FileSize = FileStream.tellg();
@@ -219,6 +229,7 @@ namespace SeldonData
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
 		    "Reading " + to_str(DataSize) + " bytes is impossible." +
 		    " The input file is only " + to_str(FileSize) + " bytes-long.");
+#endif
 
     FileStream.seekg(0, ios::beg);
     FileStream.read(reinterpret_cast<char*>(data), DataSize);
