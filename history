@@ -7,11 +7,19 @@ Current release
 
 ** Improvements:
 
+- Added methods:
+   + Data::Resize(...)
+   + Data::operator() (Array<int, 1>&)
+   + Array<int, 1> Data::GetMaxIndex()
+   + Array<int, 1> Data::GetMinIndex()
+   + Array<int, 1> Data::GetMaxAbsIndex()
+   + Data::GetSignedMaxAbs()
 - 'Function_Base' returned-type is now a template parameter.
 
 ** Bug fixes:
 
 - Default and copy constructors of 'Data'.
+- 'Data::~Data'.
 - 'ChangeCoordsInPlace'.
 
 Version 1.0 (2003-03-12)
