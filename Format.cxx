@@ -760,108 +760,106 @@ namespace SeldonData
    }
 
 
-//    ///////////////////
-//    // FORMATCHIMERE //
-//    ///////////////////
+  ///////////////////
+  // FORMATCHIMERE //
+  ///////////////////
 
-//    //! Default constructor.
-//    FormatChimere::FormatChimere()  throw()
-//    {
-//    }
+  //! Default constructor.
+  FormatChimere::FormatChimere()  throw()
+  {
+  }
 
-//    //! Destructor.
-//    FormatChimere::~FormatChimere()  throw()
-//    {
-//    }
+  //! Destructor.
+  FormatChimere::~FormatChimere()  throw()
+  {
+  }
 
-//    /********/
-//    /* Data */
-//    /********/
+  /********/
+  /* Data */
+  /********/
  
-//    //! Reads a file in "Chimere" format.
-//    template<class TD, int N, class TG>
-//    void FormatChimere::Read(string FileName, int date, Data<TD, N, TG>& D) const
-//    {
+  //! Reads a file in "Chimere" format.
+  template<class TD, int N, class TG>
+  void FormatChimere::Read(string FileName, Data<TD, N, TG>& D) const
+  {
 
-//      this->Read(FileName, date, D.GetArray());
+    this->Read(FileName, D.GetArray());
 
-//    }
+  }
 
-//    //! Writes a file in "Chimere" format.
-//    template<class TD, int N, class TG>
-//    void FormatChimere::Write(Data<TD, N, TG>& D, int date, string FileName) const
-//    {
+  //! Reads a file in "Chimere" format.
+  template<class TD, int N, class TG>
+  void FormatChimere::Read(string FileStream, Data<TD, N, TG>& D) const
+  {
 
-//      this->Write(D.GetArray(), date, FileName);
+    this->Read(FileName, D.GetArray());
 
-//    }
+  }
 
-//    /*********/
-//    /* Array */
-//    /*********/
+  /*********/
+  /* Array */
+  /*********/
 
-//    //! Reads a file in "Chimere" format.
-//    template<class TA, int N>
-//    void FormatChimere::Read(string FileName, int date, Array<TA, N>& A) const
-//    {
+  //! Reads a file in "Chimere" format.
+   template<class TA, int N>
+   void FormatChimere::Read(string FileName, Array<TA, N>& A) const
+   {
 
-//      ifstream File(FileName.c_str());
-//      int t, h, i, j, k, z;TA x;
-//      int Nt = A.extent(0), Nlon = A.extent(1), Nlat = A.extent(2),
-//        Nz = A.numElements() / (Nt * Nlon * Nlat);
-//      string line;
+    ifstream FileStream;
+    FileStream.open(FileName.c_str(), ifstream::in);
 
-//      File >> t; File >> z;
-//      while ( (File.good()) && (t!=date) )
-//        for (k=0; k<Nz; k++)
-//  	{
-//  	  // Read the field.
-//  	  for (j=0; j<Nlat; j++)
-//  	    getline(File, line);
-//  	  // Read the date.
-//  	  File >> t;
-//  	  // Read level number.
-//  	  File >> z;
-//  	}
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatChimere::Read(string FileName, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
 
-//      for (h=0; h<Nt; h++)
-//        for (k=0; k<Nz; k++)
-//  	{
-//  	  // Read the field.
-//  	  for (j=0; j<Nlat; j++)
-//  	    for (i=0; i<Nlon; i++)
-//  	      File >> scientific >> A(h, i, j, k);
-//  	  // Read the date.
-//  	  File >> t;
-//  	  // Read level number.
-//  	  File >> z;
-//  	}
+    this->Read(FileStream, A);
+
+    FileStream.close();
+
+   }
+
+  //! Reads a file in "Chimere" format.
+  template<class TA, int N>
+  void FormatChimere::Read(string FileName, int date, Array<TA, N>& A) const
+  {
+
+    ifstream File(FileName.c_str());
+    int t, h, i, j, k, z;TA x;
+    int Nt = A.extent(0), Nlon = A.extent(1), Nlat = A.extent(2),
+      Nz = A.numElements() / (Nt * Nlon * Nlat);
+    string line;
+
+    File >> t; File >> z;
+    while ( (File.good()) && (t!=date) )
+      for (k=0; k<Nz; k++)
+	{
+	  // Read the field.
+	  for (j=0; j<Nlat; j++)
+	    getline(File, line);
+	  // Read the date.
+	  File >> t;
+	  // Read level number.
+	  File >> z;
+	}
+
+    for (h=0; h<Nt; h++)
+      for (k=0; k<Nz; k++)
+	{
+	  // Read the field.
+	  for (j=0; j<Nlat; j++)
+	    for (i=0; i<Nlon; i++)
+	      File >> scientific >> A(h, i, j, k);
+	  // Read the date.
+	  File >> t;
+	  // Read level number.
+	  File >> z;
+	}
     
-//    }
+  }
 
-//    //! Writes a file in "Chimere" format.
-//    template<class TA, int N>
-//    void FormatChimere::Write(Array<TA, N>& A, int date, string FileName) const
-//    {
-
-//  //     string format = "%" + format_ + "%c";
-
-//  //     int NbElements = A.numElements();
-
-//  //     T* data = A.data();
-
-//  //     char* elt = new char[100];
-
-//  //     for (int i=0; i<NbElements-1; i++)
-//  //       {
-//  // 	sprintf(elt, format.c_str(), data[i], ' ');
-//  // 	fwrite(elt, sizeof(char), strlen(elt), FileStream);
-//  //       }
-//  //     format = "%" + format_;
-//  //     sprintf(elt, format.c_str(), data[NbElements-1]);
-//  //     fwrite(elt, sizeof(char), strlen(elt), FileStream);
-
-//    }
 
 }  // namespace SeldonData.
 
