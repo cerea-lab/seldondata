@@ -8,17 +8,18 @@ using namespace blitz;
 namespace SeldonData
 {
 
-template<class T>
-T min(T& a, T& b)
-{
-  return (a<b?a:b);
-}
-
-template<class T>
-T max(T& a, T& b)
-{
-  return (a>b?a:b);
-}
+  // In <algorithm>.
+  // template<class T>
+  // T min(T& a, T& b)
+  // {
+  //   return (a<b?a:b);
+  // }
+  
+  // template<class T>
+  // T max(T& a, T& b)
+  // {
+  //   return (a>b?a:b);
+  // }
 
 }  // namespace SeldonData.
 
@@ -66,6 +67,7 @@ cout << "Unknown error..." <<endl;\\
 #define DISP(x) cout << #x ": " << x << endl
 #define DISPLAY(x) cout << #x ": " << x << endl
 
+#include <algorithm>
 #include "Function.hxx"
 #include "Grid.cxx"
 #include "Data.cxx"

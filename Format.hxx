@@ -1,9 +1,12 @@
 #ifndef FILE_FORMAT_HXX
 
+#include <stdio.h>
 #include <iostream>
 using std::cout;
 using std::endl;
 #include <string>
+#include <fstream>
+using namespace std;
 
 namespace SeldonData
 {
@@ -77,6 +80,7 @@ namespace SeldonData
 
   };
 
+
   template<class T>
   class FormatText: public Format<T>
   {
@@ -128,6 +132,35 @@ namespace SeldonData
     void Write(Array<T, N>& A, FILE* FileDes) const;
     template<class TA, int N>
     void Write(Array<TA, N>& A, FILE* FileDes) const;
+
+  };
+
+
+  template<class T>
+  class FormatECMWF: public Format<T>
+  {
+
+  protected:
+
+  public:
+    FormatECMWF();
+    ~FormatECMWF();
+
+    // Data.
+
+    template<class TD, int N>
+    void Read(string FileName, int date, Data<TD, N>& D) const;
+
+    template<class TD, int N>
+    void Write(Data<TD, N>& D, int date, string FileName) const;
+
+    // Array.
+
+    template<class TA, int N>
+    void Read(string FileName, int date, Array<TA, N>& A) const;
+
+    template<class TA, int N>
+    void Write(Array<TA, N>& A, int date, string FileName) const;
 
   };
 

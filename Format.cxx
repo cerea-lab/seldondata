@@ -443,6 +443,110 @@ namespace SeldonData
 
   }
 
+
+  /////////////////
+  // FORMATECMXF //
+  /////////////////
+
+  template<class T>
+  FormatECMWF<T>::FormatECMWF()
+  {
+  }
+
+  template<class T>
+  FormatECMWF<T>::~FormatECMWF()
+  {
+  }
+
+  /********/
+  /* Data */
+  /********/
+  
+  template<class T>
+  template<class TD, int N>
+  void FormatECMWF<T>::Read(string FileName, int date, Data<TD, N>& D) const
+  {
+
+    this->Read(FileName, date, D.GetArray());
+
+  }
+
+  template<class T>
+  template<class TD, int N>
+  void FormatECMWF<T>::Write(Data<TD, N>& D, int date, string FileName) const
+  {
+
+    this->Write(D.GetArray(), date, FileName);
+
+  }
+
+  /*********/
+  /* Array */
+  /*********/
+
+  template<class T>
+  template<class TA, int N>
+  void FormatECMWF<T>::Read(string FileName, int date, Array<TA, N>& A) const
+  {
+
+    ifstream File(FileName.c_str());
+    int t, h, i, j, k, z;TA x;
+    int Nt = A.extent(0), Nlon = A.extent(1), Nlat = A.extent(2),
+      Nz = A.numElements() / (Nt * Nlon * Nlat);
+    string line;
+
+    File >> t; File >> z;
+    while ( (File.good()) && (t!=date) )
+      for (k=0; k<Nz; k++)
+	{
+	  // Read the field.
+	  for (j=0; j<Nlat; j++)
+	    getline(File, line);
+	  // Read the date.
+	  File >> t;
+	  // Read level number.
+	  File >> z;
+	}
+
+    for (h=0; h<Nt; h++)
+      for (k=0; k<Nz; k++)
+	{
+	  // Read the field.
+	  for (j=0; j<Nlat; j++)
+	    for (i=0; i<Nlon; i++)
+	      File >> scientific >> A(h, i, j, k);
+	  // Read the date.
+	  File >> t;
+	  // Read level number.
+	  File >> z;
+	}
+    
+  }
+
+  template<class T>
+  template<class TA, int N>
+  void FormatECMWF<T>::Write(Array<TA, N>& A, int date, string FileName) const
+  {
+
+//     string format = "%" + format_ + "%c";
+
+//     int NbElements = A.numElements();
+
+//     T* data = A.data();
+
+//     char* elt = new char[100];
+
+//     for (int i=0; i<NbElements-1; i++)
+//       {
+// 	sprintf(elt, format.c_str(), data[i], ' ');
+// 	fwrite(elt, sizeof(char), strlen(elt), FileDes);
+//       }
+//     format = "%" + format_;
+//     sprintf(elt, format.c_str(), data[NbElements-1]);
+//     fwrite(elt, sizeof(char), strlen(elt), FileDes);
+
+  }
+
 }  // namespace SeldonData.
 
 #define FILE_FORMAT_CXX
