@@ -174,6 +174,38 @@ namespace SeldonData
 		 R3 r3, R4 r4, R5 r5, R6 r6,
 		 R7 r7, R8 r8, R9 r9);
 
+    void ResizeGrid();
+    void ResizeGrid(Grid<TG>& G0);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4, Grid<TG>& G5);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4, Grid<TG>& G5,
+		    Grid<TG>& G6);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4, Grid<TG>& G5,
+		    Grid<TG>& G6, Grid<TG>& G7);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4, Grid<TG>& G5,
+		    Grid<TG>& G6, Grid<TG>& G7,
+		    Grid<TG>& G8);
+    void ResizeGrid(Grid<TG>& G0, Grid<TG>& G1,
+		    Grid<TG>& G2, Grid<TG>& G3,
+		    Grid<TG>& G4, Grid<TG>& G5,
+		    Grid<TG>& G6, Grid<TG>& G7,
+		    Grid<TG>& G8, Grid<TG>& G9);
+
     void Resize();
     void Resize(Grid<TG>& G0);
     void Resize(Grid<TG>& G0, Grid<TG>& G1);
