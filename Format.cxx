@@ -760,6 +760,135 @@ namespace SeldonData
   }
 
 
+  //////////////////
+  // FORMATNETCDF //
+  //////////////////
+
+#ifdef SELDONDATA_WITH_NETCDF
+
+  //! Default constructor.
+  template<class T>
+  FormatNetCDF<T>::FormatNetCDF()  throw()
+  {
+  }
+
+  //! Destructor.
+  template<class T>
+  FormatNetCDF<T>::~FormatNetCDF()  throw()
+  {
+  }
+
+  /********/
+  /* Grid */
+  /********/
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TG>
+  void FormatNetCDF<T>::Read(string FileName, string variable, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, G.GetArray());
+
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TG, int n>
+  void FormatNetCDF<T>::Read(string FileName, string variable, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileName, G.GetArray());
+
+  }
+
+  /********/
+  /* Data */
+  /********/
+  
+  //! Reads a binary file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::Read(string FileName, string variable, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileName, D.GetArray());
+
+  }
+
+  /*********/
+  /* Array */
+  /*********/
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::Read(string FileName, string variable, Array<TA, N>& A) const
+  {
+
+    NcFile File(FileName.c_str());
+
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+		    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ( (i<Nb_vars) && (string(File.get_var(i)->name()) != variable) )
+      i++;
+
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks whether the variable was found.
+    if (i==Nb_vars)
+      throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+		    "Unable to find variable " + "\"" + variable
+		    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    // Checks the dimension.
+    if (var->num_dims() != N)
+      throw WrongDim("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+		     "Data has " + N + "dimensions, but stored data has "
+		     + var->num_dims() + "dimensions.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+  long* input_dimensions = var->edges();
+  for (i=0; i<var->num_dims(); i++)
+    if (A.extend(i) > input_dimensions[i])
+      throw WrongIndex("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+		       "Array extend is " + A.extend(i) + " along dimension #" + i
+		       + " , but it should not be strictly more than "
+		       + input_dimensions[i] + ".");
+#endif
+
+  long* extends = new long[N];
+  for (i=0; i<N; i++)
+    extends[i] = A.extend(i);
+
+  bool op = var->get(A.data(), extends);
+
+#ifdef DEBUG_SELDONDATA_IO
+    // Checks whether input operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+		    "Input operation failed when data was read.");
+#endif
+
+  delete[] input_dimensions;
+
+  }
+
+#endif
+
+
   ///////////////////
   // FORMATCHIMERE //
   ///////////////////

@@ -26,6 +26,10 @@ using std::endl;
 #include <fstream>
 using namespace std;
 
+#ifdef SELDONDATA_WITH_NETCDF
+#include "netcdfcpp.h"
+#endif
+
 namespace SeldonData
 {
 
@@ -172,6 +176,39 @@ namespace SeldonData
     void Write(Array<TA, N>& A, ofstream& FileStream) const;
 
   };
+
+
+#ifdef SELDONDATA_WITH_NETCDF
+  //! Input/ouput class to read netCDF files.
+  template<class T>
+  class FormatNetCDF: public Format
+  {
+
+  protected:
+
+  public:
+    FormatNetCDF()  throw();
+    ~FormatNetCDF()  throw();
+
+    // Grid.
+
+    template<class TG>
+    void Read(string FileName, string variable, RegularGrid<TG>& G) const;
+    template<class TG, int N>
+    void Read(string FileName, string variable, GeneralGrid<TG, N>& G) const;
+
+    // Data.
+
+    template<class TD, int N, class TG>
+    void Read(string FileName, string variable, Data<TD, N, TG>& D) const;
+
+    // Array.
+
+    template<class TA, int N>
+    void Read(string FileName, string variable, Array<TA, N>& A) const;
+
+  };
+#endif
 
 
   //! Input/ouput class to read files in Chimere format.
