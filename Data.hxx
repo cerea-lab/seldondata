@@ -333,6 +333,8 @@ namespace SeldonData
 
     void Threshold(T threshold);
     void ThresholdAbs(T threshold);
+    void ThresholdMin(T threshold);
+    void ThresholdMax(T threshold);
 
     template <class T0, class TG0>
     T NGE_interpolation(Data<T0, N, TG0>& data, T limit = T(0));

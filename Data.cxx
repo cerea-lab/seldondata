@@ -3942,6 +3942,36 @@ namespace SeldonData
 	data[i] = ((data[i]>0)?T(1.0):T(-1.0)) * threshold;
   }
 
+  //! Thresholds data.
+  /*! Any value less than 'threshold' is set to 'threshold'.
+    \param threshold the threshold.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ThresholdMin(T threshold)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      if (data[i]<threshold)
+	data[i] = threshold;
+  }
+
+  //! Thresholds data.
+  /*! Any value more than 'threshold' is set to 'threshold'.
+    \param threshold the threshold.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ThresholdMax(T threshold)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      if (data[i]>threshold)
+	data[i] = threshold;
+  }
+
   //! Computes normalized gross error between two data sets.
   /*!
     Current data is the reference, and the input data is linearly
