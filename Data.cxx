@@ -3563,7 +3563,7 @@ namespace SeldonData
     int NbElements = data_.numElements();
     
     for (int i=0; i<NbElements; i++)
-      function(data[i]);
+      data[i] = function(data[i]);
   }
 
   //! Applies a given function on all elements.
