@@ -241,7 +241,8 @@ namespace SeldonData
 	    IndexOut(j) = 0;
 	    j--;
 	  }
-	IndexOut(j)++;
+	if (j!=-1)
+	  IndexOut(j)++;
 
       }
 
@@ -527,8 +528,11 @@ namespace SeldonData
 	    IndexIn(j) = 0;
 	    j--;
 	  }
-	IndexOut(j)++;
-	IndexIn(j)++;
+	if (j!=-1)
+	  {
+	    IndexOut(j)++;
+	    IndexIn(j)++;
+	  }
 
       }
 
