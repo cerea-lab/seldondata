@@ -425,6 +425,9 @@ namespace SeldonData
     Linear interpolation only along a given dimension.
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
+    \param dim dimension along which data should be interpolated.
+    \note 'dataIn' and 'dataOut' are assumed to be defined on
+    the same grids except on the grid related to dimension 'dim'.
   */
   template<int N, class TIn, class TGIn,
 	   class TOut, class TGOut>
