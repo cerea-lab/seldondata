@@ -112,6 +112,10 @@ catch (std::exception& Err)\
 {\
 cout << "C++ exception: " << Err.what() << endl;\
 }\
+catch (std::string& str)\
+{\
+cout << str << endl;\
+}\
 catch(...)\
 {\
 cout << "Unknown error..." <<endl;\
