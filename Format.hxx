@@ -253,6 +253,8 @@ namespace SeldonData
 
     template<int N>
     void Read(string FileName, int variable, Array<double, N>& A) const;
+    template<class TA, int N>
+    void Read(string FileName, int variable, Array<TA, N>& A) const;
 
   };
 #endif

@@ -770,7 +770,7 @@ void skipBDS(GRIBRecord *grib_rec)
   }
 }
 
-int unpackgrib(FILE *fp, int variable, double* data,
+int unpackgrib(FILE *fp, int variable, double** data,
 	       int max_length, GRIBRecord *grib_rec)
 {
   size_t n,off;
@@ -784,7 +784,10 @@ int unpackgrib(FILE *fp, int variable, double* data,
     {
       if (max_length < grib_rec->nx * grib_rec->ny)
 	return -2;
-      grib_rec->gridpoints = data;
+      if (*data != NULL)
+	grib_rec->gridpoints = *data;
+      else
+	*data = grib_rec->gridpoints = new double[grib_rec->nx * grib_rec->ny];
       unpackBDS(grib_rec);
     }
   else

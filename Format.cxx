@@ -1017,7 +1017,7 @@ namespace SeldonData
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
     if (grib_file == NULL)
-      throw IOError("FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)",
+      throw IOError("FormatGrib::Read(string FileName, int variable, Array<double, N>& A)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
@@ -1026,7 +1026,7 @@ namespace SeldonData
     double* data = A.data();
     
     while (max_length != 0
-	   && (status = unpackgrib(grib_file, variable, data, max_length, &grib_rec)) == 0)
+	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
       if (grib_rec.param == variable)
 	{
 	  max_length -=  grib_rec.nx * grib_rec.ny;
@@ -1036,7 +1036,7 @@ namespace SeldonData
 #ifdef SELDONDATA_DEBUG_CHECK_IO
 
     if (status == 1)
-      throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+      throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
 		    "Read error after " + to_str(nrec) + " records.");
 
     if (max_length != 0)
@@ -1051,6 +1051,81 @@ namespace SeldonData
 	
 	if (status == -1)
 	  throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
+			"End of file found. " + to_str(nb_elements - max_length)
+			+ " elements were read for field #" + to_str(variable)
+			+ " in file \"" + FileName + "\", but data has "
+			+ to_str(nb_elements) + " elements.");
+
+	throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
+		      "Cannot find all values. File \"" + FileName + "\" contains "
+		      + to_str(nb_elements - max_length) + " elements for field #"
+		      + to_str(variable) + ", but data has "
+		      + to_str(nb_elements) + " elements.");
+      }
+
+#endif
+    
+  }
+
+  //! Reads a Grib file.
+  template <class TA, int N>
+  void FormatGrib::Read(string FileName, int variable, Array<TA, N>& A) const
+  {
+
+    int i;
+    GRIBRecord grib_rec;
+    FILE *grib_file;
+    size_t n, m;
+    size_t nrec(0);
+
+    int status;
+    
+    grib_rec.buffer = NULL;
+    grib_rec.pds_ext = NULL;
+    grib_rec.gridpoints = NULL;
+
+    grib_file = fopen(FileName.c_str(), "r");
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (grib_file == NULL)
+      throw IOError("FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    int nb_elements = A.numElements();
+    int max_length(nb_elements);
+    double* data = NULL;
+    
+    while (max_length != 0
+	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
+      if (grib_rec.param == variable)
+	{
+	  for (i=0; i<grib_rec.nx * grib_rec.ny; i++)
+	    A.data()[nb_elements - max_length + i] = data[i];
+	  delete[] data;
+	  data = NULL;
+	  max_length -=  grib_rec.nx * grib_rec.ny;
+	}
+    
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+
+    if (status == 1)
+      throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+		    "Read error after " + to_str(nrec) + " records.");
+
+    if (max_length != 0)
+      {
+	if (status == -2)
+	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+			"File \"" + FileName + "\" contains at least "
+			+ to_str(nb_elements - max_length + grib_rec.nx * grib_rec.ny)
+			+ " elements for field #" + to_str(variable) + ", but data has only "
+			+ to_str(nb_elements) + " elements. The current record (whose length is "
+			+ to_str(grib_rec.nx * grib_rec.ny) + " elements) must be completely read.");
+	
+	if (status == -1)
+	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
 			"End of file found. " + to_str(nb_elements - max_length)
 			+ " elements were read for field #" + to_str(variable)
 			+ " in file \"" + FileName + "\", but data has "
