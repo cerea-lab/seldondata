@@ -305,6 +305,7 @@ namespace SeldonData
     void Apply(void function(T&));
     template <class F>
     void Apply(F& function);
+    void Apply(T (function)(const T&));
 
     T GetMax() const;
     T GetMaxAbs() const;

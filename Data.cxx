@@ -3566,6 +3566,20 @@ namespace SeldonData
       function.Apply(data[i]);
   }
 
+  //! Applies a given function on all elements.
+  /*!
+    \param function a pointer to a function to be applied.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Apply(T (function)(const T&))
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] = function(data[i]);
+  }
+
   //! Returns the maximum.
   /*!
     \return The maximum.
