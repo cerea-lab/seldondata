@@ -189,6 +189,8 @@ namespace SeldonData
 		     int i6 = -1, int i7 = -1,
 		     int i8 = -1, int i9 = -1) const;
 
+    void ChangeCoords(Function_Base<T>& f, Array<Grid<T>*, 1> grids);
+
     void Print() const;
 
   private:
