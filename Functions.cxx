@@ -25,7 +25,7 @@ namespace SeldonData
 {
 
   /////////////
-  // UNIFORM //
+  // REGULAR //
 
   //! Linear interpolation for data defined on regular grids.
   /*!
@@ -135,7 +135,7 @@ namespace SeldonData
 
   }
 
-  // UNIFORM //
+  // REGULAR //
   /////////////
 
 
