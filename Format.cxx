@@ -997,8 +997,8 @@ namespace SeldonData
   /*********/
 
   //! Reads a Grib file.
-  template<class TA, int N>
-  void FormatGrib::Read(string FileName, int variable, Array<TA, N>& A) const
+  template <int N>
+  void FormatGrib::Read(string FileName, int variable, Array<double, N>& A) const
   {
 
     GRIBRecord grib_rec;
@@ -1008,71 +1008,30 @@ namespace SeldonData
 
     int status;
     
-    grib_rec.buffer=NULL;
-    grib_rec.pds_ext=NULL;
-    grib_rec.gridpoints=NULL;
+    grib_rec.buffer = NULL;
+    grib_rec.pds_ext = NULL;
+    grib_rec.gridpoints = NULL;
 
     grib_file = fopen(FileName.c_str(), "r");
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
-    if (grib_file==NULL)
+    if (grib_file == NULL)
       throw IOError("FormatGrib::Read(string FileName, int variable, Array<TA, N>& A)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
     int nb_elements = A.numElements();
-    int i = 0;
-    int j, k;
-    Array<int, 1> Index(10), Length(10);
-
-    for (j=0; j<10; j++)
-      {
-	Index(j) = 0;
-	Length(j) = A.extent(j);
-      }
-
-    j = N-1;
-    while ((status = unpackgrib(grib_file, &grib_rec)) == 0)
-      {
-
-	if (grib_rec.param==variable)
-	  {
-	    
-	    nrec++;
-	    
-	    for (n=0; n<grib_rec.ny; n++)
-	      for (m=0; m<grib_rec.nx; m++)
-#ifdef SELDONDATA_DEBUG_CHECK_IO
-		if (i<nb_elements)
-#endif
-		  {
-		    A(Index(0), Index(1), Index(2),
-		      Index(3), Index(4), Index(5),
-		      Index(6), Index(7), Index(8),
-		      Index(9))
-		      = grib_rec.gridpoints[n][m];
-		    
-		    j = N-1;
-		    while ( (j>=0) && (Index(j)==Length(j)-1) )
-		      {
-			Index(j) = 0;
-			j--;
-		      }
-		    
-		    if (j!=-1)
-		      Index(j)++;
-		    
-		    i++;
-		  }
-#ifdef SELDONDATA_DEBUG_CHECK_IO
-		else
-		  i++;
-#endif
-
-	  }
-
-      }
+    int max_length(nb_elements);
+    double* data = A.data();
+    
+    while (max_length != 0
+	   && (status = unpackgrib(grib_file, variable, data, max_length, &grib_rec)) == 0)
+      if (grib_rec.param == variable)
+	{
+	  max_length -=  grib_rec.nx * grib_rec.ny;
+	  data = &A.data()[nb_elements - max_length];
+	}
     
 #ifdef SELDONDATA_DEBUG_CHECK_IO
 
@@ -1080,27 +1039,28 @@ namespace SeldonData
       throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
 		    "Read error after " + to_str(nrec) + " records.");
 
-    if (i>nb_elements)
-      throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
-		    "File \"" + FileName + "\" contains " + to_str(i)
-		    + " elements for field #"
-		    + to_str(variable) + ", but data has only "
-		    + to_str(nb_elements) + " elements. All values must be read.");
-
-    // Checks if all was read.
-    if (i<nb_elements)
+    if (max_length != 0)
       {
+	if (status == -2)
+	  throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
+			"File \"" + FileName + "\" contains at least "
+			+ to_str(nb_elements - max_length + grib_rec.nx * grib_rec.ny)
+			+ " elements for field #" + to_str(variable) + ", but data has only "
+			+ to_str(nb_elements) + " elements. The current record (whose length is "
+			+ to_str(grib_rec.nx * grib_rec.ny) + " elements) must be completely read.");
+	
+	if (status == -1)
+	  throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
+			"End of file found. " + to_str(nb_elements - max_length)
+			+ " elements were read for field #" + to_str(variable)
+			+ " in file \"" + FileName + "\", but data has "
+			+ to_str(nb_elements) + " elements.");
+
 	throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
 		      "Cannot find all values. File \"" + FileName + "\" contains "
-		      + to_str(i) + " elements for field #"
+		      + to_str(nb_elements - max_length) + " elements for field #"
 		      + to_str(variable) + ", but data has "
 		      + to_str(nb_elements) + " elements.");
-
-	if (status == -1)
-	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
-			"End of file found. " + to_str(i)
-			+ " elements were read for field #" + to_str(variable)
-			+ ", but data has " + to_str(nb_elements) + " elements.");
       }
 
 #endif
