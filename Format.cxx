@@ -227,19 +227,19 @@ namespace SeldonData
 		    "File is not ready.");
 
     // Checks file length.
-    unsigned long position;
+    streampos position;
     position = FileStream.tellg();
     FileStream.seekg(0, ios::end);
-    unsigned long file_size = FileStream.tellg();
-    file_size -= position;
+    unsigned long file_size = FileStream.tellg() - position;
 
     if (data_size>file_size)
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
-		    "Reading " + to_str(data_size) + " bytes is impossible." +
-		    " The input file is only " + to_str(file_size) + " bytes-long.");
+		    "Unable to read " + to_str(data_size) + " bytes." +
+		    " The input stream is only " + to_str(file_size) + " bytes-long.");
+
+    FileStream.seekg(position);
 #endif
 
-    FileStream.seekg(0, ios::beg);
     FileStream.read(reinterpret_cast<char*>(data), data_size);
     
   }
