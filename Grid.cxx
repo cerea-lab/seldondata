@@ -1542,7 +1542,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out = false;
-    int j;
+    int j(0);
     for (int i=0; i<n; i++)
       if ( !out && ( (Indices(dependencies_(i))<0) ||
 		     (Indices(dependencies_(i))>=values_.extent(i)) ) )
@@ -1658,7 +1658,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out = false;
-    int j;
+    int j(0);
     for (int i=0; i<n; i++)
       if ( !out && ( (Indices(dependencies_(i))<0) ||
 		     (Indices(dependencies_(i))>=values_.extent(i)) ) )

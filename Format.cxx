@@ -1489,7 +1489,7 @@ namespace SeldonData
     FILE *grib_file;
     size_t nrec(0);
 
-    int status;
+    int status(0);
     
     grib_rec.buffer = NULL;
     grib_rec.pds_ext = NULL;
