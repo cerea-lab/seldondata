@@ -348,6 +348,11 @@ namespace SeldonData
     T RMS(Data<T0, N, TG0>& data);
 
     template <class T0, class TG0>
+    T RelativeRMS_interpolation(Data<T0, N, TG0>& data);
+    template <class T0, class TG0>
+    T RelativeRMS(Data<T0, N, TG0>& data);
+
+    template <class T0, class TG0>
     T Corr_interpolation(Data<T0, N, TG0>& data);
     template <class T0, class TG0>
     T Corr(Data<T0, N, TG0>& data);

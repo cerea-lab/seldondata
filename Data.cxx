@@ -4071,6 +4071,58 @@ namespace SeldonData
     return sqrt(rms);
   }
 
+  //! Computes the relative root mean square between two data sets.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \return The relative root mean square.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::RelativeRMS_interpolation(Data<T0, N, TG0>& data)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return RelativeRMS(data0);
+  }
+
+  //! Computes the relative root mean square between two data sets.
+  /*!
+    Current data is the reference.
+    \param data data to be compared with current data.
+    \return The relative root mean square.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::RelativeRMS(Data<T0, N, TG0>& data)
+  {
+    T relative_rms;
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::RelativeRMS(Data<T, " + to_str(N) + ">&)",
+		     "Data sizes differ.");
+
+#endif
+    
+    int nb_elt = 0;
+    relative_rms = T(0);
+    for (int i=0; i<NbElements; i++)
+      relative_rms += (data_arr[i] - data0_arr[i]) * (data_arr[i] - data0_arr[i])
+	/ (data_arr[i] * data_arr[i]);
+
+    relative_rms = relative_rms / T(NbElements);
+
+    return sqrt(relative_rms);
+  }
+
   //! Computes the correlation between two data sets.
   /*!
     Current data is the reference, and the input data is linearly
