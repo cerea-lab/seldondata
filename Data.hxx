@@ -122,7 +122,7 @@ namespace SeldonData
 
     int GetNbElements();
     int GetNbDim();
-    int GetLength(int dim);
+    int GetLength(int dim) const;
 
     Grid<TG>* GetGrid(int i);
     Grid<TG>& operator [] (int i);

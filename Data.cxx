@@ -1324,7 +1324,7 @@ namespace SeldonData
     \return Length along the i-th dimension.
   */
   template<class T, int N, class TG>
-  inline int Data<T, N, TG>::GetLength(int i)
+  inline int Data<T, N, TG>::GetLength(int i) const
   {
     if ((i>=0) && (i<N))
       return data_.extent(i);
