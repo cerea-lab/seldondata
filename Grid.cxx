@@ -39,6 +39,7 @@ namespace SeldonData
     zero_ = value_type(0);
 
     duplicate_ = true;
+    pointers_ = 1;
   }
 
   //! Constructor.
@@ -54,6 +55,7 @@ namespace SeldonData
     zero_ = value_type(0);
 
     duplicate_ = true;
+    pointers_ = 1;
   }
 
   //! Copy constructor.
@@ -68,6 +70,7 @@ namespace SeldonData
     zero_ = value_type(0);
 
     duplicate_ = G.GetDuplicate();
+    pointers_ = 1;
   }
 
   //! Destructor.
@@ -89,6 +92,7 @@ namespace SeldonData
     zero_ = value_type(0);
 
     duplicate_ = G.GetDuplicate();
+    pointers_ = 1;
 
     return *this;
   }
@@ -167,6 +171,26 @@ namespace SeldonData
     variable_ = variable;
   }
   
+  //! Sets the number of pointers that point to the current grid.
+  /*!
+    \param pointers the number of pointers that point to the current grid.
+  */
+  template<class T>
+  void Grid<T>::SetPointers(int pointers)
+  {
+    pointers_ = pointers;
+  }
+
+  //! Returns the number of pointers that point to the current grid.
+  /*!
+    \return The number of pointers that point to the current grid.
+  */
+  template<class T>
+  int Grid<T>::GetPointers() const
+  {
+    return pointers_;
+  }
+
   //! Sets whether the grid should be duplicated in certain cases.
   /*!
     \param duplicate true if the grid should
@@ -226,7 +250,10 @@ namespace SeldonData
     if (duplicate_)
       G = new Grid<T>(*this);
     else
-      G = this;
+      {
+	G = this;
+	pointers_++;
+      }
 
 #ifdef DEBUG_SELDONDATA_MEMORY
     if ( G == NULL )
@@ -849,7 +876,10 @@ namespace SeldonData
     if (duplicate_)
       G = new Grid<T>(*this);
     else
-      G = this;
+      {
+	G = this;
+	pointers_++;
+      }
 
 #ifdef DEBUG_SELDONDATA_MEMORY
     if ( G == NULL )
@@ -1398,7 +1428,10 @@ namespace SeldonData
     if (duplicate_)
       G = new Grid<T>(*this);
     else
-      G = this;
+      {
+	G = this;
+	pointers_++;
+      }
 
 #ifdef DEBUG_SELDONDATA_MEMORY
     if ( G == NULL )

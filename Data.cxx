@@ -542,7 +542,14 @@ namespace SeldonData
   Data<T, N, TG>::~Data()  throw()
   {
     for (int i=0; i<N; i++)
-      delete grids_(i);
+      if (grids_(i)->GetPointers()==1)
+	{
+	  delete grids_(i);
+	}
+      else
+	{
+	  grids_(i)->SetPointers(grids_(i)->GetPointers()-1);
+	}
   }
 
   //! Access operator for one-dimensional data.

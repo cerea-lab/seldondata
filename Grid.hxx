@@ -48,6 +48,9 @@ namespace SeldonData
     //! When copying the grid,
     //! should grid values be duplicated?
     bool duplicate_;
+    //! How many pointers to the current grid
+    // are there?
+    int pointers_;
 
     //! Zero.
     value_type zero_;
@@ -76,6 +79,9 @@ namespace SeldonData
     virtual int GetNbElements() const;
 
     void SetVariable(int variable);
+
+    void SetPointers(int pointers);
+    int GetPointers() const;
 
     void SetDuplicate(bool duplicate);
     bool GetDuplicate() const;
