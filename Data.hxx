@@ -194,6 +194,11 @@ namespace SeldonData
     template <class T0, class TG0>
     T RMS(Data<T0, N, TG0>& data);
 
+    template <class T0, class TG0>
+    T Corr_interpolation(Data<T0, N, TG0>& data);
+    template <class T0, class TG0>
+    T Corr(Data<T0, N, TG0>& data);
+
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
 

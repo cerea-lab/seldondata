@@ -1785,6 +1785,81 @@ namespace SeldonData
     return sqrt(rms);
   }
 
+  //! Computes the correlation between to data set.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \return The correlation.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::Corr_interpolation(Data<T0, N, TG0>& data)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return Corr(data0);
+  }
+
+  //! Computes the correlation between to data set.
+  /*!
+    Current data is the reference.
+    \param data data to be compared with current data.
+    \return The correlation.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::Corr(Data<T0, N, TG0>& data)
+  {
+    T corr;
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::Corr(Data<T, " + to_str(N) + ">&)",
+		     "Data sizes differ.");
+
+#endif
+    
+    int nb_elt = 0;
+    corr = T(0);
+    T mean = T(0);
+    T0 mean0 = T0(0);
+    T var = T(0);
+    T0 var0 = T0(0);
+    T covar = T(0);
+    T temp;
+    T0 temp0;
+
+    // Means.
+    for (int i=0; i<NbElements; i++)
+      {
+	mean += data_arr[i];
+	mean0 += data0_arr[i];
+      }
+    mean = mean / T(NbElements);
+    mean0 = mean0 / T0(NbElements);
+
+    // Co-variances.
+    for (int i=0; i<NbElements; i++)
+      {
+	temp = data_arr[i] - mean;
+	temp0 = data0_arr[i] - mean0;
+	covar += temp * temp0;
+	var += temp * temp;
+	var0 += temp0 * temp0;	
+      }
+
+    corr = covar * T(NbElements) / (var * var0);
+
+    return corr;
+  }
+
   //! Change coordinates.
   /*!
     The coordinates transformation is provided by function
