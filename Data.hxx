@@ -469,6 +469,8 @@ namespace SeldonData
     void ChangeCoordsInPlace(Function_Base<TG>& f);
 
     void Print() const;
+    void PrintInfo() const;
+    string InfoString() const;
 
   private:
     void ClearGrids();

@@ -6530,6 +6530,29 @@ namespace SeldonData
     cout << data_ << endl;
   }
 
+  //! Displays minimum, mean, maximum and standard deviation of data.
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::PrintInfo()  const
+  {
+    cout << "(min = " << this->GetMin()
+	 << ", max = " << this->GetMax()
+	 << ", mean = " << this->Mean()
+	 << ", std = " << this->StandardDeviation()
+	 << ")" << endl;
+  }
+
+  //! Returns a string with minimum, mean, maximum
+  //! and standard deviation of data.
+  template<class T, int N, class TG>
+  string Data<T, N, TG>::InfoString()  const
+  {
+    return string("(min = ") + to_str(this->GetMin())
+      + string(", max = ") + to_str(this->GetMax())
+      + string(", mean = ") + to_str(this->Mean())
+      + string(", std = ") + to_str(this->StandardDeviation())
+      + string(")");
+  }
+  
   //! Clears grids.
   template<class T, int N, class TG>
   void Data<T, N, TG>::ClearGrids()
