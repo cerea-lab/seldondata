@@ -10,8 +10,8 @@ namespace SeldonData
   /*!
     \param G0 grid for dimension #0.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0)  throw():
     data_(G0.GetLength()), grids_(N)
   {
 
@@ -19,7 +19,7 @@ namespace SeldonData
     if (N!=1)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 1 grids." << endl;
 	abort();
@@ -38,7 +38,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -53,8 +53,8 @@ namespace SeldonData
     \param G0 grid for dimension #0.
     \param G1 grid for dimension #1.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1)  throw():
     data_(G0.GetLength(), G1.GetLength()), grids_(N)
   {
 
@@ -62,7 +62,7 @@ namespace SeldonData
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 2 grids." << endl;
 	abort();
@@ -80,7 +80,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -96,8 +96,8 @@ namespace SeldonData
     \param G1 grid for dimension #1.
     \param G2 grid for dimension #2.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength()), grids_(N)
   {
@@ -106,7 +106,7 @@ namespace SeldonData
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 3 grids." << endl;
 	abort();
@@ -126,7 +126,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -143,9 +143,9 @@ namespace SeldonData
     \param G2 grid for dimension #2.
     \param G3 grid for dimension #3.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength()), grids_(N)
   {
@@ -154,7 +154,7 @@ namespace SeldonData
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 4 grids." << endl;
 	abort();
@@ -174,7 +174,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -192,9 +192,9 @@ namespace SeldonData
     \param G3 grid for dimension #3.
     \param G4 grid for dimension #4.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(),
 	  G4.GetLength()), grids_(N)
@@ -204,7 +204,7 @@ namespace SeldonData
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 5 grids." << endl;
 	abort();
@@ -225,7 +225,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -244,9 +244,9 @@ namespace SeldonData
     \param G4 grid for dimension #4.
     \param G5 grid for dimension #5.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength()), grids_(N)
@@ -256,7 +256,7 @@ namespace SeldonData
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 6 grids." << endl;
 	abort();
@@ -277,7 +277,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -297,10 +297,10 @@ namespace SeldonData
     \param G5 grid for dimension #5.
     \param G6 grid for dimension #6.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5,
+		   Grid<TG>& G6)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength()), grids_(N)
@@ -310,7 +310,7 @@ namespace SeldonData
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 7 grids." << endl;
 	abort();
@@ -332,7 +332,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -353,10 +353,10 @@ namespace SeldonData
     \param G6 grid for dimension #6.
     \param G7 grid for dimension #7.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6, Grid<T>& G7)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5,
+		   Grid<TG>& G6, Grid<TG>& G7)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength()),
@@ -367,7 +367,7 @@ namespace SeldonData
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 8 grids." << endl;
 	abort();
@@ -389,7 +389,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -411,10 +411,10 @@ namespace SeldonData
     \param G7 grid for dimension #7.
     \param G8 grid for dimension #8.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6, Grid<T>& G7, Grid<T>& G8)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5,
+		   Grid<TG>& G6, Grid<TG>& G7, Grid<TG>& G8)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength(),
@@ -425,7 +425,7 @@ namespace SeldonData
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 9 grids." << endl;
 	abort();
@@ -448,7 +448,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -471,11 +471,11 @@ namespace SeldonData
     \param G8 grid for dimension #8.
     \param G9 grid for dimension #9.
   */
-  template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6, Grid<T>& G7, Grid<T>& G8,
-		   Grid<T>& G9)  throw():
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2,
+		   Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5,
+		   Grid<TG>& G6, Grid<TG>& G7, Grid<TG>& G8,
+		   Grid<TG>& G9)  throw():
     data_(G0.GetLength(), G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength(),
@@ -486,7 +486,7 @@ namespace SeldonData
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 10 grids." << endl;
 	abort();
@@ -509,7 +509,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
 	     << endl << "   Length of grid #" << i << " along dimension #"
 	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
 	     << grids_(j)->GetLength() << "." << endl;
@@ -520,8 +520,8 @@ namespace SeldonData
   }
 
   //! Destructor.
-  template<class T, int N>
-  Data<T, N>::~Data()  throw()
+  template<class T, int N, class TG>
+  Data<T, N, TG>::~Data()  throw()
   {
     for (int i=0; i<N; i++)
       delete grids_(i);
@@ -532,8 +532,8 @@ namespace SeldonData
     \param i0 index for dimension #0.
     \return A reference to element #i0.
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0)  
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0)  
   {
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -559,8 +559,8 @@ namespace SeldonData
     \param i1 index for dimension #1.
     \return A reference to element (i0, i1).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1)  
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1)  
   {
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -592,8 +592,8 @@ namespace SeldonData
     \param i2 index for dimension #2.
     \return A reference to element (i0, i1, i2).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1, int i2)
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2)
   {
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -631,8 +631,8 @@ namespace SeldonData
     \param i3 index for dimension #3.
     \return A reference to element (i0, i1, i2, i3).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3)
 
   {
@@ -678,8 +678,8 @@ namespace SeldonData
     \param i4 index for dimension #4.
     \return A reference to element (i0, i1, i2, i3, i4).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4)
 
   {
@@ -731,8 +731,8 @@ namespace SeldonData
     \param i5 index for dimension #5.
     \return A reference to element (i0, i1, i2, i3, i4, i5).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5)
 
   {
@@ -779,7 +779,7 @@ namespace SeldonData
     return data_(i0, i1, i2, i3, i4, i5);
   }
 
-  template<class T, int N>
+  template<class T, int N, class TG>
   //! Access operator for seven-dimensional data.
   /*!
     \param i0 index for dimension #0.
@@ -792,7 +792,7 @@ namespace SeldonData
     \return A reference to element (i0, i1, i2, i3,
     i4, i5, i6).
   */
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6)
 
@@ -845,7 +845,7 @@ namespace SeldonData
     return data_(i0, i1, i2, i3, i4, i5, i6);
   }
 
-  template<class T, int N>
+  template<class T, int N, class TG>
   //! Access operator for eight-dimensional data.
   /*!
     \param i0 index for dimension #0.
@@ -859,7 +859,7 @@ namespace SeldonData
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7).
   */
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6, int i7)
 
@@ -917,7 +917,7 @@ namespace SeldonData
     return data_(i0, i1, i2, i3, i4, i5, i6, i7);
   }
 
-  template<class T, int N>
+  template<class T, int N, class TG>
   //! Access operator for nine-dimensional data.
   /*!
     \param i0 index for dimension #0.
@@ -932,7 +932,7 @@ namespace SeldonData
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7, i8).
   */
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6, int i7, int i8)
 
@@ -1010,8 +1010,8 @@ namespace SeldonData
     \return A reference to element (i0, i1, i2, i3, i4,
     i5, i6, i7, i8, i9).
   */
-  template<class T, int N>
-  T& Data<T, N>::operator() (int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6, int i7, int i8,
 			     int i9)
@@ -1095,8 +1095,8 @@ namespace SeldonData
     \param i9 index for dimension #9.
     \return A reference to the required element.
   */
-  template<class T, int N>
-  T& Data<T, N>::Value(int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T& Data<T, N, TG>::Value(int i0, int i1, int i2,
 		       int i3, int i4, int i5,
 		       int i6, int i7, int i8,
 		       int i9)    
@@ -1138,8 +1138,8 @@ namespace SeldonData
     \param i9 index for dimension #9.
     \return Value of the required element.
   */
-  template<class T, int N>
-  T Data<T, N>::Value(int i0, int i1, int i2,
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::Value(int i0, int i1, int i2,
 		      int i3, int i4, int i5,
 		      int i6, int i7, int i8,
 		      int i9) const
@@ -1170,8 +1170,8 @@ namespace SeldonData
   /*!
     \return Number of elements.
    */
-  template<class T, int N>
-  int Data<T, N>::GetNbElements()
+  template<class T, int N, class TG>
+  int Data<T, N, TG>::GetNbElements()
   {
     return data_.numElements();
   }
@@ -1180,8 +1180,8 @@ namespace SeldonData
   /*!
     \return Number of elements.
    */
-  template<class T, int N>
-  int Data<T, N>::GetNbDim()
+  template<class T, int N, class TG>
+  int Data<T, N, TG>::GetNbDim()
   {
     return N;
   }
@@ -1191,8 +1191,8 @@ namespace SeldonData
     \param i dimension number.
     \return Length along the i-th dimension.
   */
-  template<class T, int N>
-  int Data<T, N>::GetLength(int i)
+  template<class T, int N, class TG>
+  int Data<T, N, TG>::GetLength(int i)
   {
     if ((i>=0) && (i<N))
       return data_.extent(i);
@@ -1205,8 +1205,8 @@ namespace SeldonData
     \param i grid to be returned.
     \return A pointer to the grid #i.
   */
-  template<class T, int N>
-  Grid<T>* Data<T, N>::GetGrid(int i)
+  template<class T, int N, class TG>
+  Grid<TG>* Data<T, N, TG>::GetGrid(int i)
   {
     return grids_(i);
   }
@@ -1216,8 +1216,8 @@ namespace SeldonData
     \param i grid to be returned.
     \return A reference to the grid #i.
   */
-  template<class T, int N>
-  Grid<T>& Data<T, N>::operator[] (int i)
+  template<class T, int N, class TG>
+  Grid<TG>& Data<T, N, TG>::operator[] (int i)
   {
     return *grids_(i);
   }
@@ -1229,8 +1229,8 @@ namespace SeldonData
     dimension #i.
     \return A reference to the array of pointers to grids.
   */
-  template<class T, int N>
-  Array<Grid<T>*, 1>& Data<T, N>::GetGrids()
+  template<class T, int N, class TG>
+  Array<Grid<TG>*, 1>& Data<T, N, TG>::GetGrids()
   {
     return grids_;
   }
@@ -1239,8 +1239,8 @@ namespace SeldonData
   /*!
     \return A reference to the blitz::Array storing data.
   */
-  template<class T, int N>
-  Array<T, N>& Data<T, N>::GetArray()
+  template<class T, int N, class TG>
+  Array<T, N>& Data<T, N, TG>::GetArray()
   {
     return data_;
   }
@@ -1249,8 +1249,8 @@ namespace SeldonData
   /*!
     \return A reference to the array storing data.
   */
-  template<class T, int N>
-  T* Data<T, N>::GetData()
+  template<class T, int N, class TG>
+  T* Data<T, N, TG>::GetData()
   {
     return data_.data();
   }
@@ -1261,9 +1261,9 @@ namespace SeldonData
     \param data source data.
     \param r0 range for dimension #0 (source).
    */
-  template<class T, int N>
-  template<class R0>
-  void Data<T, N>::SubData(Data<T, 1>& data, R0 r0)
+  template<class T, int N, class TG>
+  template<class DTG, class R0>
+  void Data<T, N, TG>::SubData(Data<T, 1, DTG>& data, R0 r0)
   {
     Array<T, 1>& array = data.GetArray();
     this->data_ = array(r0);
@@ -1276,9 +1276,9 @@ namespace SeldonData
     \param r0 range for dimension #0 (source).
     \param r1 range for dimension #1 (source).
    */
-  template<class T, int N>
-  template<class R0, class R1>
-  void Data<T, N>::SubData(Data<T, 2>& data, R0 r0, R1 r1)
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1>
+  void Data<T, N, TG>::SubData(Data<T, 2, DTG>& data, R0 r0, R1 r1)
   {
     Array<T, 2>& array = data.GetArray();
     this->data_ = array(r0, r1);
@@ -1292,9 +1292,9 @@ namespace SeldonData
     \param r1 range for dimension #1 (source).
     \param r2 range for dimension #2 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2>
-  void Data<T, N>::SubData(Data<T, 3>& data, R0 r0, R1 r1, R2 r2)
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2>
+  void Data<T, N, TG>::SubData(Data<T, 3, DTG>& data, R0 r0, R1 r1, R2 r2)
   {
     Array<T, 3>& array = data.GetArray();
     this->data_ = array(r0, r1, r2);
@@ -1309,10 +1309,10 @@ namespace SeldonData
     \param r2 range for dimension #2 (source).
     \param r3 range for dimension #3 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3>
-  void Data<T, N>::SubData(Data<T, 4>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 4, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3)
   {
     Array<T, 4>& array = data.GetArray();
@@ -1330,10 +1330,10 @@ namespace SeldonData
     \param r3 range for dimension #3 (source).
     \param r4 range for dimension #4 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4>
-  void Data<T, N>::SubData(Data<T, 5>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 5, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4)
   {
     Array<T, 5>& array = data.GetArray();
@@ -1352,10 +1352,10 @@ namespace SeldonData
     \param r4 range for dimension #4 (source).
     \param r5 range for dimension #5 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4, class R5>
-  void Data<T, N>::SubData(Data<T, 6>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 6, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4, R5 r5)
   {
     Array<T, 6>& array = data.GetArray();
@@ -1375,11 +1375,11 @@ namespace SeldonData
     \param r5 range for dimension #5 (source).
     \param r6 range for dimension #6 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4, class R5,
     class R6>
-  void Data<T, N>::SubData(Data<T, 7>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 7, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4, R5 r5, R6 r6)
   {
     Array<T, 7>& array = data.GetArray();
@@ -1400,11 +1400,11 @@ namespace SeldonData
     \param r6 range for dimension #6 (source).
     \param r7 range for dimension #7 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4, class R5,
     class R6, class R7>
-  void Data<T, N>::SubData(Data<T, 8>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 8, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4, R5 r5, R6 r6,
 			   R7 r7)
   {
@@ -1428,11 +1428,11 @@ namespace SeldonData
     \param r7 range for dimension #7 (source).
     \param r8 range for dimension #8 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4, class R5,
     class R6, class R7, class R8>
-  void Data<T, N>::SubData(Data<T, 9>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 9, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4, R5 r5, R6 r6,
 			   R7 r7, R8 r8)
   {
@@ -1457,11 +1457,11 @@ namespace SeldonData
     \param r8 range for dimension #8 (source).
     \param r9 range for dimension #9 (source).
   */
-  template<class T, int N>
-  template<class R0, class R1, class R2,
+  template<class T, int N, class TG>
+  template<class DTG, class R0, class R1, class R2,
     class R3, class R4, class R5,
     class R6, class R7, class R8, class R9>
-  void Data<T, N>::SubData(Data<T, 10>& data, R0 r0, R1 r1, R2 r2,
+  void Data<T, N, TG>::SubData(Data<T, 10, DTG>& data, R0 r0, R1 r1, R2 r2,
 			   R3 r3, R4 r4, R5 r5, R6 r6,
 			   R7 r7, R8 r8, R9 r9)
   {
@@ -1475,8 +1475,8 @@ namespace SeldonData
   /*!
     \param function function to be applied.
    */
-  template<class T, int N>
-  void Data<T, N>::Apply(void function(T&))
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Apply(void function(T&))
   {
     T* data = data_.data();
     int NbElements = data_.numElements();
@@ -1489,9 +1489,9 @@ namespace SeldonData
   /*!
     \param function function to be applied.
    */
-  template<class T, int N>
+  template<class T, int N, class TG>
   template<class F>
-  void Data<T, N>::Apply(F& function)
+  void Data<T, N, TG>::Apply(F& function)
   {
     T* data = data_.data();
     int NbElements = data_.numElements();
@@ -1501,8 +1501,8 @@ namespace SeldonData
   }
 
   //! Sets data to zero.
-  template<class T, int N>
-  void Data<T,N>::SetZero()
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SetZero()
   {
     T* data = data_.data();
     int NbElements = data_.numElements();
@@ -1515,8 +1515,8 @@ namespace SeldonData
   /*!
     \return true if data is zero, false otherwise.
    */
-  template<class T, int N>
-  bool Data<T,N>::IsZero()
+  template<class T, int N, class TG>
+  bool Data<T, N, TG>::IsZero()
   {
     bool res = true;
 
@@ -1536,14 +1536,14 @@ namespace SeldonData
     order). Old coordinates are assumed to be unchanged by f.
     \param f coordinates transformation.
    */
-  template<class T, int N>
-  void Data<T, N>::ChangeCoords(Function_Base<T>& f)
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ChangeCoords(Function_Base<TG>& f)
   {
     
     int i;
     int i0, i1, i2, i3, i4, i5, i6, i7, i8, i9;
 
-    Array<Grid<T>*, 1> grids(N);
+    Array<Grid<TG>*, 1> grids(N);
     for (i=0; i<N; i++)
       grids(i) = grids_(i)->Duplicate();
 
@@ -1855,16 +1855,16 @@ namespace SeldonData
     \warning One should use ChangeCoords instead of ChangeCoordsInPlace in order
     to save memory.
    */
-  template<class T, int N>
-  void Data<T, N>::ChangeCoordsInPlace(Function_Base<T>& f)
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ChangeCoordsInPlace(Function_Base<TG>& f)
   {
 
     int i, j;
     int NbGrids = grids_.numElements();
-    Array<Grid<T>*, 1> grids_old(NbGrids),
+    Array<Grid<TG>*, 1> grids_old(NbGrids),
       grids(NbGrids);
 
-    Grid<T>* old_grid;
+    Grid<TG>* old_grid;
 
     for (i=0; i<NbGrids; i++)
       grids_old(i) = grids_(i)->Duplicate();
@@ -1884,15 +1884,15 @@ namespace SeldonData
   }
 
   //! Displays data.
-  template<class T, int N>
-  void Data<T, N>::Print()
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Print()
   {
     cout << data_ << endl;
   }
 
   //! For every grid, sets dimension to which the grid is related.
-  template<class T, int N>
-  void Data<T, N>::SetVariables()
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SetVariables()
   {
     for (int i=0; i<N; i++)
       grids_(i)->SetVariable(i);

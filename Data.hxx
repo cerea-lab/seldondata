@@ -7,7 +7,7 @@ using std::endl;
 namespace SeldonData
 {
 
-  template<class T, int N>
+  template<class T, int N, class TG = T>
   class Data
   {
 
@@ -15,42 +15,42 @@ namespace SeldonData
     //! Array storing data.
     Array<T, N> data_;
     //! Array of pointers to grids.
-    Array<Grid<T>*, 1> grids_;
+    Array<Grid<TG>*, 1> grids_;
 
   public:
 
     // Constructors.
 
-    Data(Grid<T>& G0)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6, Grid<T>& G7)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6, Grid<T>& G7,
-	 Grid<T>& G8)  throw();
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6, Grid<T>& G7,
-	 Grid<T>& G8, Grid<T>& G9)  throw();
+    Data(Grid<TG>& G0)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4, Grid<TG>& G5)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4, Grid<TG>& G5,
+	 Grid<TG>& G6)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4, Grid<TG>& G5,
+	 Grid<TG>& G6, Grid<TG>& G7)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4, Grid<TG>& G5,
+	 Grid<TG>& G6, Grid<TG>& G7,
+	 Grid<TG>& G8)  throw();
+    Data(Grid<TG>& G0, Grid<TG>& G1,
+	 Grid<TG>& G2, Grid<TG>& G3,
+	 Grid<TG>& G4, Grid<TG>& G5,
+	 Grid<TG>& G6, Grid<TG>& G7,
+	 Grid<TG>& G8, Grid<TG>& G9)  throw();
 
     // Destructor.
 
@@ -97,52 +97,52 @@ namespace SeldonData
     int GetNbDim();
     int GetLength(int dim);
 
-    Grid<T>* GetGrid(int i);
-    Grid<T>& operator [] (int i);
-    Array<Grid<T>*, 1>& GetGrids();
+    Grid<TG>* GetGrid(int i);
+    Grid<TG>& operator [] (int i);
+    Array<Grid<TG>*, 1>& GetGrids();
 
     Array<T, N>& GetArray();
     T* GetData();
 
-    template<class R0>
-    void SubData(Data<T, 1>&, R0 r0);
-    template<class R0, class R1>
-    void SubData(Data<T, 2>&, R0 r0, R1 r1);
-    template<class R0, class R1, class R2>
-    void SubData(Data<T, 3>&, R0 r0, R1 r1, R2 r2);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0>
+    void SubData(Data<T, 1, DTG>&, R0 r0);
+    template<class DTG, class R0, class R1>
+    void SubData(Data<T, 2, DTG>&, R0 r0, R1 r1);
+    template<class DTG, class R0, class R1, class R2>
+    void SubData(Data<T, 3, DTG>&, R0 r0, R1 r1, R2 r2);
+    template<class DTG, class R0, class R1, class R2,
 	     class R3>
-    void SubData(Data<T, 4>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 4, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4>
-    void SubData(Data<T, 5>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 5, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4, class R5>
-    void SubData(Data<T, 6>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 6, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4, R5 r5);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4, class R5,
 	     class R6>
-    void SubData(Data<T, 7>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 7, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4, R5 r5, R6 r6);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4, class R5,
 	     class R6, class R7>
-    void SubData(Data<T, 8>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 8, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4, R5 r5, R6 r6,
 		 R7 r7);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4, class R5,
 	     class R6, class R7, class R8>
-    void SubData(Data<T, 9>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 9, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4, R5 r5, R6 r6,
 		 R7 r7, R8 r8);
-    template<class R0, class R1, class R2,
+    template<class DTG, class R0, class R1, class R2,
 	     class R3, class R4, class R5,
 	     class R6, class R7, class R8, class R9>
-    void SubData(Data<T, 10>&, R0 r0, R1 r1, R2 r2,
+    void SubData(Data<T, 10, DTG>&, R0 r0, R1 r1, R2 r2,
 		 R3 r3, R4 r4, R5 r5, R6 r6,
 		 R7 r7, R8 r8, R9 r9);
 
@@ -154,8 +154,8 @@ namespace SeldonData
     void SetZero();
     bool IsZero();
 
-    void ChangeCoords(Function_Base<T>& f);
-    void ChangeCoordsInPlace(Function_Base<T>& f);
+    void ChangeCoords(Function_Base<TG>& f);
+    void ChangeCoordsInPlace(Function_Base<TG>& f);
 
     void Print();
 
