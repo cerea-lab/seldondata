@@ -1674,7 +1674,7 @@ namespace SeldonData
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 2 grids." << endl;
 	abort();
@@ -1693,7 +1693,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -1724,7 +1724,7 @@ namespace SeldonData
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 3 grids." << endl;
 	abort();
@@ -1745,7 +1745,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -1778,7 +1778,7 @@ namespace SeldonData
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 4 grids." << endl;
 	abort();
@@ -1799,7 +1799,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -1833,7 +1833,7 @@ namespace SeldonData
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 5 grids." << endl;
 	abort();
@@ -1855,7 +1855,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -1890,7 +1890,7 @@ namespace SeldonData
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 6 grids." << endl;
 	abort();
@@ -1912,7 +1912,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -1949,7 +1949,7 @@ namespace SeldonData
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 7 grids." << endl;
 	abort();
@@ -1972,7 +1972,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -2010,7 +2010,7 @@ namespace SeldonData
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 8 grids." << endl;
 	abort();
@@ -2033,7 +2033,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -2072,7 +2072,7 @@ namespace SeldonData
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 9 grids." << endl;
 	abort();
@@ -2096,7 +2096,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
@@ -2137,7 +2137,7 @@ namespace SeldonData
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
-	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 10 grids." << endl;
 	abort();
@@ -2161,7 +2161,7 @@ namespace SeldonData
 	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
 	  {
 	    cout << "ERROR!" << endl;
-	    cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
+	    cout << "Wrong dimension in Data<T, N, TG>::ResizeGrid(Grid<TG>, ...)."
 		 << endl << "   Length of grid #" << i << " along dimension #"
 		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
 		 << grids_(j)->GetLength() << "." << endl;
