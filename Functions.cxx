@@ -541,7 +541,7 @@ namespace SeldonData
 				    Data<TOut, N, TGOut>& dataOut, int dim)
   {
     
-    int i, j, k, m;
+    int i, j, k;
     Array<int, 1> IndexIn(10), IndexOut(10);
     Array<int, 1> Length(10);
     TIn coeff, coord;
