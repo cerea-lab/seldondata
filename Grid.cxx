@@ -783,6 +783,8 @@ namespace SeldonData
     variable_ = G.GetVariable();
 
     values_ = G.GetArray();
+
+    return (*this);
   }
 
   //! Returns grid length.
@@ -1242,6 +1244,8 @@ namespace SeldonData
   {
     length_ = G.GetLength();
     variable_ = G.GetVariable();
+
+    return (*this);
   }
 
   //! Affectation operator for general grids.
@@ -1270,6 +1274,8 @@ namespace SeldonData
     dependencies_ = G.GetDependencies();
 
     main_variable_ = G.GetMainVariable();
+
+    return (*this);
   }
 
   //! Returns grid length.
