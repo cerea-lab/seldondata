@@ -181,6 +181,8 @@ namespace SeldonData
     T GetMaxAbs() const;
     T GetMin() const;
 
+    void Fill(T value);
+
     void SetZero();
     bool IsZero();
 

@@ -1647,6 +1647,20 @@ namespace SeldonData
     return maximum;
   }
 
+  //! Sets data to a constant value.
+  /*!
+    \param value value to which data is set.
+   */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Fill(T value)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] = value;
+  }
+
   //! Sets data to zero.
   template<class T, int N, class TG>
   void Data<T, N, TG>::SetZero()
