@@ -31,9 +31,9 @@ namespace SeldonData
   /*!
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
-   */
+  */
   template<int N, class TIn, class TGIn,
-    class TOut, class TGOut>
+	   class TOut, class TGOut>
   void LinearInterpolationRegular(Data<TIn, N, TGIn>& dataIn,
 				  Data<TOut, N, TGOut>& dataOut)
   {
@@ -150,9 +150,9 @@ namespace SeldonData
     \param dataIn reference data.
     \param dataOut interpolated data (on exit).
     \param dim dimension related to the general grid.
-   */
+  */
   template<int N, class TIn, class TGIn,
-    class TOut, class TGOut>
+	   class TOut, class TGOut>
   void LinearInterpolationOneGeneral(Data<TIn, N, TGIn>& dataIn,
 				     Data<TOut, N, TGOut>& dataOut,
 				     int dim)
@@ -163,8 +163,10 @@ namespace SeldonData
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> Coeff(10), Coeff0(10);
     TIn temp;
-    Array<bool, 1> Pos(N);
+    Array<bool, 1> Pos(N), Pos_dim(N);
     TIn coeff;
+
+    dataOut.SetZero();
 
     for (i=0; i<10; i++)
       if ((i<N)&&(i!=dim))
@@ -172,31 +174,24 @@ namespace SeldonData
 	  LengthIn(i) = dataIn.GetLength(i);
 	  LengthOut(i) = dataOut.GetLength(i);
 	  IndexOut(i) = 0;
-	  IndexIn(i) = 0;
-	  while ( (IndexIn(i)<LengthIn(i))
-		&& (dataIn[i](IndexIn(i))<dataOut[i](0)) )
-	  IndexIn(i)++;
-	if (IndexIn(i)==LengthIn(i))
-	  IndexIn(i) = LengthIn(i)-1;
-	else if (IndexIn(i)==0)
 	  IndexIn(i) = 1;
-	IndexIn0(i) = IndexIn(i);
-	if (LengthIn(i)!=0)
+	  while ( (IndexIn(i)<LengthIn(i)-1)
+		  && (dataIn[i](IndexIn(i))<dataOut[i](0)) )
+	    IndexIn(i)++;
+	  IndexIn0(i) = IndexIn(i);
 	  Coeff0(i) = ( dataOut[i](0) - dataIn[i](IndexIn(i)-1) ) /
 	    ( dataIn[i](IndexIn(i)) - dataIn[i](IndexIn(i)-1) );
-	else
-	  Coeff0(i) = TIn(0);
-	Coeff(i) = Coeff0(i);
-      }
-    else
-      {
-	LengthIn(i) = dataIn.GetLength(i);
-	LengthOut(i) = dataOut.GetLength(i);
-	IndexOut(i) = 0;
-	IndexIn(i) = 0;
-	Coeff0(i) = 0;
-	Coeff(i) = 0;
-      }
+	  Coeff(i) = Coeff0(i);
+	}
+      else
+	{
+	  LengthIn(i) = dataIn.GetLength(i);
+	  LengthOut(i) = dataOut.GetLength(i);
+	  IndexOut(i) = 0;
+	  IndexIn(i) = 0;
+	  Coeff0(i) = 0;
+	  Coeff(i) = 0;
+	}
 
     j = N-1;
     for (i=0; i<dataOut.GetNbElements(); i++)
@@ -204,67 +199,62 @@ namespace SeldonData
 
 	if (j!=dim)
 	  {
-	    while ( (IndexIn(j)<LengthIn(j))
+	    while ( (IndexIn(j)<LengthIn(j)-1)
 		    && (dataIn[j](IndexIn(j))
 			< dataOut[j](IndexOut(j))) )
 	      IndexIn(j)++;
-		
-	    if (IndexIn(j)==LengthIn(j))
-	      IndexIn(j) = LengthIn(j)-1;
-	    else if (IndexIn(j)==0)
-	      IndexIn(j) = 1;
 		
 	    Coeff(j) = ( dataOut[j](IndexOut(j)) - dataIn[j](IndexIn(j)-1) ) /
 	      ( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
 	  }
 
-	IndexIn(dim) = 0;
-	while ( (IndexIn(dim)<LengthIn(dim))
-		&& (dataIn[dim].Value(IndexIn(0), IndexIn(1),
-				      IndexIn(2), IndexIn(3),
-				      IndexIn(4), IndexIn(5),
-				      IndexIn(6), IndexIn(7),
-				      IndexIn(8), IndexIn(9))
-		    < dataOut[dim].Value(IndexOut(0), IndexOut(1),
-					 IndexOut(2), IndexOut(3),
-					 IndexOut(4), IndexOut(5),
-					 IndexOut(6), IndexOut(7),
-					 IndexOut(8), IndexOut(9))) )
-	  IndexIn(dim)++;
-	    
-	if (IndexIn(dim)==LengthIn(dim))
-	  IndexIn(dim) = LengthIn(dim)-1;
-	else if (IndexIn(dim)==0)
-	  IndexIn(dim) = 1;
-
-	IndexIn(dim)--;
-	temp = dataIn[dim].Value(IndexIn(0), IndexIn(1),
-				 IndexIn(2), IndexIn(3),
-				 IndexIn(4), IndexIn(5),
-				 IndexIn(6), IndexIn(7),
-				 IndexIn(8), IndexIn(9));
-	IndexIn(dim)++;
-
-	Coeff(dim) = ( dataOut[dim].Value(IndexOut(0), IndexOut(1),
-					  IndexOut(2), IndexOut(3),
-					  IndexOut(4), IndexOut(5),
-					  IndexOut(6), IndexOut(7),
-					  IndexOut(8), IndexOut(9))
-		       - temp ) /
-	  ( dataIn[dim].Value(IndexIn(0), IndexIn(1),
-			      IndexIn(2), IndexIn(3),
-			      IndexIn(4), IndexIn(5),
-			      IndexIn(6), IndexIn(7),
-			      IndexIn(8), IndexIn(9)) - temp );
-
-	dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
-		      IndexOut(3), IndexOut(4), IndexOut(5),
-		      IndexOut(6), IndexOut(7), IndexOut(8),
-		      IndexOut(9)) = TOut(0);
-
-	for (k=0; k<int(pow(2.0, double(N))); k++)
+	for (k=0; k<int(pow(2.0, double(N))+0.5); k++)
 	  {
-	    l = k; coeff = TIn(1);
+
+	    l = k;
+	    for (m=0; m<N; m++)
+	      {
+		Pos_dim(m) = l%2;
+		l = l/2;
+	      }
+	    Pos_dim(dim) = 0;
+
+	    IndexIn(dim) = 1;
+	    while ( (IndexIn(dim)<LengthIn(dim)-1)
+		    && (dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+					  IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+					  IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+					  IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+					  IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9))
+			< dataOut[dim].Value(IndexOut(0), IndexOut(1),
+					     IndexOut(2), IndexOut(3),
+					     IndexOut(4), IndexOut(5),
+					     IndexOut(6), IndexOut(7),
+					     IndexOut(8), IndexOut(9))) )
+	      IndexIn(dim)++;
+	    
+	    IndexIn(dim)--;
+	    temp = dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+				     IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+				     IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+				     IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+				     IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9));
+	    IndexIn(dim)++;
+
+	    Coeff(dim) = ( dataOut[dim].Value(IndexOut(0), IndexOut(1),
+					      IndexOut(2), IndexOut(3),
+					      IndexOut(4), IndexOut(5),
+					      IndexOut(6), IndexOut(7),
+					      IndexOut(8), IndexOut(9))
+			   - temp ) /
+	      ( dataIn[dim].Value(IndexIn(0) - Pos_dim(0), IndexIn(1) - Pos_dim(1),
+				  IndexIn(2) - Pos_dim(2), IndexIn(3) - Pos_dim(3),
+				  IndexIn(4) - Pos_dim(4), IndexIn(5) - Pos_dim(5),
+				  IndexIn(6) - Pos_dim(6), IndexIn(7) - Pos_dim(7),
+				  IndexIn(8) - Pos_dim(8), IndexIn(9) - Pos_dim(9)) - temp );
+
+	    l = k;
+	    coeff = TIn(1);
 	    for (m=0; m<N; m++)
 	      {
 		Pos(m) = l%2;
