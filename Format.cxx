@@ -964,7 +964,7 @@ namespace SeldonData
 	FileStream.read(buf, info_nb0[i] - pos);
 	delete [] buf;
 	buf = new char[info_nb1[i] + 1];
-	FileStream.read(buf, info_nb1[i] - pos);
+	FileStream.read(buf, info_nb1[i]);
 	buf[info_nb1[i]] = '\0';
       }
     else if (info_str[i] == "e")
@@ -1002,7 +1002,7 @@ namespace SeldonData
 	FileStream.read(buf, info_nb0[i] - pos);
 	delete [] buf;
 	buf = new char[info_nb1[i] + 1];
-	FileStream.read(buf, info_nb1[i] - pos);
+	FileStream.read(buf, info_nb1[i]);
 	buf[info_nb1[i]] = '\0';
 	string sbuf(buf);
 	convert(sbuf, *value);
@@ -1275,6 +1275,9 @@ namespace SeldonData
 	  {
 	    k = 0; l = 0;
 	    FileStream.GetFullLine();
+	    while ( (FileStream.good())
+		    && (FileStream.Discard(FileStream.PeekFullLine(position))) )
+	      FileStream.seekg(position);
 	    pos_beg = pos_cur = FileStream.tellg();
 	  }
       }
