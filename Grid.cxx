@@ -826,47 +826,30 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out;
     int j;
-    if ( (variable_==0) && ((i0<0)||(i0>=values_.extent(0))) )
-      {
-	out = true; j = i0;
-      }
-    else if ( (variable_==1) && ((i1<0)||(i1>=values_.extent(0))) )
-      {
-	out = true; j = i1;
-      }
-    else if ( (variable_==2) && ((i2<0)||(i2>=values_.extent(0))) )
-      {
-	out = true; j = i2;
-      }
-    else if ( (variable_==3) && ((i3<0)||(i3>=values_.extent(0))) )
-      {
-	out = true; j = i3;
-      }
-    else if ( (variable_==4) && ((i4<0)||(i4>=values_.extent(0))) )
-      {
-	out = true; j = i4;
-      }
-    else if ( (variable_==5) && ((i5<0)||(i5>=values_.extent(0))) )
-      {
-	out = true; j = i5;
-      }
-    else if ( (variable_==6) && ((i6<0)||(i6>=values_.extent(0))) )
-      {
-	out = true; j = i6;
-      }
-    else if ( (variable_==7) && ((i7<0)||(i7>=values_.extent(0))) )
-      {
-	out = true; j = i7;
-      }
-    else if ( (variable_==8) && ((i8<0)||(i8>=values_.extent(0))) )
-      {
-	out = true; j = i8;
-      }
-    else if ( (variable_==9) && ((i9<0)||(i9>=values_.extent(0))) )
-      {
-	out = true; j = i9;
-      }
-    
+
+    if (variable_==0)
+      j = i0;
+    else if (variable_==1)
+      j = i1;
+    else if (variable_==2)
+      j = i2;
+    else if (variable_==3)
+      j = i3;
+    else if (variable_==4)
+      j = i4;
+    else if (variable_==5)
+      j = i7;
+    else if (variable_==6)
+      j = i6;
+    else if (variable_==7)
+      j = i7;
+    else if (variable_==8)
+      j = i8;
+    else if (variable_==9)
+      j = i9;
+
+    out = ( (j<0) || (j>=values_.extent(0)) );
+
     if (out) throw WrongIndex("reference RegularGrid<T>::Value",
 		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
 		       + to_str(values_.extent(0)-1) + "], but is equal to "
@@ -924,47 +907,30 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_INDICES
     bool out;
     int j;
-    if ( (variable_==0) && ((i0<0)||(i0>=values_.extent(0))) )
-      {
-	out = true; j = i0;
-      }
-    else if ( (variable_==1) && ((i1<0)||(i1>=values_.extent(0))) )
-      {
-	out = true; j = i1;
-      }
-    else if ( (variable_==2) && ((i2<0)||(i2>=values_.extent(0))) )
-      {
-	out = true; j = i2;
-      }
-    else if ( (variable_==3) && ((i3<0)||(i3>=values_.extent(0))) )
-      {
-	out = true; j = i3;
-      }
-    else if ( (variable_==4) && ((i4<0)||(i4>=values_.extent(0))) )
-      {
-	out = true; j = i4;
-      }
-    else if ( (variable_==5) && ((i5<0)||(i5>=values_.extent(0))) )
-      {
-	out = true; j = i5;
-      }
-    else if ( (variable_==6) && ((i6<0)||(i6>=values_.extent(0))) )
-      {
-	out = true; j = i6;
-      }
-    else if ( (variable_==7) && ((i7<0)||(i7>=values_.extent(0))) )
-      {
-	out = true; j = i7;
-      }
-    else if ( (variable_==8) && ((i8<0)||(i8>=values_.extent(0))) )
-      {
-	out = true; j = i8;
-      }
-    else if ( (variable_==9) && ((i9<0)||(i9>=values_.extent(0))) )
-      {
-	out = true; j = i9;
-      }
-    
+
+    if (variable_==0)
+      j = i0;
+    else if (variable_==1)
+      j = i1;
+    else if (variable_==2)
+      j = i2;
+    else if (variable_==3)
+      j = i3;
+    else if (variable_==4)
+      j = i4;
+    else if (variable_==5)
+      j = i7;
+    else if (variable_==6)
+      j = i6;
+    else if (variable_==7)
+      j = i7;
+    else if (variable_==8)
+      j = i8;
+    else if (variable_==9)
+      j = i9;
+
+    out = ( (j<0) || (j>=values_.extent(0)) );
+
     if (out) throw WrongIndex("value_type RegularGrid<T>::Value",
 			      "Index along dimension #" + to_str(variable_) + " should be in [0, "
 			      + to_str(values_.extent(0)-1) + "], but is equal to "
@@ -1364,8 +1330,8 @@ namespace SeldonData
     bool out = false;
     int j;
     for (int i=0; i<n; i++)
-      if ( !out || (Indices(dependencies_(i))<0) ||
-	   Indices(dependencies_(i))>=values_.extent(i) )
+      if ( !out && ( (Indices(dependencies_(i))<0) ||
+		     (Indices(dependencies_(i))>=values_.extent(i)) ) )
 	{
 	  out = true;
 	  j = i;
@@ -1374,7 +1340,7 @@ namespace SeldonData
 			      "Index along dimension #" + to_str(dependencies_(j))
 			      + " should be in [0, "
 			      + to_str(values_.extent(j)-1) + "], but is equal to "
-			      + to_str(Indices(dependencies_(j)) + ".");
+			      + to_str(Indices(dependencies_(j))) + ".");
 #endif
 
     if (n==1)
@@ -1480,8 +1446,8 @@ namespace SeldonData
     bool out = false;
     int j;
     for (int i=0; i<n; i++)
-      if ( !out || (Indices(dependencies_(i))<0) ||
-	   Indices(dependencies_(i))>=values_.extent(i) )
+      if ( !out && ( (Indices(dependencies_(i))<0) ||
+		     (Indices(dependencies_(i))>=values_.extent(i)) ) )
 	{
 	  out = true;
 	  j = i;
@@ -1490,7 +1456,7 @@ namespace SeldonData
 			      "Index along dimension #" + to_str(dependencies_(j))
 			      + " should be in [0, "
 			      + to_str(values_.extent(j)-1) + "], but is equal to "
-			      + to_str(Indices(dependencies_(j)) + ".");
+			      + to_str(Indices(dependencies_(j))) + ".");
 #endif
 
     if (n==1)
