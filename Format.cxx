@@ -116,7 +116,7 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TG>
-  void FormatBinary<T>::Write(RegularGrid<TG>& G, ofstream FileStream) const
+  void FormatBinary<T>::Write(RegularGrid<TG>& G, ofstream& FileStream) const
   {
 
     this->Write(G.GetArray(), FileStream);
@@ -136,7 +136,7 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TG, int n>
-  void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, ofstream FileStream) const
+  void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, ofstream& FileStream) const
   {
 
     this->Write(G.GetArray(), FileStream);
@@ -180,7 +180,7 @@ namespace SeldonData
   //! Writes a binary file.
   template<class T>
   template<class TD, int N, class TG>
-  void FormatBinary<T>::Write(Data<TD, N, TG>& D, ofstream FileStream) const
+  void FormatBinary<T>::Write(Data<TD, N, TG>& D, ofstream& FileStream) const
   {
 
     this->Write(D.GetArray(), FileStream);

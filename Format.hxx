@@ -75,11 +75,11 @@ namespace SeldonData
     template<class TG>
     void Write(RegularGrid<TG>& G, string FileName) const;
     template<class TG>
-    void Write(RegularGrid<TG>& G, ofstream FileStream) const;
+    void Write(RegularGrid<TG>& G, ofstream& FileStream) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
-    void Write(GeneralGrid<TG, N>& G, ofstream FileStream) const;
+    void Write(GeneralGrid<TG, N>& G, ofstream& FileStream) const;
 
     // Data.
 
@@ -91,7 +91,7 @@ namespace SeldonData
     template<class TD, int N, class TG>
     void Write(Data<TD, N, TG>& D, string FileName) const;
     template<class TD, int N, class TG>
-    void Write(Data<TD, N, TG>& D, ofstream FileStream) const;
+    void Write(Data<TD, N, TG>& D, ofstream& FileStream) const;
 
     // Array.
 
