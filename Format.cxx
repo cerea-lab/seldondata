@@ -311,17 +311,17 @@ namespace SeldonData
 
     int i = 0;
     int j = 0;
-    for (i=0; i < data_size / sizeof(T) / length; i++)
+    for (i=0; i < int(data_size / sizeof(T) / length); i++)
       {
 	FileStream.read(reinterpret_cast<char*>(data), length * sizeof(T));
-	for (j=0; j<length; j++)
+	for (j=0; j<int(length); j++)
 	  data_output[j + i*length] = data[j];
       }
 
     if (data_size % (length * sizeof(T)) != 0)
       {
 	FileStream.read(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
-	for (j=0; j < (data_size % (length * sizeof(T))) / sizeof(T); j++)
+	for (j=0; j < int((data_size % (length * sizeof(T))) / sizeof(T)); j++)
 	  data_output[j + i*length] = data[j];
       }
 
