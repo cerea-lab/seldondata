@@ -299,7 +299,9 @@ namespace SeldonData
 		int N4, int N5,
 		int N6, int N7,
 		int N8, int N9);
-
+    
+    void Resize(const TinyVector<int, N>& shape);
+    
     // Calculus.
     void Mlt(T alpha);
     void Add(T alpha);
