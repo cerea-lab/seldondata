@@ -336,6 +336,8 @@ namespace SeldonData
 	  data_output[j + i*length] = data[j];
       }
 
+    delete [] data;
+
   }
 
   //! Reads given steps in a binary file.
@@ -450,6 +452,8 @@ namespace SeldonData
 	  data[j] = data_input[j + i*length];
 	FileStream.write(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
       }
+
+    delete[] data;
 
   }
 
@@ -1011,6 +1015,7 @@ namespace SeldonData
 	buf = new char[info_nb1[i] + 1];
 	FileStream.read(buf, info_nb1[i]);
 	buf[info_nb1[i]] = '\0';
+	delete [] buf;
       }
     else if (info_str[i] == "e")
       {
@@ -1051,6 +1056,7 @@ namespace SeldonData
 	buf[info_nb1[i]] = '\0';
 	string sbuf(buf);
 	convert(sbuf, *value);
+	delete [] buf;
 	return 1;
       }
     else if (info_str[i] == "e")
@@ -1457,6 +1463,8 @@ namespace SeldonData
       extents[i] = A.extent(i);
 
     bool op = var->get(A.data(), extents);
+
+    delete [] extents;
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether input operation succeeded.
