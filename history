@@ -3,12 +3,30 @@ o--------------------o
 o--------------------o
 
 
-Current release
----------------
+Version 1.2 (2003-10-02)
+-----------
 
 ** Improvements:
 
+- Added methods:
+   + Data::ReverseData(int)
+   + Data::Add()
+   + Data::Mlt()
+   + to_num(string)
+   + to_num(string, T&)
+- Added 'FormatGrib' to read Grib files.
+- Added 'FormatNetCDF' to read variables in netCDF files.
+- Renamed 'LinearInterpolation' into 'LinearInterpolationRegular'.
+
 ** Bug fixes:
+
+- For grids, 'operator=' didn't return '*this'.
+- 'FormatBinary::Write([...], ofstream& FileStream)' was previously defined as 'FormatBinary::Write([...], ofstream FileStream)' and therefore did not compile.
+- 'LinearInterpolationOneGeneral' computations may not be correct if the input-data grid (of the specified dimension) was not regular.
+
+** Other changes:
+
+- Removed function 'LinearInterpolationGeneral'.
 
 
 Version 1.1 (2003-05-11)
