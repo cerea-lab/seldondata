@@ -1,0 +1,40 @@
+o--------------------o
+| SELDONDATA HISTORY |
+o--------------------o
+
+Current release
+---------------
+
+** Improvements:
+
+- 'Function_Base' returned-type is now a template parameter.
+
+** Bug fixes:
+
+- Default and copy constructors of 'Data'.
+- 'ChangeCoordsInPlace'.
+
+Version 1.0 (2003-03-12)
+-----------
+
+** Improvements:
+
+- Added several methods to 'Data': 'Sum', 'Mean', 'Variance', 'StandardDeviation', 'Norm1', 'Norm2' and 'Norm'.
+- Added method 'Data::Fill'.
+- Added several methods to 'Data': 'Correlation', 'Bias', 'RMS', 'NGE' and 'ErrorLessThan'.
+- Added default and copy constructors for 'Data'.
+- Improved class 'FormatChimere::Read'.
+- Added several methods to 'Data': 'GetMax', 'GetMin', 'GetMaxAbs', and 'const T* GetData() const'.
+- Added function 'LinearInterpolationOneGeneral'.
+- Added reference-counting for grids used within 'Data' class.
+- Added 'Grid::Copy'.
+
+** Bug fixes:
+
+- Memory management for 'Grid'.
+
+Version 0.9 (2003-02-28)
+-----------
+
+Version 0.8 (2003-02-23)
+-----------
