@@ -207,6 +207,8 @@ namespace SeldonData
 		Grid<TG>& G8, Grid<TG>& G9);
 
     // Calculus.
+    void Mlt(T alpha);
+    void Add(T alpha);
     void Apply(void function(T&));
     template <class F>
     void Apply(F& function);

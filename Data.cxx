@@ -2166,6 +2166,34 @@ namespace SeldonData
       function(data[i]);
   }
 
+  //! Multiplies all elements by a given value.
+  /*!
+    \param alpha number by which all elements are multiplied.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Mlt(T alpha)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] *= alpha;
+  }
+
+  //! Adds a given value to all elements.
+  /*!
+    \param alpha number which is added to all elements.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Add(T alpha)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] += alpha;
+  }
+
   //! Applies a given function on all elements.
   /*!
     \param function function to be applied.
