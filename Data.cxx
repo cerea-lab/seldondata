@@ -484,6 +484,30 @@ namespace SeldonData
   }
 
   template<class T, int N>
+  void Data<T,N>::SetZero()
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] = T(0);
+  }
+
+  template<class T, int N>
+  bool Data<T,N>::IsZero()
+  {
+    bool res = true;
+
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      res = res && (data[i] == T(0));
+
+    return res;
+  }
+
+  template<class T, int N>
   void Data<T, N>::ChangeCoords(Function_Base<T>& f)
   {
     int i0, i1, i2, i3, i4, i5, i6, i7, i8, i9;

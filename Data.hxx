@@ -141,6 +141,9 @@ namespace SeldonData
     template <class F>
     void Apply(F& function);
 
+    void SetZero();
+    bool IsZero();
+
     void ChangeCoords(Function_Base<T>& f);
 
     void Print();
