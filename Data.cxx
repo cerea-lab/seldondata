@@ -3277,6 +3277,238 @@ namespace SeldonData
 
   }
 
+  //! Resizes an one-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0)
+  {
+
+    RegularGrid<TG> G0(N0);
+    this->Resize(G0);
+
+  }
+
+  //! Resizes a two-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    this->Resize(G0, G1);
+
+  }
+
+  //! Resizes a three-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    this->Resize(G0, G1, G2);
+
+  }
+
+  //! Resizes a four-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    this->Resize(G0, G1, G2, G3);
+
+  }
+
+  //! Resizes a five-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    this->Resize(G0, G1, G2, G3, G4);
+
+  }
+
+  //! Resizes a six-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4, int N5)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    this->Resize(G0, G1, G2, G3, G4, G5);
+
+  }
+
+  //! Resizes a seven-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4, int N5,
+			      int N6)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    this->Resize(G0, G1, G2, G3, G4, G5, G6);
+
+  }
+
+  //! Resizes an eight-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4, int N5,
+			      int N6, int N7)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+    this->Resize(G0, G1, G2, G3, G4, G5, G6, G7);
+
+  }
+
+  //! Resizes a nine-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+    \param N8 grid length along dimension #8.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4, int N5,
+			      int N6, int N7, int N8)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+    RegularGrid<TG> G8(N8);
+    this->Resize(G0, G1, G2, G3, G4, G5, G6, G7, G8);
+
+  }
+
+  //! Resizes a ten-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+    \param N8 grid length along dimension #8.
+    \param N9 grid length along dimension #9.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Resize(int N0, int N1, int N2,
+			      int N3, int N4, int N5,
+			      int N6, int N7, int N8,
+			      int N9)
+  {
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+    RegularGrid<TG> G8(N8);
+    RegularGrid<TG> G9(N9);
+    this->Resize(G0, G1, G2, G3, G4, G5, G6, G7, G8, G9);
+
+  }
+
   //! Applies a given function on all elements.
   /*!
     \param function function to be applied.

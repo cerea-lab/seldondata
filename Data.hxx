@@ -268,6 +268,37 @@ namespace SeldonData
 		Grid<TG>& G6, Grid<TG>& G7,
 		Grid<TG>& G8, Grid<TG>& G9);
 
+    void Resize(int N0);
+    void Resize(int N0, int N1);
+    void Resize(int N0, int N1,
+		int N2);
+    void Resize(int N0, int N1,
+		int N2, int N3);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4, int N5);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4, int N5,
+		int N6);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4, int N5,
+		int N6, int N7);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4, int N5,
+		int N6, int N7,
+		int N8);
+    void Resize(int N0, int N1,
+		int N2, int N3,
+		int N4, int N5,
+		int N6, int N7,
+		int N8, int N9);
+
     // Calculus.
     void Mlt(T alpha);
     void Add(T alpha);
