@@ -12,10 +12,15 @@ namespace SeldonData
   {
 
   protected:
+    //! Array storing data.
     Array<T, N> data_;
+    //! Array of pointers to grids.
     Array<Grid<T>*, 1> grids_;
 
   public:
+
+    // Constructors.
+
     Data(Grid<T>& G0)  throw();
     Data(Grid<T>& G0, Grid<T>& G1)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
@@ -46,8 +51,13 @@ namespace SeldonData
 	 Grid<T>& G4, Grid<T>& G5,
 	 Grid<T>& G6, Grid<T>& G7,
 	 Grid<T>& G8, Grid<T>& G9)  throw();
+
+    // Destructor.
+
     ~Data()  throw();
     
+    // Methods.
+
     T& operator() (int i0);
     T& operator() (int i0, int i1);
     T& operator() (int i0, int i1, int i2);

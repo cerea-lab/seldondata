@@ -77,6 +77,20 @@ namespace SeldonData
     return length_;
   }
 
+  //! Returns grid length along dimension #i.
+  /*!
+    \param i dimension number.
+    \return Length of the grid along the i-th dimension.
+  */
+  template<class T>
+  int Grid<T>::GetLength(int i) const
+  {
+    if (i==variable_)
+      return length_;
+    else
+      return 0;
+  }
+
   //! Returns dimension number related to the grid.
   /*!
     \return Dimension number related to the grid.
@@ -663,6 +677,30 @@ namespace SeldonData
     values_ = G.GetValues();
   }
 
+  //! Returns grid length.
+  /*!
+    \return Length of the grid.
+  */
+  template<class T>
+  int RegularGrid<T>::GetLength() const
+  {
+    return values_.numElements();
+  }
+
+  //! Returns grid length along dimension #i.
+  /*!
+    \param i dimension number.
+    \return Length of the grid along the i-th dimension.
+  */
+  template<class T>
+  int RegularGrid<T>::GetLength(int i) const
+  {
+    if (i==variable_)
+      return values_.numElements();
+    else
+      return 0;
+  }
+
   //! Returns the number of elements in the grid.
   /*!
     \return The number of elements in the grid.
@@ -930,6 +968,7 @@ namespace SeldonData
     // Searching for the array dimension-number related to
     // the main dependency of the grid.
     i = 0;
+    // To add: error if variable_ is not in dependencies_.
     while ((i<n) && (dependencies_(i)!=variable_))
       i++;
     main_variable_ = i;
@@ -964,7 +1003,10 @@ namespace SeldonData
 
     variable_ = variable;
 
+    // Searching for the array dimension-number related to
+    // the main dependency of the grid.
     i = 0;
+    // To add: error if variable_ is not in dependencies_.
     while ((i<n) && (dependencies_(i)!=variable_))
       i++;
     main_variable_ = i;
@@ -1041,6 +1083,35 @@ namespace SeldonData
     dependencies_ = G.GetDependencies();
 
     main_variable_ = G.GetMainVariable();
+  }
+
+  //! Returns grid length.
+  /*!
+    \return Length of the grid.
+  */
+  template<class T, int n>
+  int GeneralGrid<T, n>::GetLength() const
+  {
+    return values_.extent(main_variable_);
+  }
+
+  //! Returns grid length along dimension #i.
+  /*!
+    \param i dimension number.
+    \return Length of the grid along the i-th dimension.
+  */
+  template<class T, int n>
+  int GeneralGrid<T, n>::GetLength(int i) const
+  {
+    int dim = 0;
+
+    while ((dim<n) && (dependencies_(dim)!=i))
+      dim++;
+
+    if (dim==n)
+      return 0;
+    else
+      return values_.extent(dim);
   }
 
   //! Returns the number of elements in the grid.

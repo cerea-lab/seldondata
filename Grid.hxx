@@ -45,7 +45,8 @@ namespace SeldonData
 
     virtual Grid<T>& operator= (const Grid<T>&);
 
-    int GetLength() const;
+    virtual int GetLength() const;
+    virtual int GetLength(int i) const;
     int GetVariable() const;
     virtual bool IsDependent(int i) const;
 
@@ -118,6 +119,9 @@ namespace SeldonData
     RegularGrid<T>& operator= (const Grid<T>&);
     RegularGrid<T>& operator= (const RegularGrid<T>&);
 
+    int GetLength() const;
+    int GetLength(int i) const;
+
     int GetNbElements() const;
     Array<value_type, 1>& GetValues();
     const Array<value_type, 1>& GetValues() const;
@@ -188,6 +192,9 @@ namespace SeldonData
 
     GeneralGrid<T, n>& operator= (const Grid<T>&);
     GeneralGrid<T, n>& operator= (const GeneralGrid<T, n>&);
+
+    int GetLength() const;
+    int GetLength(int i) const;
 
     int GetNbElements() const;
     Array<value_type, n>& GetValues();
