@@ -56,11 +56,19 @@ namespace SeldonData
 
     // Grid.
 
+    template<class TG>
+    void Read(string FileName, RegularGrid<TG>& G) const;
+    template<class TG>
+    void Read(FILE* FileDes, RegularGrid<TG>& G) const;
     template<class TG, int N>
     void Read(string FileName, GeneralGrid<TG, N>& G) const;
     template<class TG, int N>
     void Read(FILE* FileDes, GeneralGrid<TG, N>& G) const;
 
+    template<class TG>
+    void Write(RegularGrid<TG>& G, string FileName) const;
+    template<class TG>
+    void Write(RegularGrid<TG>& G, FILE* FileDes) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
@@ -116,11 +124,19 @@ namespace SeldonData
 
     // Grid.
 
+    template<class TG>
+    void Read(string FileName, RegularGrid<TG>& G) const;
+    template<class TG>
+    void Read(FILE* FileDes, RegularGrid<TG>& G) const;
     template<class TG, int N>
     void Read(string FileName, GeneralGrid<TG, N>& G) const;
     template<class TG, int N>
     void Read(FILE* FileDes, GeneralGrid<TG, N>& G) const;
 
+    template<class TG>
+    void Write(RegularGrid<TG>& G, string FileName) const;
+    template<class TG>
+    void Write(RegularGrid<TG>& G, FILE* FileDes) const;
     template<class TG, int N>
     void Write(GeneralGrid<TG, N>& G, string FileName) const;
     template<class TG, int N>
@@ -157,16 +173,16 @@ namespace SeldonData
   };
 
 
-  //! Input/ouput class to read files in ECMWF format.
+  //! Input/ouput class to read files in Chimere format.
   template<class T>
-  class FormatECMWF: public Format<T>
+  class FormatChimere: public Format<T>
   {
 
   protected:
 
   public:
-    FormatECMWF()  throw();
-    ~FormatECMWF()  throw();
+    FormatChimere()  throw();
+    ~FormatChimere()  throw();
 
     // Data.
 

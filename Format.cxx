@@ -61,6 +61,27 @@ namespace SeldonData
   /* Grid */
   /********/
 
+  //! Reads a binary file.
+  template<class T>
+  template<class TG>
+  void FormatBinary<T>::Read(string FileName, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, G.GetValues());
+
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TG>
+  void FormatBinary<T>::Read(FILE* FileDes, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileDes, G.GetValues());
+
+  }
+
+  //! Reads a binary file.
   template<class T>
   template<class TG, int n>
   void FormatBinary<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
@@ -70,6 +91,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a binary file.
   template<class T>
   template<class TG, int n>
   void FormatBinary<T>::Read(FILE* FileDes, GeneralGrid<TG, n>& G) const
@@ -79,6 +101,27 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
+  template<class T>
+  template<class TG>
+  void FormatBinary<T>::Write(RegularGrid<TG>& G, string FileName) const
+  {
+
+    this->Write(G.GetValues(), FileName);
+
+  }
+
+  //! Writes a binary file.
+  template<class T>
+  template<class TG>
+  void FormatBinary<T>::Write(RegularGrid<TG>& G, FILE* FileDes) const
+  {
+
+    this->Write(G.GetValues(), FileDes);
+    
+  }
+
+  //! Writes a binary file.
   template<class T>
   template<class TG, int n>
   void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
@@ -88,6 +131,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
   template<class T>
   template<class TG, int n>
   void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, FILE* FileDes) const
@@ -101,6 +145,7 @@ namespace SeldonData
   /* Data */
   /********/
   
+  //! Reads a binary file.
   template<class T>
   template<class TD, int N>
   void FormatBinary<T>::Read(string FileName, Data<TD, N>& D) const
@@ -110,6 +155,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a binary file.
   template<class T>
   template<class TD, int N>
   void FormatBinary<T>::Read(FILE* FileDes, Data<TD, N>& D) const
@@ -119,6 +165,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
   template<class T>
   template<class TD, int N>
   void FormatBinary<T>::Write(Data<TD, N>& D, string FileName) const
@@ -128,6 +175,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
   template<class T>
   template<class TD, int N>
   void FormatBinary<T>::Write(Data<TD, N>& D, FILE* FileDes) const
@@ -141,6 +189,7 @@ namespace SeldonData
   /* Array */
   /*********/
 
+  //! Reads a binary file.
   template<class T>
   template<int N>
   void FormatBinary<T>::Read(string FileName, Array<T, N>& A) const
@@ -152,6 +201,7 @@ namespace SeldonData
     
   }
 
+  //! Reads a binary file.
   template<class T>
   template<class TA, int N>
   void FormatBinary<T>::Read(string FileName, Array<TA, N>& A) const
@@ -163,6 +213,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a binary file.
   template<class T>
   template<int N>
   void FormatBinary<T>::Read(FILE* FileDes, Array<T, N>& A) const
@@ -176,6 +227,7 @@ namespace SeldonData
     
   }
 
+  //! Reads a binary file.
   template<class T>
   template<class TA, int N>
   void FormatBinary<T>::Read(FILE* FileDes, Array<TA, N>& A) const
@@ -193,6 +245,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
   template<class T>
   template<int N>
   void FormatBinary<T>::Write(Array<T, N>& A, string FileName) const
@@ -204,6 +257,7 @@ namespace SeldonData
     
   }
 
+  //! Writes a binary file.
   template<class T>
   template<class TA, int N>
   void FormatBinary<T>::Write(Array<TA, N>& A, string FileName) const
@@ -215,6 +269,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a binary file.
   template<class T>
   template<int N>
   void FormatBinary<T>::Write(Array<T, N>& A, FILE* FileDes) const
@@ -228,6 +283,7 @@ namespace SeldonData
     
   }
 
+  //! Writes a binary file.
   template<class T>
   template<class TA, int N>
   void FormatBinary<T>::Write(Array<TA, N>& A, FILE* FileDes) const
@@ -250,18 +306,21 @@ namespace SeldonData
   // FORMATTEXT //
   ////////////////
 
+  //! Default constructor.
   template<class T>
   FormatText<T>::FormatText()  throw()
   {
     format_ = "e";
   }
 
+  //! Main constructor.
   template<class T>
   FormatText<T>::FormatText(string format)  throw()
   {
     format_ = format;
   }
 
+  //! Destructor.
   template<class T>
   FormatText<T>::~FormatText()  throw()
   {
@@ -272,6 +331,27 @@ namespace SeldonData
   /* Grid */
   /********/
 
+  //! Reads a text file.
+  template<class T>
+  template<class TG>
+  void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, G.GetValues());
+
+  }
+
+  //! Reads a text file.
+  template<class T>
+  template<class TG>
+  void FormatText<T>::Read(FILE* FileDes, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileDes, G.GetValues());
+
+  }
+
+  //! Reads a text file.
   template<class T>
   template<class TG, int n>
   void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
@@ -281,6 +361,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a text file.
   template<class T>
   template<class TG, int n>
   void FormatText<T>::Read(FILE* FileDes, GeneralGrid<TG, n>& G) const
@@ -290,6 +371,27 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
+  template<class T>
+  template<class TG>
+  void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
+  {
+
+    this->Write(G.GetValues(), FileName);
+
+  }
+
+  //! Writes a text file.
+  template<class T>
+  template<class TG>
+  void FormatText<T>::Write(RegularGrid<TG>& G, FILE* FileDes) const
+  {
+
+    this->Write(G.GetValues(), FileDes);
+    
+  }
+
+  //! Writes a text file.
   template<class T>
   template<class TG, int n>
   void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
@@ -299,6 +401,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<class TG, int n>
   void FormatText<T>::Write(GeneralGrid<TG, n>& G, FILE* FileDes) const
@@ -312,6 +415,7 @@ namespace SeldonData
   /* Data */
   /********/
   
+  //! Reads a text file.
   template<class T>
   template<class TD, int N>
   void FormatText<T>::Read(string FileName, Data<TD, N>& D) const
@@ -321,6 +425,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a text file.
   template<class T>
   template<class TD, int N>
   void FormatText<T>::Read(FILE* FileDes, Data<TD, N>& D) const
@@ -330,6 +435,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<class TD, int N>
   void FormatText<T>::Write(Data<TD, N>& D, string FileName) const
@@ -339,6 +445,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<class TD, int N>
   void FormatText<T>::Write(Data<TD, N>& D, FILE* FileDes) const
@@ -352,6 +459,7 @@ namespace SeldonData
   /* Array */
   /*********/
 
+  //! Reads a text file.
   template<class T>
   template<class TA, int N>
   void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
@@ -363,6 +471,7 @@ namespace SeldonData
 
   }
 
+  //! Reads a text file.
   template<class T>
   template<int N>
   void FormatText<T>::Read(FILE* FileDes, Array<T, N>& A) const
@@ -378,6 +487,7 @@ namespace SeldonData
     
   }
 
+  //! Reads a text file.
   template<class T>
   template<class TA, int N>
   void FormatText<T>::Read(FILE* FileDes, Array<TA, N>& A) const
@@ -398,6 +508,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<class TA, int N>
   void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
@@ -409,6 +520,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<int N>
   void FormatText<T>::Write(Array<T, N>& A, FILE* FileDes) const
@@ -433,6 +545,7 @@ namespace SeldonData
 
   }
 
+  //! Writes a text file.
   template<class T>
   template<class TA, int N>
   void FormatText<T>::Write(Array<TA, N>& A, FILE* FileDes) const
@@ -462,36 +575,40 @@ namespace SeldonData
   }
 
 
-  /////////////////
-  // FORMATECMWF //
-  /////////////////
+  ///////////////////
+  // FORMATCHIMERE //
+  ///////////////////
 
+  //! Default constructor.
   template<class T>
-  FormatECMWF<T>::FormatECMWF()  throw()
+  FormatChimere<T>::FormatChimere()  throw()
   {
   }
 
+  //! Destructor.
   template<class T>
-  FormatECMWF<T>::~FormatECMWF()  throw()
+  FormatChimere<T>::~FormatChimere()  throw()
   {
   }
 
   /********/
   /* Data */
   /********/
-  
+ 
+  //! Reads a file in "Chimere" format.
   template<class T>
   template<class TD, int N>
-  void FormatECMWF<T>::Read(string FileName, int date, Data<TD, N>& D) const
+  void FormatChimere<T>::Read(string FileName, int date, Data<TD, N>& D) const
   {
 
     this->Read(FileName, date, D.GetArray());
 
   }
 
+  //! Writes a file in "Chimere" format.
   template<class T>
   template<class TD, int N>
-  void FormatECMWF<T>::Write(Data<TD, N>& D, int date, string FileName) const
+  void FormatChimere<T>::Write(Data<TD, N>& D, int date, string FileName) const
   {
 
     this->Write(D.GetArray(), date, FileName);
@@ -502,9 +619,10 @@ namespace SeldonData
   /* Array */
   /*********/
 
+  //! Reads a file in "Chimere" format.
   template<class T>
   template<class TA, int N>
-  void FormatECMWF<T>::Read(string FileName, int date, Array<TA, N>& A) const
+  void FormatChimere<T>::Read(string FileName, int date, Array<TA, N>& A) const
   {
 
     ifstream File(FileName.c_str());
@@ -541,9 +659,10 @@ namespace SeldonData
     
   }
 
+  //! Writes a file in "Chimere" format.
   template<class T>
   template<class TA, int N>
-  void FormatECMWF<T>::Write(Array<TA, N>& A, int date, string FileName) const
+  void FormatChimere<T>::Write(Array<TA, N>& A, int date, string FileName) const
   {
 
 //     string format = "%" + format_ + "%c";
