@@ -880,7 +880,7 @@ namespace SeldonData
     // Checks whether input operation succeeded.
     if (!op)
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
-		    "Input operation failed while data was read.");
+		    "Input operation failed while reading data.");
 #endif
 
   delete[] input_dimensions;
