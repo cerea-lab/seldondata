@@ -173,7 +173,7 @@ namespace SeldonData
     be duplicated, false otherwise.
   */
   template<class T>
-  bool Grid<T>::SetDuplicate(duplicate) const
+  void Grid<T>::SetDuplicate(bool duplicate)
   {
     duplicate_ = duplicate;
   }
@@ -218,12 +218,12 @@ namespace SeldonData
     \exception SeldonData::NoMemory no more memory is available; duplication is impossible.
   */
   template<class T>
-  Grid<T>* Grid<T>::Copy() const
+  Grid<T>* Grid<T>::Copy()
   {
 
     Grid<T>* G;
 
-    if (duplicate)
+    if (duplicate_)
       G = new Grid<T>(*this);
     else
       G = this;
@@ -832,6 +832,34 @@ namespace SeldonData
     return G;
   }
 
+
+  //! Returns a pointer to a copy of the grid or to the grid itself.
+  /*! After copy, no memory is shared with the new grid if 'duplicate_'
+    is set to true. Otherwise, the new grid is the same as the current
+    grid, and the returned pointer is the 'this'.
+    \return A pointer to a copy of the current grid, or to the current grid.
+    \exception SeldonData::NoMemory no more memory is available; duplication is impossible.
+  */
+  template<class T>
+  Grid<T>* RegularGrid<T>::Copy()
+  {
+
+    Grid<T>* G;
+
+    if (duplicate_)
+      G = new Grid<T>(*this);
+    else
+      G = this;
+
+#ifdef DEBUG_SELDONDATA_MEMORY
+    if ( G == NULL )
+      throw NoMemory("RegularGrid<T>::Copy");
+#endif
+
+    return G;
+
+  }
+
   //! Returns a reference to the i-th element of the grid.
   /*!
     \param i index of the element to be returned.
@@ -1325,7 +1353,7 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
     if ( (i<0) || (i>9) )
-      throw WrongDim("GeneralGrid<T>::IsDependent", "Dimension number is " + i);
+      throw WrongDim("GeneralGrid<T, n>::IsDependent", "Dimension number is " + i);
 #endif
 
     bool res = false;
@@ -1347,10 +1375,38 @@ namespace SeldonData
 
 #ifdef DEBUG_SELDONDATA_MEMORY
     if ( G == NULL )
-      throw NoMemory("GeneralGrid<T>::Duplicate");
+      throw NoMemory("GeneralGrid<T, n>::Duplicate");
 #endif
 
     return G;
+  }
+
+
+  //! Returns a pointer to a copy of the grid or to the grid itself.
+  /*! After copy, no memory is shared with the new grid if 'duplicate_'
+    is set to true. Otherwise, the new grid is the same as the current
+    grid, and the returned pointer is the 'this'.
+    \return A pointer to a copy of the current grid, or to the current grid.
+    \exception SeldonData::NoMemory no more memory is available; duplication is impossible.
+  */
+  template<class T, int n>
+  Grid<T>* GeneralGrid<T, n>::Copy()
+  {
+
+    Grid<T>* G;
+
+    if (duplicate_)
+      G = new Grid<T>(*this);
+    else
+      G = this;
+
+#ifdef DEBUG_SELDONDATA_MEMORY
+    if ( G == NULL )
+      throw NoMemory("GeneralGrid<T, n>::Copy");
+#endif
+
+    return G;
+
   }
 
   //! Not defined.
@@ -1413,7 +1469,7 @@ namespace SeldonData
 	  out = true;
 	  j = i;
 	}
-    if (out) throw WrongIndex("reference GeneralGrid<T>::Value",
+    if (out) throw WrongIndex("reference GeneralGrid<T, n>::Value",
 			      "Index along dimension #" + to_str(dependencies_(j))
 			      + " should be in [0, "
 			      + to_str(values_.extent(j)-1) + "], but is equal to "
@@ -1529,7 +1585,7 @@ namespace SeldonData
 	  out = true;
 	  j = i;
 	}
-    if (out) throw WrongIndex("value_type GeneralGrid<T>::Value",
+    if (out) throw WrongIndex("value_type GeneralGrid<T, n>::Value",
 			      "Index along dimension #" + to_str(dependencies_(j))
 			      + " should be in [0, "
 			      + to_str(values_.extent(j)-1) + "], but is equal to "

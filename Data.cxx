@@ -44,7 +44,7 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate();
+    grids_(0) = G0.Copy();
     SetVariables();
 
 
@@ -87,7 +87,7 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
     SetVariables();
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -131,8 +131,8 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy();
     SetVariables();
 
 
@@ -179,8 +179,8 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
     SetVariables();
 
 
@@ -229,9 +229,9 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy();
     SetVariables();
 
 
@@ -281,9 +281,9 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
     SetVariables();
 
 
@@ -335,10 +335,10 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
-    grids_(6) = G6.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy();
     SetVariables();
 
 
@@ -392,10 +392,10 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
-    grids_(6) = G6.Duplicate(); grids_(7) = G7.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
     SetVariables();
 
 
@@ -450,11 +450,11 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
-    grids_(6) = G6.Duplicate(); grids_(7) = G7.Duplicate();
-    grids_(8) = G8.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
+    grids_(8) = G8.Copy();
     SetVariables();
 
 
@@ -511,11 +511,11 @@ namespace SeldonData
       }
 #endif
 
-    grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
-    grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
-    grids_(6) = G6.Duplicate(); grids_(7) = G7.Duplicate();
-    grids_(8) = G8.Duplicate(); grids_(9) = G9.Duplicate();
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
+    grids_(8) = G8.Copy(); grids_(9) = G9.Copy();
     SetVariables();
 
 
@@ -1214,7 +1214,7 @@ namespace SeldonData
     for (int i=0; i<N; i++)
       {
 	delete grids_(i);
-	grids_(i) = data[i].Duplicate();
+	grids_(i) = data[i].Copy();
       }
 
     data_.resize(data.GetArray().shape());

@@ -45,6 +45,10 @@ namespace SeldonData
     //! Dimension related to the grid.
     int variable_;
 
+    //! When copying the grid,
+    //! should grid values be duplicated?
+    bool duplicate_;
+
     //! Zero.
     value_type zero_;
     
@@ -73,8 +77,10 @@ namespace SeldonData
 
     void SetVariable(int variable);
 
-    bool Duplicate() const;
+    void SetDuplicate(bool duplicate);
+    bool GetDuplicate() const;
     virtual Grid<T>* Duplicate() const;
+    virtual Grid<T>* Copy();
 
     virtual reference operator () (int i);
     virtual value_type operator () (int i) const;
@@ -148,6 +154,7 @@ namespace SeldonData
     const Array<value_type, 1>& GetArray() const;
 
     Grid<T>* Duplicate() const;
+    Grid<T>* Copy();
 
     reference operator () (int i);
     value_type operator () (int i) const;
@@ -227,6 +234,7 @@ namespace SeldonData
     bool IsDependent(int i) const;
     
     Grid<T>* Duplicate() const;
+    Grid<T>* Copy();
 
     reference operator () (int i);
     value_type operator () (int i) const;
