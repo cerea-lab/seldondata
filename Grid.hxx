@@ -125,8 +125,6 @@ namespace SeldonData
 		     int i6 = -1, int i7 = -1,
 		     int i8 = -1, int i9 = -1) const;
 
-    void ChangeCoords(Function_Base<T>& f, Array<Grid<T>*, 1> grids);
-
     void Print() const;
 
   };
@@ -155,7 +153,10 @@ namespace SeldonData
     GeneralGrid();
     GeneralGrid(Array<value_type, n>& values,
 		int variable,
-		Array<int, 1>& dependencies);
+		const TinyVector<int, n>& dependencies);
+    GeneralGrid(const TinyVector<int, n>& values_shape,
+		int variable,
+		const TinyVector<int, n>& dependencies);
     GeneralGrid(const GeneralGrid<T, n>& G);
     GeneralGrid(const Grid<T>& G);
     ~GeneralGrid();
@@ -188,13 +189,10 @@ namespace SeldonData
 		     int i6 = -1, int i7 = -1,
 		     int i8 = -1, int i9 = -1) const;
 
-    void ChangeCoords(Function_Base<T>& f, Array<Grid<T>*, 1> grids);
-
     void Print() const;
 
   private:
     int main_variable_;
-    int nb_dim_;
 
   };
 
