@@ -102,6 +102,8 @@ namespace SeldonData
 	 int N6, int N7,
 	 int N8, int N9)  throw();
     Data(const TinyVector<int, N>& shape) throw();
+    Data(T* data, const TinyVector<int, N>& shape,
+	 preexistingMemoryPolicy policy = neverDeleteData) throw();
     template <class T0>
     Data(Data<T0, N, TG>& data)  throw();
 
@@ -237,6 +239,37 @@ namespace SeldonData
 		    Grid<TG>& G6, Grid<TG>& G7,
 		    Grid<TG>& G8, Grid<TG>& G9);
 
+    void ResizeGrid(int N0);
+    void ResizeGrid(int N0, int N1);
+    void ResizeGrid(int N0, int N1,
+		    int N2);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4, int N5);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4, int N5,
+		    int N6);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4, int N5,
+		    int N6, int N7);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4, int N5,
+		    int N6, int N7,
+		    int N8);
+    void ResizeGrid(int N0, int N1,
+		    int N2, int N3,
+		    int N4, int N5,
+		    int N6, int N7,
+		    int N8, int N9);
+    
     void Resize();
     void Resize(Grid<TG>& G0);
     void Resize(Grid<TG>& G0, Grid<TG>& G1);
