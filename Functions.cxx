@@ -575,6 +575,7 @@ namespace SeldonData
 	{
 	  LengthIn(i) = dataIn.GetLength(i);
 	  LengthOut(i) = dataOut.GetLength(i);
+	  IndexOut(i) = 0;
 	}
 
     for (i=0; i < NbElementsOut; i++)
@@ -593,7 +594,7 @@ namespace SeldonData
 	      
 	      Coeff(j) = ( dataOut[j](IndexOut(j)) - dataIn[j](IndexIn(j)-1) ) /
 		( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
-	      
+
 	      // Saves coeffs and indices (values for dim are not saved).
 	      if (j < dim ) 
 		{
@@ -730,7 +731,7 @@ namespace SeldonData
 	      {
 		if (m < dim)
 		  {
-		    if (l%2 == 1)
+		    if (l%2 == 0)
 		      {
 			IndexIn(m) = RegularIndices(i, m);
 			coeff *= RegularCoeffs(i, m);
@@ -744,7 +745,7 @@ namespace SeldonData
 		  }
 		else if (m > dim)
 		  {
-		    if (l%2 == 1)
+		    if (l%2 == 0)
 		      {
 			IndexIn(m) = RegularIndices(i, m - 1);
 			coeff *= RegularCoeffs(i, m - 1);
