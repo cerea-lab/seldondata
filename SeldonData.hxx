@@ -1,4 +1,4 @@
-// Copyright (C) 2003 Vivien Mallet
+// Copyright (C) 2003-2004 Vivien Mallet
 //
 // This file is part of SeldonData library.
 // SeldonData library is a tool for data processing.
