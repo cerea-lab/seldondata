@@ -5020,7 +5020,7 @@ namespace SeldonData
     Data<T, N, TG> data0(*this);
     LinearInterpolationGeneral(data, data0);
 
-    return Bias(data0, limit);
+    return Bias(data0);
   }
 
   //! Computes bias between two data sets.
