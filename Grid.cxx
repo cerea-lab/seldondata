@@ -72,7 +72,7 @@ namespace SeldonData
     \return Length of the grid.
   */
   template<class T>
-  int Grid<T>::GetLength() const
+  inline int Grid<T>::GetLength() const
   {
     return length_;
   }
@@ -83,7 +83,7 @@ namespace SeldonData
     \return Length of the grid along the i-th dimension.
   */
   template<class T>
-  int Grid<T>::GetLength(int i) const
+  inline int Grid<T>::GetLength(int i) const
   {
     if (i==variable_)
       return length_;
@@ -96,7 +96,7 @@ namespace SeldonData
     \return Dimension number related to the grid.
   */
   template<class T>
-  int Grid<T>::GetVariable() const
+  inline int Grid<T>::GetVariable() const
   {
     return variable_;
   }
@@ -108,7 +108,7 @@ namespace SeldonData
     \exception SeldonData::WrongDim Dimension number i is out of range.
   */
   template<class T>
-  bool Grid<T>::IsDependent(int i) const
+  inline bool Grid<T>::IsDependent(int i) const
   {
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -125,7 +125,7 @@ namespace SeldonData
     \return Zero.
   */
   template<class T>
-  int Grid<T>::GetNbElements() const
+  inline int Grid<T>::GetNbElements() const
   {
     return 0;
   }
@@ -136,7 +136,7 @@ namespace SeldonData
     \param variable dimension to which the grid is related.
   */
   template<class T>
-  void Grid<T>::SetVariable(int variable)
+  inline void Grid<T>::SetVariable(int variable)
   {
     variable_ = variable;
   }
@@ -169,7 +169,7 @@ namespace SeldonData
   */
   template<class T>
   typename Grid<T>::reference
-  Grid<T>::operator() (int i)
+  inline Grid<T>::operator() (int i)
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
@@ -187,7 +187,7 @@ namespace SeldonData
   */
   template<class T>
   typename Grid<T>::value_type
-  Grid<T>::operator() (int i) const
+  inline Grid<T>::operator() (int i) const
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
@@ -214,7 +214,7 @@ namespace SeldonData
   */
   template<class T>
   typename Grid<T>::reference
-  Grid<T>::Value(int i0, int i1,
+  inline Grid<T>::Value(int i0, int i1,
 		 int i2, int i3,
 		 int i4, int i5,
 		 int i6, int i7,
@@ -256,7 +256,7 @@ namespace SeldonData
   */
   template<class T>
   typename Grid<T>::value_type
-  Grid<T>::Value(int i0, int i1,
+  inline Grid<T>::Value(int i0, int i1,
 		 int i2, int i3,
 		 int i4, int i5,
 		 int i6, int i7,
@@ -682,7 +682,7 @@ namespace SeldonData
     \return Length of the grid.
   */
   template<class T>
-  int RegularGrid<T>::GetLength() const
+  inline int RegularGrid<T>::GetLength() const
   {
     return values_.numElements();
   }
@@ -693,7 +693,7 @@ namespace SeldonData
     \return Length of the grid along the i-th dimension.
   */
   template<class T>
-  int RegularGrid<T>::GetLength(int i) const
+  inline int RegularGrid<T>::GetLength(int i) const
   {
     if (i==variable_)
       return values_.numElements();
@@ -706,7 +706,7 @@ namespace SeldonData
     \return The number of elements in the grid.
   */
   template<class T>
-  int RegularGrid<T>::GetNbElements() const
+  inline int RegularGrid<T>::GetNbElements() const
   {
     return length_;
   }
@@ -716,7 +716,7 @@ namespace SeldonData
     \return A reference to the array storing points coordinates.
   */
   template<class T>
-  Array<typename RegularGrid<T>::value_type, 1>&
+  inline Array<typename RegularGrid<T>::value_type, 1>&
   RegularGrid<T>::GetValues()
   {
     return values_;
@@ -727,7 +727,7 @@ namespace SeldonData
     \return A reference to the array storing points coordinates.
   */
   template<class T>
-  const Array<typename RegularGrid<T>::value_type, 1>&
+  inline const Array<typename RegularGrid<T>::value_type, 1>&
   RegularGrid<T>::GetValues() const
   {
     return values_;
@@ -758,7 +758,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T>
-  typename RegularGrid<T>::reference
+  inline typename RegularGrid<T>::reference
   RegularGrid<T>::operator() (int i)
   {
 
@@ -776,7 +776,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T>
-  typename RegularGrid<T>::value_type
+  inline typename RegularGrid<T>::value_type
   RegularGrid<T>::operator() (int i) const
   {
 
@@ -803,7 +803,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T>
-  typename RegularGrid<T>::reference
+  inline typename RegularGrid<T>::reference
   RegularGrid<T>::Value(int i0, int i1,
 			int i2, int i3,
 			int i4, int i5,
@@ -864,7 +864,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T>
-  typename RegularGrid<T>::value_type
+  inline typename RegularGrid<T>::value_type
   RegularGrid<T>::Value(int i0, int i1,
 			int i2, int i3,
 			int i4, int i5,
@@ -1090,7 +1090,7 @@ namespace SeldonData
     \return Length of the grid.
   */
   template<class T, int n>
-  int GeneralGrid<T, n>::GetLength() const
+  inline int GeneralGrid<T, n>::GetLength() const
   {
     return values_.extent(main_variable_);
   }
@@ -1101,7 +1101,7 @@ namespace SeldonData
     \return Length of the grid along the i-th dimension.
   */
   template<class T, int n>
-  int GeneralGrid<T, n>::GetLength(int i) const
+  inline int GeneralGrid<T, n>::GetLength(int i) const
   {
     int dim = 0;
 
@@ -1119,7 +1119,7 @@ namespace SeldonData
     \return The number of elements in the grid.
   */
   template<class T, int n>
-  int GeneralGrid<T, n>::GetNbElements() const
+  inline int GeneralGrid<T, n>::GetNbElements() const
   {
     return values_.numElements();
   }
@@ -1129,7 +1129,7 @@ namespace SeldonData
     \return A reference to the array storing points coordinates.
   */
   template<class T, int n>
-  Array<typename GeneralGrid<T, n>::value_type, n>&
+  inline Array<typename GeneralGrid<T, n>::value_type, n>&
   GeneralGrid<T, n>::GetValues()
   {
     return values_;
@@ -1140,7 +1140,7 @@ namespace SeldonData
     \return A reference to the array storing points coordinates.
   */
   template<class T, int n>
-  const Array<typename GeneralGrid<T, n>::value_type, n>&
+  inline const Array<typename GeneralGrid<T, n>::value_type, n>&
   GeneralGrid<T, n>::GetValues() const
   {
     return values_;
@@ -1151,7 +1151,7 @@ namespace SeldonData
     \return A reference to dependencies array.
   */
   template<class T, int n>
-  Array<int, 1>&
+  inline Array<int, 1>&
   GeneralGrid<T, n>::GetDependencies()
   {
     return dependencies_;
@@ -1162,7 +1162,7 @@ namespace SeldonData
     \return A reference to dependencies array.
   */
   template<class T, int n>
-  const Array<int, 1>&
+  inline const Array<int, 1>&
   GeneralGrid<T, n>::GetDependencies() const
   {
     return dependencies_;
@@ -1179,7 +1179,7 @@ namespace SeldonData
     \return Main dimension of the array.
   */
   template<class T, int n>
-  int GeneralGrid<T, n>::GetMainVariable() const
+  inline int GeneralGrid<T, n>::GetMainVariable() const
   {
     return main_variable_;
   }
@@ -1191,7 +1191,7 @@ namespace SeldonData
     \exception SeldonData::WrongDim Dimension number i is out of range.
   */
   template<class T, int n>
-  bool GeneralGrid<T, n>::IsDependent(int i) const
+  inline bool GeneralGrid<T, n>::IsDependent(int i) const
   {
 
 #ifdef DEBUG_SELDONDATA_DIMENSION
@@ -1226,7 +1226,7 @@ namespace SeldonData
 
   //! Not defined.
   template<class T, int n>
-  typename GeneralGrid<T, n>::reference
+  inline typename GeneralGrid<T, n>::reference
   GeneralGrid<T, n>::operator() (int i)
   {
     throw Undefined("reference GeneralGrid<T, n>::operator() (int)",
@@ -1235,7 +1235,7 @@ namespace SeldonData
 
   //! Not defined.
   template<class T, int n>
-  typename GeneralGrid<T, n>::value_type
+  inline typename GeneralGrid<T, n>::value_type
   GeneralGrid<T, n>::operator() (int i) const
   {
     throw Undefined("value_type GeneralGrid<T, n>::operator() (int)",
@@ -1258,7 +1258,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int n>
-  typename GeneralGrid<T, n>::reference
+  inline typename GeneralGrid<T, n>::reference
   GeneralGrid<T, n>::Value(int i0, int i1,
 			   int i2, int i3,
 			   int i4, int i5,
@@ -1366,7 +1366,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int n>
-  typename GeneralGrid<T, n>::value_type
+  inline typename GeneralGrid<T, n>::value_type
   GeneralGrid<T, n>::Value(int i0, int i1,
 			   int i2, int i3,
 			   int i4, int i5,
