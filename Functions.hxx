@@ -28,11 +28,6 @@ namespace SeldonData
 
   template<int N, class TIn, class TGIn,
     class TOut, class TGOut>
-  void LinearInterpolationGeneral(Data<TIn, N, TGIn>& dataIn,
-				  Data<TOut, N, TGOut>& dataOut);
-  
-  template<int N, class TIn, class TGIn,
-    class TOut, class TGOut>
   void LinearInterpolationOneGeneral(Data<TIn, N, TGIn>& dataIn,
 				     Data<TOut, N, TGOut>& dataOut,
 				     int dim);
