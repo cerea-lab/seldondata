@@ -405,6 +405,41 @@ namespace SeldonData
     T ErrorLessThan(Data<T0, N, TG0>& data, T threshold);
 
     void ReverseData(int dim = 0);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4,
+			  Grid<TG>& G5);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4,
+			  Grid<TG>& G5, Grid<TG>& G6);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4,
+			  Grid<TG>& G5, Grid<TG>& G6,
+			  Grid<TG>& G7);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4,
+			  Grid<TG>& G5, Grid<TG>& G6,
+			  Grid<TG>& G7, Grid<TG>& G8);
+    void SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+			  Grid<TG>& G1, Grid<TG>& G2,
+			  Grid<TG>& G3, Grid<TG>& G4,
+			  Grid<TG>& G5, Grid<TG>& G6,
+			  Grid<TG>& G7, Grid<TG>& G8,
+			  Grid<TG>& G9);
 
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);

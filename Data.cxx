@@ -4695,6 +4695,842 @@ namespace SeldonData
     return ( T(nb_err) / T(NbElements) );
   }
 
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 1)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0)",
+		     string("Required ") + to_str(N) + " grids, but got 1 grid.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0))) = NewData(Index(0));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 2)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 2 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)))
+	  = NewData(Index(0), Index(1));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 3)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 3 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)), Index(NewDim(2)))
+	  = NewData(Index(0), Index(1), Index(2));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 4)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 4 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 5)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 5 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3), Index(4));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+    \param G5 new grid for dimension #5.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4, Grid<TG>& G5)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 6)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 6 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)), this->GetLength(NewDim(5)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4, G5);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)), Index(NewDim(5)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3), Index(4), Index(5));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+    \param G5 new grid for dimension #5.
+    \param G6 new grid for dimension #6.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4, Grid<TG>& G5, Grid<TG>& G6)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 7)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 7 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)), this->GetLength(NewDim(5)),
+			    this->GetLength(NewDim(6)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4, G5, G6);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)), Index(NewDim(5)),
+		    Index(NewDim(6)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3), Index(4), Index(5), Index(6));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+    \param G5 new grid for dimension #5.
+    \param G6 new grid for dimension #6.
+    \param G7 new grid for dimension #7.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4, Grid<TG>& G5, Grid<TG>& G6,
+					Grid<TG>& G7)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 8)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 8 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)), this->GetLength(NewDim(5)),
+			    this->GetLength(NewDim(6)), this->GetLength(NewDim(7)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4, G5, G6, G7);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)), Index(NewDim(5)),
+		    Index(NewDim(6)), Index(NewDim(7)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3),
+		    Index(4), Index(5), Index(6), Index(7));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+    \param G5 new grid for dimension #5.
+    \param G6 new grid for dimension #6.
+    \param G7 new grid for dimension #7.
+    \param G8 new grid for dimension #8.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4, Grid<TG>& G5, Grid<TG>& G6,
+					Grid<TG>& G7, Grid<TG>& G8)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 9)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 9 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)), this->GetLength(NewDim(5)),
+			    this->GetLength(NewDim(6)), this->GetLength(NewDim(7)),
+			    this->GetLength(NewDim(8)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4, G5, G6, G7, G8);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)), Index(NewDim(5)),
+		    Index(NewDim(6)), Index(NewDim(7)),
+		    Index(NewDim(8)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3),
+		    Index(4), Index(5), Index(6), Index(7),
+		    Index(8));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
+  //! Switches dimensions of data.
+  /*! Switches dimensions of data.
+    \param NewDim vector of new dimensions indices.
+    \param G0 new grid for dimension #0.
+    \param G1 new grid for dimension #1.
+    \param G2 new grid for dimension #2.
+    \param G3 new grid for dimension #3.
+    \param G4 new grid for dimension #4.
+    \param G5 new grid for dimension #5.
+    \param G6 new grid for dimension #6.
+    \param G7 new grid for dimension #7.
+    \param G8 new grid for dimension #8.
+    \param G9 new grid for dimension #9.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SwitchDimensions(TinyVector<int, N> NewDim, Grid<TG>& G0,
+					Grid<TG>& G1, Grid<TG>& G2, Grid<TG>& G3,
+					Grid<TG>& G4, Grid<TG>& G5, Grid<TG>& G6,
+					Grid<TG>& G7, Grid<TG>& G8, Grid<TG>& G9)
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N != 10)
+      throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		     + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		     string("Required ") + to_str(N) + " grids, but got 10 grids.");
+
+    // Checks if every dimension is given, and only once.
+    TinyVector<bool, N> CheckNewDim;
+    CheckNewDim = false;
+    for (int i = 0; i < N; i++)
+      {
+	// Dimension index out of range.
+	if (NewDim(i) > N || NewDim(i) < 0)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("NewDim(") + to_str(i) + ") is " + to_str(NewDim(i))
+			 + " but should be in [0, " + to_str(N-1) + "].");
+	// One dimension is given twice.
+	else if (CheckNewDim(NewDim(i)) == true)
+	  throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+			 + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+			 string("Dimension ") + to_str(NewDim(i))
+			 + " is given twice or more in NewDim.");
+	// First time this dimension is given.
+	else 
+	  CheckNewDim(NewDim(i)) = true;
+      }
+
+    // Checks if every dimensions is given.
+    for (int i = 0; i < N; i++)
+      if(CheckNewDim(i) == false)
+	throw WrongDim(string("Data<T, ") + to_str(N) + ">::SwitchDimensions(TinyVector<int, "
+		       + to_str(N) + "> NewDim, Grid<TG> G0, ...)",
+		       string("Dimension ") + to_str(i) +" lacks in NewDim.");
+#endif
+
+    int i, j;
+    Array<int, 1> Index(10);
+
+    // Gets a copy of the data array.
+    Array<T, N> NewData(this->GetArray().data(), this->GetArray().shape(), duplicateData);
+
+    // Re-shapes the data array.
+    this->GetArray().resize(this->GetLength(NewDim(0)), this->GetLength(NewDim(1)),
+			    this->GetLength(NewDim(2)), this->GetLength(NewDim(3)),
+			    this->GetLength(NewDim(4)), this->GetLength(NewDim(5)),
+			    this->GetLength(NewDim(6)), this->GetLength(NewDim(7)),
+			    this->GetLength(NewDim(8)), this->GetLength(NewDim(9)));
+    // Resizes the grid of the data.
+    this->ResizeGrid(G0, G1, G2, G3, G4, G5, G6, G7, G8, G9);
+
+    // Puts elements from old array to new array.
+    Index = 0;
+    for (i = 0; i < NewData.size(); i++)
+      {
+	this->Value(Index(NewDim(0)), Index(NewDim(1)),
+		    Index(NewDim(2)), Index(NewDim(3)),
+		    Index(NewDim(4)), Index(NewDim(5)),
+		    Index(NewDim(6)), Index(NewDim(7)),
+		    Index(NewDim(8)), Index(NewDim(9)))
+	  = NewData(Index(0), Index(1), Index(2), Index(3),
+		    Index(4), Index(5), Index(6), Index(7),
+		    Index(8), Index(9));
+	j = N - 1;
+	while ( (j >= 0) && (Index(j) == NewData.extent(j)-1) )
+	  {
+	    Index(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  Index(j)++;
+      }
+  }
+
   //! Reverses data along a given dimension.
   /*! Reverses data along dimension 'dim'. For example, if a three dimensional
     array A is reversed along dimension #1, on exit, A(i, j, k) = A(i, Ny-1-j, k),
