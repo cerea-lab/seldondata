@@ -30,6 +30,10 @@ using namespace std;
 #include "netcdfcpp.h"
 #endif
 
+#ifdef SELDONDATA_WITH_GRIB
+#include "unpackgrib.c"
+#endif
+
 namespace SeldonData
 {
 
@@ -206,6 +210,39 @@ namespace SeldonData
 
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
+
+  };
+#endif
+
+
+#ifdef SELDONDATA_WITH_GRIB
+  //! Input/ouput class to read Grib files.
+  template<class T>
+  class FormatGrib: public Format
+  {
+
+  protected:
+
+  public:
+    FormatGrib()  throw();
+    ~FormatGrib()  throw();
+
+    // Grid.
+
+    template<class TG>
+    void Read(string FileName, int variable, RegularGrid<TG>& G) const;
+    template<class TG, int N>
+    void Read(string FileName, int variable, GeneralGrid<TG, N>& G) const;
+
+    // Data.
+
+    template<class TD, int N, class TG>
+    void Read(string FileName, int variable, Data<TD, N, TG>& D) const;
+
+    // Array.
+
+    template<class TA, int N>
+    void Read(string FileName, int variable, Array<TA, N>& A) const;
 
   };
 #endif

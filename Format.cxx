@@ -782,7 +782,7 @@ namespace SeldonData
   /* Grid */
   /********/
 
-  //! Reads a binary file.
+  //! Reads a netCDF file.
   template<class T>
   template<class TG>
   void FormatNetCDF<T>::Read(string FileName, string variable, RegularGrid<TG>& G) const
@@ -792,7 +792,7 @@ namespace SeldonData
 
   }
 
-  //! Reads a binary file.
+  //! Reads a netCDF file.
   template<class T>
   template<class TG, int n>
   void FormatNetCDF<T>::Read(string FileName, string variable, GeneralGrid<TG, n>& G) const
@@ -806,7 +806,7 @@ namespace SeldonData
   /* Data */
   /********/
   
-  //! Reads a binary file.
+  //! Reads a netCDF file.
   template<class T>
   template<class TD, int N, class TG>
   void FormatNetCDF<T>::Read(string FileName, string variable, Data<TD, N, TG>& D) const
@@ -820,7 +820,7 @@ namespace SeldonData
   /* Array */
   /*********/
 
-  //! Reads a binary file.
+  //! Reads a netCDF file.
   template<class T>
   template<class TA, int N>
   void FormatNetCDF<T>::Read(string FileName, string variable, Array<TA, N>& A) const
@@ -885,6 +885,175 @@ namespace SeldonData
 
   delete[] input_dimensions;
 
+  }
+
+#endif
+
+
+  ////////////////
+  // FORMATGRIB //
+  ////////////////
+
+#ifdef SELDONDATA_WITH_GRIB
+
+  //! Default constructor.
+  template<class T>
+  FormatGrib<T>::FormatGrib()  throw()
+  {
+  }
+
+  //! Destructor.
+  template<class T>
+  FormatGrib<T>::~FormatGrib()  throw()
+  {
+  }
+
+  /********/
+  /* Grid */
+  /********/
+
+  //! Reads a Grib file.
+  template<class T>
+  template<class TG>
+  void FormatGrib<T>::Read(string FileName, int variable, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, variable, G.GetArray());
+
+  }
+
+  //! Reads a Grib file.
+  template<class T>
+  template<class TG, int n>
+  void FormatGrib<T>::Read(string FileName, int variable, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileName, variable, G.GetArray());
+
+  }
+
+  /********/
+  /* Data */
+  /********/
+  
+  //! Reads a Grib file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatGrib<T>::Read(string FileName, int variable, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileName, variable, D.GetArray());
+
+  }
+
+  /*********/
+  /* Array */
+  /*********/
+
+  //! Reads a Grib file.
+  template<class T>
+  template<class TA, int N>
+  void FormatGrib<T>::Read(string FileName, int variable, Array<TA, N>& A) const
+  {
+
+    GRIBRecord grib_rec;
+    FILE *grib_file;
+    size_t n, m;
+    size_t nrec(0);
+
+    int status;
+    
+    grib_rec.buffer=NULL;
+    grib_rec.pds_ext=NULL;
+    grib_rec.gridpoints=NULL;
+
+    grib_file = fopen(FileName.c_str(), "r");
+
+
+    int nb_elements = A.numElements();
+    int i = 0;
+    int j, k;
+    Array<int, 1> Index(10), Length(10);
+
+    for (j=0; j<10; j++)
+      {
+	Index(j) = 0;
+	Length(j) = A.extent(j);
+      }
+
+    j = N-1;
+    while ((status = unpackgrib(grib_file, &grib_rec)) == 0)
+      {
+
+	if (grib_rec.param==variable)
+	  {
+	    
+	    nrec++;
+	    
+	    for (n=0; n<grib_rec.ny; n++)
+	      for (m=0; m<grib_rec.nx; m++)
+#ifdef DEBUG_SELDONDATA_IO
+		if (i<nb_elements)
+#endif
+		  {
+		    A(Index(0), Index(1), Index(2),
+		      Index(3), Index(4), Index(5),
+		      Index(6), Index(7), Index(8),
+		      Index(9))
+		      = grib_rec.gridpoints[n][m];
+		    
+		    j = N-1;
+		    while ( (j>=0) && (Index(j)==Length(j)-1) )
+		      {
+			Index(j) = 0;
+			j--;
+		      }
+		    
+		    if (j!=-1)
+		      Index(j)++;
+		    
+		    i++;
+		  }
+#ifdef DEBUG_SELDONDATA_IO
+		else
+		  i++;
+#endif
+
+	  }
+
+      }
+    
+#ifdef DEBUG_SELDONDATA_IO
+
+    if (status == 1)
+      throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+		    "Read error after " + to_str(nrec) + " records.");
+
+    if (i>nb_elements)
+      throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+		    "File \"" + FileName + "\" contains " + to_str(i)
+		    + " elements for field #"
+		    + to_str(variable) + ", but data has only "
+		    + to_str(nb_elements) + " elements. All values must be read.");
+
+    // Checks if all was read.
+    if (i<nb_elements)
+      {
+	throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+		    "Cannot find all values. File \"" + FileName + "\" contains "
+		    + to_str(i) + " elements for field #"
+		    + to_str(variable) + ", but data has "
+		    + to_str(nb_elements) + " elements.");
+
+	if (status == -1)
+	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
+			"End of file found. " + to_str(i)
+			+ " elements were read for field #" + to_str(variable)
+			+ ", but data has " + to_str(nb_elements) + " elements.");
+      }
+
+#endif
+    
   }
 
 #endif
