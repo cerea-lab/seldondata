@@ -1309,10 +1309,20 @@ namespace SeldonData
 
   //! Returns the array storing elements.
   /*!
-    \return A reference to the array storing data.
+    \return A pointer to the array storing data.
   */
   template<class T, int N, class TG>
   inline T* Data<T, N, TG>::GetData()
+  {
+    return data_.data();
+  }
+
+  //! Returns the array storing elements.
+  /*!
+    \return A constant pointer to the array storing data.
+  */
+  template<class T, int N, class TG>
+  inline const T* Data<T, N, TG>::GetData() const
   {
     return data_.data();
   }
@@ -1560,6 +1570,57 @@ namespace SeldonData
     
     for (int i=0; i<NbElements; i++)
       function.Apply(data[i]);
+  }
+
+  //! Returns the maximum.
+  /*!
+    \return The maximum.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::GetMax() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T maximum = data[0];
+    for (int i=1; i<NbElements; i++)
+      maximum = max(maximum, data[i]);
+
+    return maximum;
+  }
+
+  //! Returns the minimum.
+  /*!
+    \return The minimum.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::GetMin() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T minimum = data[0];
+    for (int i=1; i<NbElements; i++)
+      minimum = min(minimum, data[i]);
+
+    return minimum;
+  }
+
+  //! Returns the maximum (absolute value).
+  /*!
+    \return The maximum (absolute value).
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::GetMaxAbs() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T maximum = abs(data[0]);
+    for (int i=1; i<NbElements; i++)
+      maximum = max(maximum, abs(data[i]));
+
+    return maximum;
   }
 
   //! Sets data to zero.

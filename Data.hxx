@@ -124,6 +124,7 @@ namespace SeldonData
 
     Array<T, N>& GetArray();
     T* GetData();
+    const T* GetData() const;
 
     template<class DTG, class R0>
     void SubData(Data<T, 1, DTG>&, R0 r0);
@@ -171,6 +172,10 @@ namespace SeldonData
     void Apply(void function(T&));
     template <class F>
     void Apply(F& function);
+
+    T GetMax() const;
+    T GetMaxAbs() const;
+    T GetMin() const;
 
     void SetZero();
     bool IsZero();
