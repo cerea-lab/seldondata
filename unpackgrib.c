@@ -701,6 +701,73 @@ void unpackBDS(GRIBRecord *grib_rec)
 
 void skipBDS(GRIBRecord *grib_rec)
 {
+  size_t n,m;
+  size_t num_packed;
+  int bms_length,sign,ub;
+  int tref;
+  size_t *buf=(size_t *)grib_rec->buffer;
+
+  if (grib_rec->bms_included == 1) {
+    getBits(buf,&bms_length,grib_rec->offset,24);
+
+    if (grib_rec->ed_num == 0)
+      grib_rec->total_len+=bms_length;
+    getBits(buf,&ub,grib_rec->offset+24,8);
+    getBits(buf,&tref,grib_rec->offset+32,16);
+    if (tref != 0) {
+      fprintf(stderr,"Error: unknown pre-defined bit-map %d\n",tref);
+      exit(1);
+    }
+    num_packed=(bms_length-6)*8-ub;
+    grib_rec->offset+=bms_length*8;
+  }
+
+  /* length of the BDS */
+  getBits(buf,(int *)&grib_rec->bds_len,grib_rec->offset,24);
+
+  if (grib_rec->ed_num == 0)
+    grib_rec->total_len+=(grib_rec->bds_len+1);
+  /* bit width of the packed data points */
+  getBits(buf,(int *)&grib_rec->pack_width,grib_rec->offset+80,8);
+
+  if ((grib_rec->bds_flag & 0x40) == 0) {
+    /* simple packing */
+    grib_rec->offset+=88;
+    num_packed=(grib_rec->bds_len*8-88-ub)/grib_rec->pack_width;
+    switch (grib_rec->data_rep) {
+      /* Latitude/Longitude grid */
+    case 0:
+      /* Gaussian Lat/Lon grid */
+      /* Rotated Lat/Lon grid */
+    case 4:
+    case 10:
+      switch (grib_rec->grid_type) {
+      case 23:
+      case 24:
+      case 26:
+      case 63:
+      case 64:
+	grib_rec->offset+=grib_rec->pack_width;
+	break;
+      }
+      /* Lambert Conformal grid */
+    case 3:
+      /* Polar Stereographic grid */
+    case 5:
+      grib_rec->offset += num_packed * grib_rec->pack_width;
+
+      grib_rec->ngy=grib_rec->ny;
+      break;
+      /* no recognized GDS, so just unpack the stream of gridpoints */
+    default:
+      grib_rec->ngy=grib_rec->ny=1;
+    }
+  }
+  else {
+    /* second-order packing */
+    fprintf(stderr,"Error: complex packing not currently supported\n");
+    exit(1);
+  }
 }
 
 int unpackgrib(FILE *fp, int variable, double* data,
