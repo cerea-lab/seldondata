@@ -905,7 +905,7 @@ namespace SeldonData
     reading = ((date_==-1) || (date==date_));
 
     string temp_str;
-    while (!reading)
+    while ( (!reading) && (FileStream.good()) )
       {
 	for (i=0; i<nb_lines+1; i++)
 	  getline(FileStream, temp_str);
