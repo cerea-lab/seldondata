@@ -38,7 +38,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 1 grids." << endl;
 	abort();
       }
@@ -81,7 +81,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 2 grids." << endl;
 	abort();
       }
@@ -125,7 +125,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 3 grids." << endl;
 	abort();
       }
@@ -173,7 +173,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 4 grids." << endl;
 	abort();
       }
@@ -223,7 +223,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 5 grids." << endl;
 	abort();
       }
@@ -275,7 +275,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 6 grids." << endl;
 	abort();
       }
@@ -329,7 +329,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 7 grids." << endl;
 	abort();
       }
@@ -386,7 +386,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 8 grids." << endl;
 	abort();
       }
@@ -444,7 +444,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 9 grids." << endl;
 	abort();
       }
@@ -505,7 +505,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
-	     << endl << "   Requires " + to_str(N)
+	     << endl << "   Required " + to_str(N)
 	  + " grids, but got 10 grids." << endl;
 	abort();
       }

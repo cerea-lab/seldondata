@@ -179,26 +179,29 @@ namespace SeldonData
   {
 
   protected:
+    int date_;
 
   public:
     FormatChimere()  throw();
+    FormatChimere(int date)  throw();
     ~FormatChimere()  throw();
+
+    void SetDate(int date);
+    int GetDate() const;
 
     // Data.
 
     template<class TD, int N, class TG>
-    void Read(string FileName, int date, Data<TD, N, TG>& D) const;
-
+    void Read(string FileName, Data<TD, N, TG>& D) const;
     template<class TD, int N, class TG>
-    void Write(Data<TD, N, TG>& D, int date, string FileName) const;
+    void Read(ifstream& FileStream, Data<TD, N, TG>& D) const;
 
     // Array.
 
     template<class TA, int N>
-    void Read(string FileName, int date, Array<TA, N>& A) const;
-
+    void Read(string FileName, Array<TA, N>& A) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, int date, string FileName) const;
+    void Read(ifstream& FileStream, Array<TA, N>& A) const;
 
   };
 
