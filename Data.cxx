@@ -42,7 +42,7 @@ namespace SeldonData
     data_(G0.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=1)
       {
 	cout << "ERROR!" << endl;
@@ -56,7 +56,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -84,7 +84,7 @@ namespace SeldonData
     data_(G0.GetLength(), G1.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
@@ -98,7 +98,7 @@ namespace SeldonData
     grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -128,7 +128,7 @@ namespace SeldonData
 	  G2.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
@@ -144,7 +144,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -176,7 +176,7 @@ namespace SeldonData
 	  G2.GetLength(), G3.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
@@ -192,7 +192,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -226,7 +226,7 @@ namespace SeldonData
 	  G4.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
@@ -243,7 +243,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -278,7 +278,7 @@ namespace SeldonData
 	  G5.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
@@ -295,7 +295,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -332,7 +332,7 @@ namespace SeldonData
 	  G5.GetLength(), G6.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
@@ -350,7 +350,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -389,7 +389,7 @@ namespace SeldonData
     grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
@@ -407,7 +407,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -447,7 +447,7 @@ namespace SeldonData
 	  G8.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
@@ -466,7 +466,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -508,7 +508,7 @@ namespace SeldonData
 	  G8.GetLength(), G9.GetLength()), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
@@ -527,7 +527,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -554,7 +554,7 @@ namespace SeldonData
     data_(N0), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=1)
       {
 	cout << "ERROR!" << endl;
@@ -570,7 +570,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -598,7 +598,7 @@ namespace SeldonData
     data_(N0, N1), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
@@ -615,7 +615,7 @@ namespace SeldonData
     grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -644,7 +644,7 @@ namespace SeldonData
     data_(N0, N1, N2), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
@@ -664,7 +664,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -695,7 +695,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
@@ -716,7 +716,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -748,7 +748,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
@@ -771,7 +771,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -804,7 +804,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4, N5), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
@@ -828,7 +828,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -863,7 +863,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4, N5, N6), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
@@ -889,7 +889,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -925,7 +925,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4, N5, N6, N7), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
@@ -952,7 +952,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -989,7 +989,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4, N5, N6, N7, N8), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
@@ -1018,7 +1018,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -1057,7 +1057,7 @@ namespace SeldonData
     data_(N0, N1, N2, N3, N4, N5, N6, N7, N8, N9), grids_(N)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
@@ -1087,7 +1087,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -1141,13 +1141,13 @@ namespace SeldonData
   inline T& Data<T, N, TG>::operator() (int i0)  
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=1)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 1 argument.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1170,13 +1170,13 @@ namespace SeldonData
   inline T& Data<T, N, TG>::operator() (int i0, int i1)  
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=2)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 2 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1205,13 +1205,13 @@ namespace SeldonData
   inline T& Data<T, N, TG>::operator() (int i0, int i1, int i2)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=3)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 3 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1248,13 +1248,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=4)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 4 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1297,13 +1297,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=5)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 5 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1352,13 +1352,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=6)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 6 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1415,13 +1415,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=7)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 7 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1484,13 +1484,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=8)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 8 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1559,13 +1559,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=9)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 9 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1641,13 +1641,13 @@ namespace SeldonData
 
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=10)
       throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
 		     "operator() was called with 10 arguments.");
 #endif
 
-#ifdef DEBUG_SELDONDATA_INDICES
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
     if ( (i0<0) || (i0>=data_.extent(0)) )
       throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
 		       "Index along dimension #0 should be in [0, "
@@ -1712,7 +1712,7 @@ namespace SeldonData
   inline T& Data<T, N, TG>::operator() (Array<int, 1>& indices)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=indices.numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::operator() (Array<int, 1>&)",
 		     "The input array contains " + to_str(indices.numElements())
@@ -2181,7 +2181,7 @@ namespace SeldonData
   void Data<T, N, TG>::ResizeGrid(Grid<TG>& G0)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=1)
       {
 	cout << "ERROR!" << endl;
@@ -2196,7 +2196,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2230,7 +2230,7 @@ namespace SeldonData
   void Data<T, N, TG>::ResizeGrid(Grid<TG>& G0, Grid<TG>& G1)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
@@ -2245,7 +2245,7 @@ namespace SeldonData
     grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2280,7 +2280,7 @@ namespace SeldonData
   void Data<T, N, TG>::ResizeGrid(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
@@ -2297,7 +2297,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2334,7 +2334,7 @@ namespace SeldonData
 				  Grid<TG>& G3)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
@@ -2351,7 +2351,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2389,7 +2389,7 @@ namespace SeldonData
 				  Grid<TG>& G3, Grid<TG>& G4)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
@@ -2407,7 +2407,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2446,7 +2446,7 @@ namespace SeldonData
 				  Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
@@ -2464,7 +2464,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2505,7 +2505,7 @@ namespace SeldonData
 				  Grid<TG>& G6)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
@@ -2524,7 +2524,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2566,7 +2566,7 @@ namespace SeldonData
 				  Grid<TG>& G6, Grid<TG>& G7)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
@@ -2585,7 +2585,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2628,7 +2628,7 @@ namespace SeldonData
 				  Grid<TG>& G6, Grid<TG>& G7, Grid<TG>& G8)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
@@ -2648,7 +2648,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2693,7 +2693,7 @@ namespace SeldonData
 				  Grid<TG>& G9)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
@@ -2713,7 +2713,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2754,7 +2754,7 @@ namespace SeldonData
   void Data<T, N, TG>::Resize(Grid<TG>& G0)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=1)
       {
 	cout << "ERROR!" << endl;
@@ -2769,7 +2769,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2798,7 +2798,7 @@ namespace SeldonData
   void Data<T, N, TG>::Resize(Grid<TG>& G0, Grid<TG>& G1)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=2)
       {
 	cout << "ERROR!" << endl;
@@ -2813,7 +2813,7 @@ namespace SeldonData
     grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
     SetVariables();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2843,7 +2843,7 @@ namespace SeldonData
   void Data<T, N, TG>::Resize(Grid<TG>& G0, Grid<TG>& G1, Grid<TG>& G2)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=3)
       {
 	cout << "ERROR!" << endl;
@@ -2860,7 +2860,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2893,7 +2893,7 @@ namespace SeldonData
 			      Grid<TG>& G3)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=4)
       {
 	cout << "ERROR!" << endl;
@@ -2910,7 +2910,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2944,7 +2944,7 @@ namespace SeldonData
 			      Grid<TG>& G3, Grid<TG>& G4)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=5)
       {
 	cout << "ERROR!" << endl;
@@ -2962,7 +2962,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -2998,7 +2998,7 @@ namespace SeldonData
 			      Grid<TG>& G3, Grid<TG>& G4, Grid<TG>& G5)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=6)
       {
 	cout << "ERROR!" << endl;
@@ -3016,7 +3016,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -3054,7 +3054,7 @@ namespace SeldonData
 			      Grid<TG>& G6)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=7)
       {
 	cout << "ERROR!" << endl;
@@ -3073,7 +3073,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -3112,7 +3112,7 @@ namespace SeldonData
 			      Grid<TG>& G6, Grid<TG>& G7)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=8)
       {
 	cout << "ERROR!" << endl;
@@ -3131,7 +3131,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -3171,7 +3171,7 @@ namespace SeldonData
 			      Grid<TG>& G6, Grid<TG>& G7, Grid<TG>& G8)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=9)
       {
 	cout << "ERROR!" << endl;
@@ -3191,7 +3191,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -3234,7 +3234,7 @@ namespace SeldonData
 			      Grid<TG>& G9)
   {
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     if (N!=10)
       {
 	cout << "ERROR!" << endl;
@@ -3254,7 +3254,7 @@ namespace SeldonData
     SetVariables();
 
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
     for (i=0; i<N; i++)
       for (j=0; j<N; j++)
@@ -3854,6 +3854,20 @@ namespace SeldonData
     return pow(norm, 1./p);
   }
 
+  //! Fills the data array.
+  /*!
+    Fills the array with integers 0, 1, 2, etc.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Fill()
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      data[i] = T(i);
+  }
+
   //! Sets data to a constant value.
   /*!
     \param value value to which data is set.
@@ -3965,7 +3979,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::NGE(Data<T, " + to_str(N) + ">&, T)",
@@ -4019,7 +4033,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::Bias(Data<T, " + to_str(N) + ">&, T)",
@@ -4067,7 +4081,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::RMS(Data<T, " + to_str(N) + ">&)",
@@ -4118,7 +4132,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::RelativeRMS(Data<T, " + to_str(N) + ">&)",
@@ -4170,7 +4184,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::Corr(Data<T, " + to_str(N) + ">&)",
@@ -4244,7 +4258,7 @@ namespace SeldonData
     T0* data0_arr = data.GetData();
     int NbElements = data_.numElements();
 
-#ifdef DEBUG_SELDONDATA_DIMENSION
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
 
     if (NbElements!=data.GetArray().numElements())
       throw WrongDim("Data<T, " + to_str(N) + ">::ErrorLessThan(Data<T, " + to_str(N) + ">&, T)",
