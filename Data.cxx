@@ -1105,6 +1105,45 @@ namespace SeldonData
 
   }
 
+  //! Constructor.
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(const TinyVector<int, N>& shape)  throw():
+    grids_(N)
+  {
+    if (N == 1)
+      this->Resize(shape(0));
+    else if (N == 2)
+      this->Resize(shape(0), shape(1));
+    else if (N == 3)
+      this->Resize(shape(0), shape(1), shape(2));
+    else if (N == 4)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3));
+    else if (N == 5)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4));
+    else if (N == 6)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4), shape(5));
+    else if (N == 7)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4), shape(5),
+		   shape(6));
+    else if (N == 8)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4), shape(5),
+		   shape(6), shape(7));
+    else if (N == 9)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4), shape(5),
+		   shape(6), shape(7), shape(8));
+    else if (N == 10)
+      this->Resize(shape(0), shape(1), shape(2),
+		   shape(3), shape(4), shape(5),
+		   shape(6), shape(7), shape(8),
+		   shape(9));
+  }
+
   //! Copy constructor.
   template<class T, int N, class TG>
   template <class T0>
