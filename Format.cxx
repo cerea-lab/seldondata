@@ -187,6 +187,17 @@ namespace SeldonData
 
   }
 
+  //! Reads given steps in a binary file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatBinary<T>::ReadSteps(string FileName, int steps,
+				  Data<TD, N, TG>& D) const
+  {
+
+    this->ReadSteps(FileName, steps, D.GetArray());
+
+  }
+
   //! Writes a binary file.
   template<class T>
   template<class TD, int N, class TG>
@@ -324,6 +335,40 @@ namespace SeldonData
 	for (j=0; j < int((data_size % (length * sizeof(T))) / sizeof(T)); j++)
 	  data_output[j + i*length] = data[j];
       }
+
+  }
+
+  //! Reads given steps in a binary file.
+  template<class T>
+  template<class TA, int N>
+  void FormatBinary<T>::ReadSteps(string FileName, int steps,
+				  Array<TA, N>& A) const
+  {
+
+    ifstream FileStream;
+    FileStream.open(FileName.c_str(), ifstream::binary);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatBinary<T>::ReadSteps(string FileName, int steps, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    size_t pos = steps * sizeof(T) * A.numElements() / A.extent(0);
+    FileStream.seekg(pos);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether all steps were skipped.
+    if (!FileStream.good())
+      throw IOError("FormatBinary<T>::ReadSteps(string FileName, int steps, Array<TA, N>& A)",
+		    string("Unable to skip ") + to_str(steps)
+		    + " steps in file \"" + FileName + "\".");
+#endif
+
+    this->Read(FileStream, A);
+
+    FileStream.close();
 
   }
 

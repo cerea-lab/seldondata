@@ -94,6 +94,9 @@ namespace SeldonData
     void Read(ifstream& FileStream, Data<TD, N, TG>& D) const;
 
     template<class TD, int N, class TG>
+    void ReadSteps(string FileName, int steps, Data<TD, N, TG>& D) const;
+
+    template<class TD, int N, class TG>
     void Write(Data<TD, N, TG>& D, string FileName) const;
     template<class TD, int N, class TG>
     void Write(Data<TD, N, TG>& D, ofstream& FileStream) const;
@@ -109,6 +112,9 @@ namespace SeldonData
     void Read(ifstream& FileStream, Array<T, N>& A) const;
     template<class TA, int N>
     void Read(ifstream& FileStream, Array<TA, N>& A) const;
+
+    template<class TA, int N>
+    void ReadSteps(string FileName, int steps, Array<TA, N>& A) const;
 
     template<class TA, int N>
     void Write(Array<TA, N>& A, string FileName) const;
