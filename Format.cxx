@@ -678,9 +678,8 @@ namespace SeldonData
     int nb_elements = A.numElements();
     char c;
     int i = 0;
-    int j, k;
+    int j;
     Array<int, 1> Index(10), Length(10);
-    int sep_length = separator_.length();
 
     for (j=0; j<10; j++)
       {
@@ -1043,6 +1042,7 @@ namespace SeldonData
 	pos = FileStream.tellg();
 	return 1;
       }
+    return 0;
   }
 
   //! Returns the current format description.
@@ -1220,7 +1220,7 @@ namespace SeldonData
     while ((i<nb_elements) && (FileStream.good()))
       {
 
-	if (k<markups.size())
+	if (k<int(markups.size()))
 	  {
 	    while (l!=markups[k])
 	      {
@@ -1557,7 +1557,6 @@ namespace SeldonData
     int i;
     GRIBRecord grib_rec;
     FILE *grib_file;
-    size_t n, m;
     size_t nrec(0);
 
     int status;
@@ -1581,9 +1580,9 @@ namespace SeldonData
     
     while (max_length != 0
 	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
-      if (grib_rec.param == variable)
+      if (int(grib_rec.param) == variable)
 	{
-	  for (i=0; i<grib_rec.nx * grib_rec.ny; i++)
+	  for (i=0; i<int(grib_rec.nx * grib_rec.ny); i++)
 	    A.data()[nb_elements - max_length + i] = data[i];
 	  delete[] data;
 	  data = NULL;
