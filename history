@@ -2,6 +2,15 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
+
+Current release
+---------------
+
+** Improvements:
+
+** Bug fixes:
+
+
 Version 1.1 (2003-05-11)
 -----------
 
@@ -22,6 +31,7 @@ Version 1.1 (2003-05-11)
 - 'Data::~Data'.
 - 'ChangeCoordsInPlace'.
 
+
 Version 1.0 (2003-03-12)
 -----------
 
@@ -41,8 +51,10 @@ Version 1.0 (2003-03-12)
 
 - Memory management for 'Grid'.
 
+
 Version 0.9 (2003-02-28)
 -----------
+
 
 Version 0.8 (2003-02-23)
 -----------
