@@ -45,7 +45,7 @@ namespace SeldonData
   {
 
     grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
-    grids_(2) = G2.Duplicate();
+    grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
     SetVariables();
 
   }
@@ -54,11 +54,13 @@ namespace SeldonData
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4):
     data_(G0.GetLength(),G1.GetLength(),
-	  G2.GetLength(), G3.GetLength()), grids_(N)
+	  G2.GetLength(), G3.GetLength(),
+	  G4.GetLength()), grids_(N)
   {
 
     grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
     grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
+    grids_(4) = G4.Duplicate();
     SetVariables();
 
   }

@@ -119,9 +119,141 @@ namespace SeldonData
   // UNIFORM //
   /////////////
 
-  ////////////////
-  // NONUNIFORM //
+  //////////
+  // LAST //
 
+  // The last coordinate depends upon other coordinates.
+  template<class TIn, int N,
+    class TOut>
+  void LinearInterpolationLast(Data<TIn, N>& dataIn,
+			       Data<TOut, N>& dataOut)
+  {
+    
+    int i, j, k, l, m;
+    Array<int, 1> IndexIn(10), IndexIn0(10), IndexOut(10);
+    Array<int, 1> LengthIn(10), LengthOut(10);
+    Array<TIn, 1> Coeff(10), Coeff0(10);
+    Array<bool, 1> Pos(N);
+    TIn coeff;
+
+    for (i=0; i<N; i++)
+      {
+	LengthIn(i) = dataIn.GetLength(i);
+	LengthOut(i) = dataOut.GetLength(i);
+	IndexOut(i) = 0;
+	IndexIn(i) = 0;
+	while ( (IndexIn(i)<LengthIn(i))
+		&& (dataIn[i](IndexIn(i))<dataOut[i](0)) )
+	  IndexIn(i)++;
+	if (IndexIn(i)==LengthIn(i))
+	  IndexIn(i) = LengthIn(i)-1;
+	else if (IndexIn(i)==0)
+	  IndexIn(i) = 1;
+	IndexIn0(i) = IndexIn(i);
+	if (LengthIn(i)!=0)
+	  Coeff0(i) = ( dataOut[i](0) - dataIn[i](IndexIn(i)-1) ) /
+	    ( dataIn[i](IndexIn(i)) - dataIn[i](IndexIn(i)-1) );
+	else
+	  Coeff0(i) = TIn(0);
+	Coeff(i) = Coeff0(i);
+      }
+
+    j = N-1;
+    for (i=0; i<dataOut.GetNbElements(); i++)
+      {
+
+	if (j!=-1)
+	  {
+
+	    while ( (IndexIn(j)<LengthIn(j))
+		    && (dataIn[j](IndexIn(j))<dataOut[j](IndexOut(j))) )
+	      IndexIn(j)++;
+
+	    if (IndexIn(j)==LengthIn(j))
+	      IndexIn(j) = LengthIn(j)-1;
+	    else if (IndexIn(j)==0)
+	      IndexIn(j) = 1;
+	    /////// ------------- HERE	    
+	    for (k=0; i<N; i++)
+	      {
+		IndexIn(k) = 0;
+		while ( (IndexIn(k)<LengthIn(k))
+			&& (dataIn[k](IndexIn(k))<dataOut[k](IndexOut(j))) )
+		  IndexIn(i)++;
+		if (IndexIn(i)==LengthIn(i))
+		  IndexIn(i) = LengthIn(i)-1;
+		else if (IndexIn(i)==0)
+		  IndexIn(i) = 1;
+	      }
+	    /////// ------------- HERE	    
+
+	    Coeff(j) = ( dataOut[j](IndexOut(j)) - dataIn[j](IndexIn(j)-1) ) /
+	      ( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
+
+	    if (j!=N-1)
+	      Coeff(N-1) = ( dataOut[N-1](IndexOut(N-1)) - dataIn[N-1](IndexIn(N-1)-1) ) /
+		( dataIn[N-1](IndexIn(N-1)) - dataIn[N-1](IndexIn(N-1)-1) );
+
+	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			  IndexOut(3), IndexOut(4), IndexOut(5),
+			  IndexOut(6), IndexOut(7), IndexOut(8),
+			  IndexOut(9)) = TOut(0);
+
+	    for (k=0; k<int(pow(2.0, double(N))); k++)
+	      {
+		l = k; coeff = TIn(1);
+		for (m=0; m<N; m++)
+		  {
+		    Pos(m) = l%2;
+		    if (l%2 == 1)
+		      coeff *= TIn(1) - Coeff(m);
+		    else
+		      coeff *= Coeff(m);
+		    l = l/2;
+		  }
+
+		dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			      IndexOut(3), IndexOut(4), IndexOut(5),
+			      IndexOut(6), IndexOut(7), IndexOut(8),
+			      IndexOut(9)) +=
+		  TOut( coeff *
+			dataIn.Value(IndexIn(0) - Pos(0),
+				     IndexIn(1) - Pos(1),
+				     IndexIn(2) - Pos(2),
+				     IndexIn(3) - Pos(3),
+				     IndexIn(4) - Pos(4),
+				     IndexIn(5) - Pos(5),
+				     IndexIn(6) - Pos(6),
+				     IndexIn(7) - Pos(7),
+				     IndexIn(8) - Pos(8),
+				     IndexIn(9) - Pos(9)) );
+
+	      }
+
+	    j = N-1;
+	    while ( (j>=0) && (IndexOut(j)==LengthOut(j)-1) )
+	      {
+		IndexOut(j) = 0;
+		IndexIn(j) = IndexIn0(j);
+		Coeff(j) = Coeff0(j);
+		j--;
+	      }
+	    IndexOut(j)++;
+
+	  }
+
+      }
+
+  }
+
+  // LAST //
+  //////////
+
+
+  /////////////
+  // GENERAL //
+
+  // The last coordinate depends upon other coordinates.
   template<class TIn, int N,
     class TOut>
   void LinearInterpolationGeneral(Data<TIn, N>& dataIn,
@@ -188,6 +320,10 @@ namespace SeldonData
 
 	    Coeff(j) = ( dataOut[j](IndexOut(j)) - dataIn[j](IndexIn(j)-1) ) /
 	      ( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
+	    
+	    if (j!=N-1)
+	      Coeff(N-1) = ( dataOut[N-1](IndexOut(N-1)) - dataIn[N-1](IndexIn(N-1)-1) ) /
+		( dataIn[N-1](IndexIn(N-1)) - dataIn[N-1](IndexIn(N-1)-1) );
 
 	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
 			  IndexOut(3), IndexOut(4), IndexOut(5),
@@ -240,6 +376,10 @@ namespace SeldonData
       }
 
   }
+
+  // GENERAL //
+  /////////////
+
 
   ////////////////////////////////////////////////////////////////////////////////////
 

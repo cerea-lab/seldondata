@@ -152,10 +152,13 @@ namespace SeldonData
 
   template<class T>
   RegularGrid<T>::RegularGrid(int length, int variable):
-    Grid<T>(length, variable)
+    Grid<T>(length, variable), values_(length_)
   {
     start_ = T(0);
     inc_ = T(1);
+
+    for (int i=0; i<length_; i++)
+      values_(i) = start_ + i * inc_;
   }
 
   template<class T>

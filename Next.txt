@@ -1,2 +1,2 @@
 SubData -> changement de grille aussi (SubGrid?)
-
+SubGrid -> à faire? Changement de grille?
