@@ -216,6 +216,10 @@ namespace SeldonData
     T GetSignedMaxAbs() const;
     T GetMin() const;
 
+    Array<int, 1> GetMaxIndex() const;
+    Array<int, 1> GetMaxAbsIndex() const;
+    Array<int, 1> GetMinIndex() const;
+
     T Sum() const;
     T Mean() const;
     T Variance() const;

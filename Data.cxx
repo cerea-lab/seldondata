@@ -2258,6 +2258,93 @@ namespace SeldonData
     return minimum;
   }
 
+  //! Returns indices of the maximum.
+  /*!
+    \return Array of indices of the maximum.
+   */
+  template<class T, int N, class TG>
+  Array<int, 1> Data<T, N, TG>::GetMaxIndex() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T maximum = data[0];
+    int i_max = 0;
+    for (int i=1; i<NbElements; i++)
+      if (maximum<data[i])
+	{
+	  maximum = data[i];
+	  i_max = i;
+	}
+    
+    Array<int, 1> Index(N);
+    for (int i=N-1; i>=0; i--)
+      {
+	Index(i) = i_max%this->GetLength(i);
+	i_max = (i_max - Index(i)) / this->GetLength(i);
+      }
+
+    return Index;
+  }
+
+  //! Returns indices of the maximum in absolute value.
+  /*!
+    \return Array of indices of the maximum in absolute value.
+   */
+  template<class T, int N, class TG>
+  Array<int, 1> Data<T, N, TG>::GetMaxAbsIndex() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T maximum = abs(data[0]);
+    int i_max = 0;
+    for (int i=1; i<NbElements; i++)
+      if (maximum<abs(data[i]))
+	{
+	  maximum = abs(data[i]);
+	  i_max = i;
+	}
+    
+    Array<int, 1> Index(N);
+    for (int i=N-1; i>=0; i--)
+      {
+	Index(i) = i_max%this->GetLength(i);
+	i_max = (i_max - Index(i)) / this->GetLength(i);
+      }
+
+    return Index;
+  }
+
+  //! Returns indices of the minimum.
+  /*!
+    \return Array of indices of the minimum.
+   */
+  template<class T, int N, class TG>
+  Array<int, 1> Data<T, N, TG>::GetMinIndex() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T minimum = data[0];
+    int i_min = 0;
+    for (int i=1; i<NbElements; i++)
+      if (minimum>data[i])
+	{
+	  minimum = data[i];
+	  i_min = i;
+	}
+    
+    Array<int, 1> Index(N);
+    for (int i=N-1; i>=0; i--)
+      {
+	Index(i) = i_min%this->GetLength(i);
+	i_min = (i_min - Index(i)) / this->GetLength(i);
+      }
+
+    return Index;
+  }
+
   //! Returns the sum of all values.
   /*!
     \return The sum of all values.
