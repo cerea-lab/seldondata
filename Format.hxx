@@ -215,7 +215,7 @@ namespace SeldonData
     void SetVectors();
     void SkipMarkup(ExtStream&, streampos pos, int) const;
     template <class T>
-    void ReadMarkup(ExtStream&, streampos pos, int, T&) const;
+    int ReadMarkup(ExtStream&, streampos pos, int, T*, int) const;
 
   public:
     FormatFormattedText(string format,

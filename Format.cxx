@@ -928,7 +928,7 @@ namespace SeldonData
 	    info_nb1.push_back(-1);
 	    
 	  }
-	else if (info_str[i] == "a")
+	else if (info_str[i] == "a" || info_str[i] == "A")
 	  {
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
@@ -970,7 +970,8 @@ namespace SeldonData
       }
     else if (info_str[i] == "e")
       {
-	FileStream.GetElement();
+	for (int j=0; j<info_nb0[i]; j++)
+	  FileStream.GetElement();
       }
     else if (info_str[i] == "s")
       {
@@ -978,7 +979,7 @@ namespace SeldonData
 	FileStream.read(buf, info_nb0[i]);
 	delete [] buf;
       }
-    else if (info_str[i] == "a")
+    else if (info_str[i] == "a" || info_str[i] == "A")
       {
 	FileStream.GetFullLine();
 	FileStream.seekg(-1, ExtStream::beg);
@@ -987,15 +988,15 @@ namespace SeldonData
 
   //! Reads data.
   template <class T>
-  void FormatFormattedText::ReadMarkup(ExtStream& FileStream,
-				       streampos pos, int i,
-				       T& value) const
+  int FormatFormattedText::ReadMarkup(ExtStream& FileStream,
+				      streampos pos, int i,
+				      T* value, int max_length) const
   {
     if (info_str[i] == "c")
       {
 #ifdef SELDONDATA_DEBUG_CHECK_IO
 	if (info_nb0[i] < pos)
-	  throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T& value)",
+	  throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T* value, int max_length)",
 			string("Unable to move forward to column #") + to_str(info_nb0[i] + "."));
 #endif
 	char* buf = new char[info_nb0[i] - pos];
@@ -1005,25 +1006,42 @@ namespace SeldonData
 	FileStream.read(buf, info_nb1[i] - pos);
 	buf[info_nb1[i]] = '\0';
 	string sbuf(buf);
-	DISP(sbuf);
-	convert(sbuf, value);
+	convert(sbuf, *value);
+	return 1;
       }
     else if (info_str[i] == "e")
       {
-	FileStream.GetElement(value);
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	if (max_length<info_nb0[i])
+	  throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T* value, int max_length)",
+			string("Unable to read ") + to_str(info_nb0[i]) + " elements: data array is full.");
+#endif
+	for (int j=0; j<info_nb0[i]; j++)
+	  FileStream.GetElement(value[j]);
+	return info_nb0[i];
       }
     else if (info_str[i] == "s")
       {
 #ifdef SELDONDATA_DEBUG_CHECK_IO
-	throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T& value)",
+	throw IOError("FormatFormattedText::ReadMarkup<T>(ExtStream& FileStream, streampos pos, int i, T* value, int max_length)",
 		      "Attempted to read data supposed to be skipped.");
 #endif
       }
     else if (info_str[i] == "a")
       {
-	convert(FileStream.GetFullLine(), value);
+	convert(trim(FileStream.GetLine(), delimiters_), *value);
+	FileStream.seekg(-1, ExtStream::beg);
+	FileStream.GetFullLine();
 	FileStream.seekg(-1, ExtStream::beg);
 	pos = FileStream.tellg();
+	return 1;
+      }
+    else if (info_str[i] == "A")
+      {
+	convert(FileStream.GetFullLine(), *value);
+	FileStream.seekg(-1, ExtStream::beg);
+	pos = FileStream.tellg();
+	return 1;
       }
   }
 
@@ -1101,6 +1119,9 @@ namespace SeldonData
     string delimiters(FileStream.GetDelimiters()),
       comments(FileStream.GetComments());
     
+    FileStream.SetDelimiters(delimiters_);
+    FileStream.SetComments(comments_);
+
     streampos pos_beg = FileStream.tellg();
     streampos pos_cur(pos_beg);
     
@@ -1108,17 +1129,10 @@ namespace SeldonData
     split(extract, markups, " \t\n,;:/|");
 
     int nb_elements = A.numElements();
+    TA* data = A.data();
     int i = 0;
-    int j, k(0), l(0);
-    Array<int, 1> Index(10), Length(10);
+    int k(0), l(0);
 
-    for (j=0; j<10; j++)
-      {
-	Index(j) = 0;
-	Length(j) = A.extent(j);
-      }
-
-    j = N-1;
     while ((i<nb_elements) && (FileStream.good()))
       {
 
@@ -1131,25 +1145,10 @@ namespace SeldonData
 		l++;
 	      }
 
-	    this->ReadMarkup(FileStream, pos_cur - pos_beg, l,
-			     A(Index(0), Index(1), Index(2),
-			       Index(3), Index(4), Index(5),
-			       Index(6), Index(7), Index(8),
-			       Index(9)));
+	    i += this->ReadMarkup(FileStream, pos_cur - pos_beg, l,
+				  &data[i], nb_elements - i);
 	    pos_cur = FileStream.tellg();
 	    
-	    j = N-1;
-	    while ( (j>=0) && (Index(j)==Length(j)-1) )
-	      {
-		Index(j) = 0;
-		j--;
-	      }
-	    
-	    if (j!=-1)
-	      Index(j)++;
-	    
-	    i++;
-
 	    k++; l++;
 	  }
 	else
