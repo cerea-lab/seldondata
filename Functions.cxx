@@ -252,6 +252,111 @@ namespace SeldonData
   ////////////////////////
 
 
+  ////////////////////////
+  // REGULAR TO GENERAL //
+
+  //! Linear interpolation for data defined on regular grids to data
+  //! defined on a general grids.
+  /*!
+    \param dataIn reference data defined on regular grids.
+    \param dataOut interpolated data (on exit) defined on any kind of grids.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationRegularToGeneral(Data<TIn, N, TGIn>& dataIn,
+					   Data<TOut, N, TGOut>& dataOut)
+  {
+    
+    int i, j, k, l, m;
+    Array<int, 1> IndexIn(10), IndexOut(10);
+    Array<int, 1> LengthIn(10), LengthOut(10);
+    Array<TIn, 1> Coeff(10);
+    Array<bool, 1> Pos(N);
+    TIn coeff;
+
+    dataOut.SetZero();
+
+    for (i=0; i<10; i++)
+      {
+	LengthIn(i) = dataIn.GetLength(i);
+	LengthOut(i) = dataOut.GetLength(i);
+	IndexOut(i) = 0;
+      }
+
+    for (i=0; i<dataOut.GetNbElements(); i++)
+      {
+
+	for (k=0; k<N; k++)
+	  {
+	    IndexIn(k) = 1;
+	    while ( (IndexIn(k)<LengthIn(k)-1)
+		    && (dataIn[k](IndexIn(k))
+			< dataOut[k].Value(IndexOut(0), IndexOut(1),
+					   IndexOut(2), IndexOut(3),
+					   IndexOut(4), IndexOut(5),
+					   IndexOut(6), IndexOut(7),
+					   IndexOut(8), IndexOut(9))) )
+	      IndexIn(k)++;
+
+	    Coeff(k) = ( dataOut[k].Value(IndexOut(0), IndexOut(1),
+					   IndexOut(2), IndexOut(3),
+					   IndexOut(4), IndexOut(5),
+					   IndexOut(6), IndexOut(7),
+					   IndexOut(8), IndexOut(9))
+			 - dataIn[k](IndexIn(k)-1) ) /
+	      ( dataIn[k](IndexIn(k)) - dataIn[k](IndexIn(k)-1) );
+	  }
+
+	for (k=0; k<int(pow(2.0, double(N))+0.5); k++)
+	  {
+
+	    l = k;
+	    coeff = TIn(1);
+	    for (m=0; m<N; m++)
+	      {
+		Pos(m) = l%2;
+		if (l%2 == 1)
+		  coeff *= TIn(1) - Coeff(m);
+		else
+		  coeff *= Coeff(m);
+		l = l/2;
+	      }
+
+	    dataOut.Value(IndexOut(0), IndexOut(1), IndexOut(2),
+			  IndexOut(3), IndexOut(4), IndexOut(5),
+			  IndexOut(6), IndexOut(7), IndexOut(8),
+			  IndexOut(9)) +=
+	      TOut( coeff *
+		    dataIn.Value(IndexIn(0) - Pos(0),
+				 IndexIn(1) - Pos(1),
+				 IndexIn(2) - Pos(2),
+				 IndexIn(3) - Pos(3),
+				 IndexIn(4) - Pos(4),
+				 IndexIn(5) - Pos(5),
+				 IndexIn(6) - Pos(6),
+				 IndexIn(7) - Pos(7),
+				 IndexIn(8) - Pos(8),
+				 IndexIn(9) - Pos(9)) );
+
+	  }
+
+	j = N-1;
+	while ( (j>=0) && (IndexOut(j)==LengthOut(j)-1) )
+	  {
+	    IndexOut(j) = 0;
+	    j--;
+	  }
+	if (j!=-1)
+	  IndexOut(j)++;
+
+      }
+
+  }
+
+  // REGULAR TO GENERAL //
+  ////////////////////////
+
+
   ////////////////
   // ONEGENERAL //
 
