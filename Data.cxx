@@ -1676,7 +1676,38 @@ namespace SeldonData
     return res;
   }
 
-  //! Computes normalized gross error between to data set.
+  //! Threshold data.
+  /*! Any value less than 'threshold' is set to 'threshold'.
+    \param threshold the threshold.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Threshold(T threshold)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      if (data[i]<threshold)
+	data[i] = threshold;
+  }
+
+  //! Threshold absolute value of data.
+  /*! Any value less than 'threshold' (in absolute value)
+    is set to 'threshold'.
+    \param threshold the threshold.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::ThresholdAbs(T threshold)
+  {
+    T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    for (int i=0; i<NbElements; i++)
+      if (abs(data[i])<threshold)
+	data[i] = ((data[i]>0)?T(1.0):T(-1.0)) * threshold;
+  }
+
+  //! Computes normalized gross error between two data sets.
   /*!
     Current data is the reference, and the input data is linearly
     interpolated.
@@ -1695,7 +1726,7 @@ namespace SeldonData
     return NGE(data0, limit);
   }
 
-  //! Computes normalized gross error between to data set.
+  //! Computes normalized gross error between two data sets.
   /*!
     Current data is the reference.
     \param data data to be compared with current data.
@@ -1734,7 +1765,55 @@ namespace SeldonData
     return nge;
   }
 
-  //! Computes root mean square between to data set.
+  //! Computes bias between two data sets.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \return The bias.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::Bias_interpolation(Data<T0, N, TG0>& data)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return Bias(data0, limit);
+  }
+
+  //! Computes bias between two data sets.
+  /*!
+    Current data is the reference.
+    \param data data to be compared with current data.
+    \return The bias.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::Bias(Data<T0, N, TG0>& data)
+  {
+    T bias = T(0);
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::Bias(Data<T, " + to_str(N) + ">&, T)",
+		     "Data sizes differ.");
+
+#endif
+    
+    for (int i=0; i<NbElements; i++)
+      bias += data_arr[i] - data0_arr[i];
+    bias = bias / T(NbElements);
+
+    return bias;
+  }
+
+  //! Computes root mean square between two data sets.
   /*!
     Current data is the reference, and the input data is linearly
     interpolated.
@@ -1751,7 +1830,7 @@ namespace SeldonData
     return RMS(data0);
   }
 
-  //! Computes root mean square between to data set.
+  //! Computes root mean square between two data sets.
   /*!
     Current data is the reference.
     \param data data to be compared with current data.
@@ -1785,7 +1864,7 @@ namespace SeldonData
     return sqrt(rms);
   }
 
-  //! Computes the correlation between to data set.
+  //! Computes the correlation between two data sets.
   /*!
     Current data is the reference, and the input data is linearly
     interpolated.
@@ -1802,7 +1881,7 @@ namespace SeldonData
     return Corr(data0);
   }
 
-  //! Computes the correlation between to data set.
+  //! Computes the correlation between two data sets.
   /*!
     Current data is the reference.
     \param data data to be compared with current data.
@@ -1858,6 +1937,53 @@ namespace SeldonData
     corr = covar / sqrt(var * var0);
 
     return corr;
+  }
+
+  //! Returns the percentage of error less than 'threshold'.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \return The percentage of error less than 'threshold'.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::ErrorLessThan_interpolation(Data<T0, N, TG0>& data, T threshold)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return ErrorLessThan(data0, threshold);
+  }
+
+  //! Returns the percentage of error less than 'threshold'.
+  /*!
+    \param data data to be compared with current data.
+    \return The percentage of error less than 'threshold'.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::ErrorLessThan(Data<T0, N, TG0>& data, T threshold)
+  {
+    int nb_err = 0;
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::ErrorLessThan(Data<T, " + to_str(N) + ">&, T)",
+		     "Data sizes differ.");
+
+#endif
+    
+    for (int i=0; i<NbElements; i++)
+      if (abs(data_arr[i] - data0_arr[i])<=threshold)
+	nb_err++;
+
+    return ( T(nb_err) / T(NbElements) );
   }
 
   //! Change coordinates.

@@ -184,10 +184,18 @@ namespace SeldonData
     void SetZero();
     bool IsZero();
 
+    void Threshold(T threshold);
+    void ThresholdAbs(T threshold);
+
     template <class T0, class TG0>
     T NGE_interpolation(Data<T0, N, TG0>& data, T limit = T(0));
     template <class T0, class TG0>
     T NGE(Data<T0, N, TG0>& data, T limit = T(0));
+
+    template <class T0, class TG0>
+    T Bias_interpolation(Data<T0, N, TG0>& data);
+    template <class T0, class TG0>
+    T Bias(Data<T0, N, TG0>& data);
 
     template <class T0, class TG0>
     T RMS_interpolation(Data<T0, N, TG0>& data);
@@ -198,6 +206,11 @@ namespace SeldonData
     T Corr_interpolation(Data<T0, N, TG0>& data);
     template <class T0, class TG0>
     T Corr(Data<T0, N, TG0>& data);
+
+    template <class T0, class TG0>
+    T ErrorLessThan_interpolation(Data<T0, N, TG0>& data, T threshold);
+    template <class T0, class TG0>
+    T ErrorLessThan(Data<T0, N, TG0>& data, T threshold);
 
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
