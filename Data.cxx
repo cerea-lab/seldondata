@@ -2165,6 +2165,32 @@ namespace SeldonData
     return maximum;
   }
 
+  //! Returns the (signed) value of the maximum in absolute value.
+  /*!
+    \return The (signed) value of the maximum in absolute value.
+   */
+  template<class T, int N, class TG>
+  T Data<T, N, TG>::GetSignedMaxAbs() const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    T temp;
+    T maximum = abs(data[0]);
+    int max_index = 0;
+    for (int i=1; i<NbElements; i++)
+      {
+	temp = data[i];
+	if (maximum < abs(temp))
+	  {
+	    maximum = abs(temp);
+	    max_index = i;
+	  }
+      }
+
+    return data[max_index];
+  }
+
   //! Returns the minimum.
   /*!
     \return The minimum.

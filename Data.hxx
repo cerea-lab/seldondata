@@ -211,6 +211,7 @@ namespace SeldonData
 
     T GetMax() const;
     T GetMaxAbs() const;
+    T GetSignedMaxAbs() const;
     T GetMin() const;
 
     T Sum() const;
