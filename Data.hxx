@@ -71,6 +71,36 @@ namespace SeldonData
 	 Grid<TG>& G4, Grid<TG>& G5,
 	 Grid<TG>& G6, Grid<TG>& G7,
 	 Grid<TG>& G8, Grid<TG>& G9)  throw();
+    Data(int N0)  throw();
+    Data(int N0, int N1)  throw();
+    Data(int N0, int N1,
+	 int N2)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4, int N5)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4, int N5,
+	 int N6)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4, int N5,
+	 int N6, int N7)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4, int N5,
+	 int N6, int N7,
+	 int N8)  throw();
+    Data(int N0, int N1,
+	 int N2, int N3,
+	 int N4, int N5,
+	 int N6, int N7,
+	 int N8, int N9)  throw();
     template <class T0>
     Data(Data<T0, N, TG>& data)  throw();
 

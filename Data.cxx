@@ -545,6 +545,566 @@ namespace SeldonData
 
   }
 
+  //! Constructor for one-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0)  throw():
+    data_(N0), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=1)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 1 grid." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+
+    grids_(0) = G0.Copy();
+    SetVariables();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for two-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1)  throw():
+    data_(N0, N1), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=2)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 2 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    SetVariables();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for three-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2)  throw():
+    data_(N0, N1, N2), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=3)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 3 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for four-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3)  throw():
+    data_(N0, N1, N2, N3), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=4)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 4 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for five-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4)  throw():
+    data_(N0, N1, N2, N3, N4), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=5)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 5 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for six-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4, int N5)  throw():
+    data_(N0, N1, N2, N3, N4, N5), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=6)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 6 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for seven-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4, int N5,
+		       int N6)  throw():
+    data_(N0, N1, N2, N3, N4, N5, N6), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=7)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 7 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for eight-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4, int N5,
+		       int N6, int N7)  throw():
+    data_(N0, N1, N2, N3, N4, N5, N6, N7), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=8)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 8 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for nine-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+    \param N8 grid length along dimension #8.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4, int N5,
+		       int N6, int N7, int N8)  throw():
+    data_(N0, N1, N2, N3, N4, N5, N6, N7, N8), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=9)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 9 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+    RegularGrid<TG> G8(N8);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
+    grids_(8) = G8.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
+  //! Constructor for ten-dimensional data.
+  /*!
+    \param N0 grid length along dimension #0.
+    \param N1 grid length along dimension #1.
+    \param N2 grid length along dimension #2.
+    \param N3 grid length along dimension #3.
+    \param N4 grid length along dimension #4.
+    \param N5 grid length along dimension #5.
+    \param N6 grid length along dimension #6.
+    \param N7 grid length along dimension #7.
+    \param N8 grid length along dimension #8.
+    \param N9 grid length along dimension #9.
+  */
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data(int N0, int N1, int N2,
+		       int N3, int N4, int N5,
+		       int N6, int N7, int N8,
+		       int N9)  throw():
+    data_(N0, N1, N2, N3, N4, N5, N6, N7, N8, N9), grids_(N)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=10)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+	     << endl << "   Required " + to_str(N)
+	  + " grids, but got 10 grids." << endl;
+	abort();
+      }
+#endif
+
+    RegularGrid<TG> G0(N0);
+    RegularGrid<TG> G1(N1);
+    RegularGrid<TG> G2(N2);
+    RegularGrid<TG> G3(N3);
+    RegularGrid<TG> G4(N4);
+    RegularGrid<TG> G5(N5);
+    RegularGrid<TG> G6(N6);
+    RegularGrid<TG> G7(N7);
+    RegularGrid<TG> G8(N8);
+    RegularGrid<TG> G9(N9);
+
+    grids_(0) = G0.Copy(); grids_(1) = G1.Copy();
+    grids_(2) = G2.Copy(); grids_(3) = G3.Copy();
+    grids_(4) = G4.Copy(); grids_(5) = G5.Copy();
+    grids_(6) = G6.Copy(); grids_(7) = G7.Copy();
+    grids_(8) = G8.Copy(); grids_(9) = G9.Copy();
+    SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+	  {
+	    cout << "ERROR!" << endl;
+	    cout << "Wrong dimension in Data<T, N, TG>::Data(int, ...)."
+		 << endl << "   Length of grid #" << i << " along dimension #"
+		 << j << " is " << grids_(i)->GetLength(j) << " but should be "
+		 << grids_(j)->GetLength() << "." << endl;
+	    abort();
+	  }
+#endif
+
+  }
+
   //! Copy constructor.
   template<class T, int N, class TG>
   template <class T0>
