@@ -35,6 +35,8 @@ namespace SeldonData
 
     int GetLength() const;
     int GetVariable() const;
+    virtual bool IsDependent(int i) const;
+
     value_type GetPrevious() const;
     virtual value_type GetStart() const;
     virtual value_type GetInc() const;
@@ -163,6 +165,7 @@ namespace SeldonData
     Array<int, 1>& GetDependencies();
     const Array<int, 1>& GetDependencies() const;
     int GetMainVariable() const;
+    bool IsDependent(int i) const;
     
     Grid<T>* Duplicate() const;
 

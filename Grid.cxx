@@ -59,6 +59,12 @@ namespace SeldonData
   }
 
   template<class T>
+  bool Grid<T>::IsDependent(int i) const
+  {
+    return (i == variable_);
+  }
+
+  template<class T>
   typename Grid<T>::value_type
   Grid<T>::GetPrevious() const
   {
@@ -460,6 +466,16 @@ namespace SeldonData
   int GeneralGrid<T, n>::GetMainVariable() const
   {
     return main_variable_;
+  }
+
+  template<class T, int n>
+  bool GeneralGrid<T, n>::IsDependent(int i) const
+  {
+    bool res = false;
+    for (int j=0; j<dependencies_.numElements(); j++)
+      res = res || (dependencies_(j)==i);
+
+    return ( (i == variable_) || res);
   }
 
   template<class T, int n>
