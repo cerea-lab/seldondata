@@ -28,6 +28,8 @@ using namespace Talos;
 
 #include <string>
 #include <sstream>
+#include <exception>
+#include <stdexcept>
 
 
 //////////////////
@@ -105,6 +107,10 @@ using namespace Talos;
 catch(SeldonData::Error& Err)\
 {\
 Err.What();\
+}\
+catch (std::exception& Err)\
+{\
+cout << "C++ exception: " << Err.what() << endl;\
 }\
 catch(...)\
 {\
