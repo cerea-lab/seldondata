@@ -3580,6 +3580,32 @@ namespace SeldonData
       data[i] = function(data[i]);
   }
 
+  //! Applies a given function on all elements of a 'Data' instance
+  //! and put the result in the current instance.
+  /*!
+    \param D data.
+    \param function function to be applied on 'D'.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0, class F>
+  void Data<T, N, TG>::Apply(Data<T0, N, TG0>& D, F& function)
+  {
+    T* data = this->GetData();
+    T0* data_in = D.GetData();
+
+    int nb_elements = this->GetNbElements();
+    
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (nb_elements != D.GetNbElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::Apply(Data<T0, " + to_str(N)
+		     + ", TG0>&, F& function)",
+		     "Data sizes differ.");
+#endif
+
+    for (int i=0; i<nb_elements; i++)
+      data[i] = function(data_in[i]);
+  }
+
   //! Returns the maximum.
   /*!
     \return The maximum.
