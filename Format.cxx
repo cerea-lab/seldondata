@@ -868,6 +868,7 @@ namespace SeldonData
 		       + " along dimension #" + to_str(i)
 		       + " , but it should not be strictly more than "
 		       + to_str(input_dimensions[i]) + ".");
+  delete[] input_dimensions;
 #endif
 
   long* extents = new long[N];
@@ -882,8 +883,6 @@ namespace SeldonData
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
 		    "Data type doesn't match type of stored values.");
 #endif
-
-  delete[] input_dimensions;
 
   }
 
