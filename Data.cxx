@@ -24,6 +24,15 @@
 namespace SeldonData
 {
 
+  //! Default constructor.
+  template<class T, int N, class TG>
+  Data<T, N, TG>::Data()  throw():
+    grids_(N)
+  {
+    for (int i=0; i<N; i++)
+      grid_(i) = NULL;
+  }
+
   //! Constructor for one-dimensional data.
   /*!
     \param G0 grid for dimension #0.
@@ -535,6 +544,19 @@ namespace SeldonData
 	  }
 #endif
 
+  }
+
+  //! Copy constructor.
+  template<class T, int N, class TG>
+  template <class T0>
+  Data<T, N, TG>::Data(Data<T0, N, TG>& data)  throw():
+    grids_(N)
+  {
+    for (int i=0; i<N; i++)
+      grids_(i) = data[i].Copy();
+
+    data_.resize(data.GetArray().shape());
+    data_ = data.GetArray();
   }
 
   //! Destructor.
@@ -1216,11 +1238,13 @@ namespace SeldonData
     \param data Data instance to be copied.
   */
   template<class T, int N, class TG>
-  void Data<T, N, TG>::Copy(Data<T, N, TG>& data)
+  template <class T0>
+  void Data<T, N, TG>::Copy(Data<T0, N, TG>& data)
   {
     for (int i=0; i<N; i++)
       {
-	delete grids_(i);
+	if (grids_(i)!=NULL)
+	  delete grids_(i);
 	grids_(i) = data[i].Copy();
       }
 
@@ -1650,6 +1674,115 @@ namespace SeldonData
       res = res && (data[i] == T(0));
 
     return res;
+  }
+
+  //! Computes normalized gross error between to data set.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \param limit the NGE is computed only with values x such that
+    |x| > limit.
+    \return The normalized gross error.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::NGE_interpolation(Data<T0, N, TG0>& data, T limit)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return NGE(data0, limit);
+  }
+
+  //! Computes normalized gross error between to data set.
+  /*!
+    Current data is the reference.
+    \param data data to be compared with current data.
+    \param limit the NGE is computed only with values x such that
+    |x| > limit.
+    \return The normalized gross error.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::NGE(Data<T0, N, TG0>& data, T limit)
+  {
+    T nge;
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::NGE(Data<T, " + to_str(N) + ">&, T)",
+		     "Data sizes differ.");
+
+#endif
+    
+    int nb_elt = 0;
+    nge = T(0);
+    for (int i=0; i<NbElements; i++)
+      if (abs(data_arr[i]) > limit)
+	{
+	  nb_elt++;
+	  nge += abs( (data_arr[i] - data0_arr[i]) / data_arr[i] );
+	}
+    nge = nge / T(nb_elt);
+
+    return nge;
+  }
+
+  //! Computes root mean square between to data set.
+  /*!
+    Current data is the reference, and the input data is linearly
+    interpolated.
+    \param data data to be compared with current data.
+    \return The root mean square.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::RMS_interpolation(Data<T0, N, TG0>& data)
+  {
+    Data<T, N, TG> data0(*this);
+    LinearInterpolationGeneral(data, data0);
+
+    return RMS(data0);
+  }
+
+  //! Computes root mean square between to data set.
+  /*!
+    Current data is the reference.
+    \param data data to be compared with current data.
+    \return The root mean square.
+  */
+  template<class T, int N, class TG>
+  template<class T0, class TG0>
+  T Data<T, N, TG>::RMS(Data<T0, N, TG0>& data)
+  {
+    T rms;
+
+    T* data_arr = data_.data();
+    T0* data0_arr = data.GetData();
+    int NbElements = data_.numElements();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+
+    if (NbElements!=data.GetArray().numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::RMS(Data<T, " + to_str(N) + ">&)",
+		     "Data sizes differ.");
+
+#endif
+    
+    int nb_elt = 0;
+    rms = T(0);
+    for (int i=0; i<NbElements; i++)
+      rms += (data_arr[i] - data0_arr[i]) * (data_arr[i] - data0_arr[i]);
+
+    rms = rms / T(NbElements);
+
+    return sqrt(rms);
   }
 
   //! Change coordinates.

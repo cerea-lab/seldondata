@@ -40,6 +40,7 @@ namespace SeldonData
 
     // Constructors.
 
+    Data()  throw();
     Data(Grid<TG>& G0)  throw();
     Data(Grid<TG>& G0, Grid<TG>& G1)  throw();
     Data(Grid<TG>& G0, Grid<TG>& G1,
@@ -70,6 +71,8 @@ namespace SeldonData
 	 Grid<TG>& G4, Grid<TG>& G5,
 	 Grid<TG>& G6, Grid<TG>& G7,
 	 Grid<TG>& G8, Grid<TG>& G9)  throw();
+    template <class T0>
+    Data(Data<T0, N, TG>& data)  throw();
 
     // Destructor.
 
@@ -112,7 +115,8 @@ namespace SeldonData
 	    int i6 = -1, int i7 = -1,
 	    int i8 = -1, int i9 = -1) const;
 
-    void Copy(Data<T, N, TG>& data);
+    template <class T0>
+    void Copy(Data<T0, N, TG>& data);
 
     int GetNbElements();
     int GetNbDim();
@@ -179,6 +183,16 @@ namespace SeldonData
 
     void SetZero();
     bool IsZero();
+
+    template <class T0, class TG0>
+    T NGE_interpolation(Data<T0, N, TG0>& data, T limit = T(0));
+    template <class T0, class TG0>
+    T NGE(Data<T0, N, TG0>& data, T limit = T(0));
+
+    template <class T0, class TG0>
+    T RMS_interpolation(Data<T0, N, TG0>& data);
+    template <class T0, class TG0>
+    T RMS(Data<T0, N, TG0>& data);
 
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
