@@ -103,6 +103,8 @@ namespace SeldonData
 		   int i6, int i7, int i8,
 		   int i9);
 
+    T& operator() (Array<int, 1>& indices);
+
     T& Value(int i0, int i1 = -1,
 	     int i2 = -1, int i3 = -1,
 	     int i4 = -1, int i5 = -1,

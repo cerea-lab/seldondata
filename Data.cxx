@@ -1143,6 +1143,56 @@ namespace SeldonData
     return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! Access operator.
+  /*!
+    \param indices array of indices.
+    \return The value of current data at (indices(0), indices(1), ...).
+  */
+  template<class T, int N, class TG>
+  inline T& Data<T, N, TG>::operator() (Array<int, 1>& indices)
+  {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=indices.numElements())
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() (Array<int, 1>&)",
+		     "The input array contains " + to_str(indices.numElements())
+		     + " indice(s) instead of " + to_str(N) + ".");
+#endif
+
+    if (N==1)
+      return data_(indices(0));
+    else if (N==2)
+      return data_(indices(0), indices(1));
+    else if (N==3)
+      return data_(indices(0), indices(1), indices(2));
+    else if (N==4)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3));
+    else if (N==5)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4));
+    else if (N==6)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4), indices(5));
+    else if (N==7)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4), indices(5),
+		   indices(6));
+    else if (N==8)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4), indices(5),
+		   indices(6), indices(7));
+    else if (N==9)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4), indices(5),
+		   indices(6), indices(7), indices(8));
+    else if (N==10)
+      return data_(indices(0), indices(1), indices(2),
+		   indices(3), indices(4), indices(5),
+		   indices(6), indices(7), indices(8),
+		   indices(9));
+  }
+
   //! General access function.
   /*!
     Only useful arguments are taken into account.
