@@ -70,6 +70,11 @@ namespace SeldonData
       comment = c;
     }
 
+    //! Destructor.
+    virtual ~Error()
+    {
+    }
+
     //! Displays error description.
     virtual void What()
     {
@@ -81,7 +86,6 @@ namespace SeldonData
 	cout << "   " << comment << endl;
       cout << endl;
     }
-
   };
 
 

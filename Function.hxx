@@ -45,7 +45,7 @@ namespace SeldonData
     //! Constructor.
     Function_Base() {}
     //! Destructor.
-    ~Function_Base() {}
+    virtual ~Function_Base() {}
     
     //! Undefined function.
     virtual TOut operator () (T& i0)
