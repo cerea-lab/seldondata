@@ -12,6 +12,7 @@ namespace SeldonData
   class Grid
   {
 
+    // typedef declarations.
   public:
     typedef T value_type;
     typedef T* pointer;
@@ -20,25 +21,33 @@ namespace SeldonData
     typedef const T& const_reference;
     
   protected:
+    //! Length of the grid.
     int length_;
+    //! Dimension related to the grid.
     int variable_;
 
+    //! Zero.
     value_type zero_;
     
   public:
+
+    // Constructors.
+
     Grid()  throw();
     Grid(int length, int variable = 0)  throw();
     Grid(const Grid& G)  throw();
+
+    // Destructor.
+
     virtual ~Grid()  throw();
+
+    // Methods.
 
     virtual Grid<T>& operator= (const Grid<T>&);
 
     int GetLength() const;
     int GetVariable() const;
     virtual bool IsDependent(int i) const;
-
-    virtual value_type GetStart() const;
-    virtual value_type GetInc() const;
 
     virtual int GetNbElements() const;
 
@@ -77,6 +86,7 @@ namespace SeldonData
   class RegularGrid: public Grid<T>
   {
     
+    // typedef declarations.
   public:
     typedef T value_type;
     typedef T* pointer;
@@ -85,24 +95,28 @@ namespace SeldonData
     typedef const T& const_reference;
     
   protected:
-    value_type start_;
-    value_type inc_;
+    //! Grid values.
     Array<value_type, 1> values_;
 
   public:
+
+    // Constructors.
+
     RegularGrid()  throw();
     RegularGrid(int length, int variable = 0)  throw();
     RegularGrid(value_type start, value_type inc, int length, int variable = 0)  throw();
     RegularGrid(const Array<value_type, 1>& values, int variable = 0)  throw();
     RegularGrid(const Grid<T>& G)  throw();
     RegularGrid(const RegularGrid<T>& G)  throw();
+
+    // Destructor.
+
     ~RegularGrid()  throw();
+
+    // Methods.
 
     RegularGrid<T>& operator= (const Grid<T>&);
     RegularGrid<T>& operator= (const RegularGrid<T>&);
-
-    value_type GetStart() const;
-    value_type GetInc() const;
 
     int GetNbElements() const;
     Array<value_type, 1>& GetValues();
@@ -138,6 +152,7 @@ namespace SeldonData
   class GeneralGrid: public Grid<T>
   {
     
+    // typedef declarations.
   public:
     typedef T value_type;
     typedef T* pointer;
@@ -146,10 +161,15 @@ namespace SeldonData
     typedef const T& const_reference;
 
   protected:
+    //! Grid values.
     Array<value_type, n> values_;
+    //! Dimension upon which the grid depends.
     Array<int, 1> dependencies_;
 
   public:
+
+    // Constructors.
+
     GeneralGrid()  throw();
     GeneralGrid(Array<value_type, n>& values,
 		int variable,
@@ -159,7 +179,12 @@ namespace SeldonData
 		const TinyVector<int, n>& dependencies)  throw();
     GeneralGrid(const GeneralGrid<T, n>& G)  throw();
     GeneralGrid(const Grid<T>& G)  throw();
+
+    // Destructors.
+
     ~GeneralGrid()  throw();
+
+    // Methods.
 
     GeneralGrid<T, n>& operator= (const Grid<T>&);
     GeneralGrid<T, n>& operator= (const GeneralGrid<T, n>&);
@@ -194,6 +219,8 @@ namespace SeldonData
     void Print() const;
 
   private:
+    //! Dimension of 'values_' corresponding to the dimension
+    //! to which the grid is related (i.e. 'variable').
     int main_variable_;
 
   };

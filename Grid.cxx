@@ -106,28 +106,6 @@ namespace SeldonData
 
   }
 
-  //! Returns the first value of the grid.
-  /*!
-    \return Zero.
-  */
-  template<class T>
-  typename Grid<T>::value_type
-  Grid<T>::GetStart() const
-  {
-    return zero_;
-  }
-
-  //! Returns the first space-step of the grid.
-  /*!
-    \return Zero.
-  */
-  template<class T>
-  typename Grid<T>::value_type
-  Grid<T>::GetInc() const
-  {
-    return zero_;
-  }
-
   //! Returns the number of elements in the grid.
   /*!
     \return Zero.
@@ -585,11 +563,8 @@ namespace SeldonData
   RegularGrid<T>::RegularGrid(int length, int variable)  throw():
     Grid<T>(length, variable), values_(length_)
   {
-    start_ = T(0);
-    inc_ = T(1);
-
     for (int i=0; i<length_; i++)
-      values_(i) = start_ + i * inc_;
+      values_(i) = value_type(i);
   }
 
   //! Constructor.
@@ -607,11 +582,8 @@ namespace SeldonData
 			      int length, int variable)  throw():
     Grid<T>(length, variable), values_(length_)
   {
-    start_ = start;
-    inc_ = inc;
-
     for (int i=0; i<length_; i++)
-      values_(i) = start_ + i * inc_;
+      values_(i) = start + value_type(i) * inc;
   }
 
   //! Constructor.
@@ -629,11 +601,6 @@ namespace SeldonData
     // is used to avoid memory overlap.
     values_(values.copy())
   {
-    start_ = values_(0);
-    if (length_>1)
-      inc_ = values_(1) - values_(0);
-    else
-      inc_ = T(0);
   }
 
   //! Copy constructor.
@@ -646,8 +613,6 @@ namespace SeldonData
   {
     for (int i=0; i<G.GetLength(); i++)
       values_(i) = G(i);
-    start_ = G.GetStart();
-    inc_ = G.GetInc();
   }
 
   //! Copy constructor for regular grids.
@@ -661,8 +626,6 @@ namespace SeldonData
     // is used to avoid memory overlap.
     values_((G.GetValues()).copy())
   {
-    start_ = G.GetStart();
-    inc_ = G.GetInc();
   }
 
   //! Destructor.
@@ -681,8 +644,6 @@ namespace SeldonData
   {
     length_ = G.GetLength();
     variable_ = G.GetVariable();
-    start_ = G.GetStart();
-    inc_ = G.GetInc();
 
     return (*this);
   }
@@ -698,35 +659,8 @@ namespace SeldonData
   {
     length_ = G.GetLength();
     variable_ = G.GetVariable();
-    start_ = G.GetStart();
-    inc_ = G.GetInc();
 
     values_ = G.GetValues();
-  }
-
-  //! Returns the first value of the grid.
-  /*!
-    \return First value of the grid.
-  */
-  template<class T>
-  typename RegularGrid<T>::value_type
-  RegularGrid<T>::GetStart() const
-  {
-    return values_(0);
-  }
-
-  //! Returns the first space-step of the grid.
-  /*!
-    \return First space-step of the grid.
-  */
-  template<class T>
-  typename RegularGrid<T>::value_type
-  RegularGrid<T>::GetInc() const
-  {
-    if (length_>0)
-      return ( values_(1) - values_(0) );
-    else
-      return inc_;
   }
 
   //! Returns the number of elements in the grid.
