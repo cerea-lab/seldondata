@@ -136,6 +136,29 @@ namespace SeldonData
 		   int i6, int i7, int i8,
 		   int i9);
 
+    const T& operator() (int i0) const;
+    const T& operator() (int i0, int i1) const;
+    const T& operator() (int i0, int i1, int i2) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4, int i5) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4, int i5,
+			 int i6) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4, int i5,
+			 int i6, int i7) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4, int i5,
+			 int i6, int i7, int i8) const;
+    const T& operator() (int i0, int i1, int i2,
+			 int i3, int i4, int i5,
+			 int i6, int i7, int i8,
+			 int i9) const;
+
     T& operator() (const Array<int, 1>& indices);
 
     T& Value(int i0, int i1 = -1,
@@ -445,7 +468,7 @@ namespace SeldonData
     void ChangeCoords(FuncCoords_Base<TG>& f);
     void ChangeCoordsInPlace(Function_Base<TG>& f);
 
-    void Print();
+    void Print() const;
 
   private:
     void ClearGrids();

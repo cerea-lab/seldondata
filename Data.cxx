@@ -1791,6 +1791,579 @@ namespace SeldonData
     return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! Access operator for one-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \return A const reference to element #i0.
+    \exception SeldonData::WrongDim data dimension is not 1.
+    \exception SeldonData::WrongIndex index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0)  const
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=1)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 1 argument.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+#endif
+
+    return data_(i0);
+  }
+
+  //! Access operator for two-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \return A const reference to element (i0, i1).
+    \exception SeldonData::WrongDim data dimension is not 2.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1)  const
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=2)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 2 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+#endif
+
+    return data_(i0, i1);
+  }
+
+  //! Access operator for three-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \return A const reference to element (i0, i1, i2).
+    \exception SeldonData::WrongDim data dimension is not 3.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2)  const
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=3)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 3 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+#endif
+
+    return data_(i0, i1, i2);
+  }
+
+  //! Access operator for four-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \return A const reference to element (i0, i1, i2, i3).
+    \exception SeldonData::WrongDim data dimension is not 4.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=4)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 4 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3);
+  }
+
+  //! Access operator for five-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \return A const reference to element (i0, i1, i2, i3, i4).
+    \exception SeldonData::WrongDim data dimension is not 5.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=5)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 5 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4);
+  }
+
+  //! Access operator for six-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \return A const reference to element (i0, i1, i2, i3, i4, i5).
+    \exception SeldonData::WrongDim data dimension is not 6.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4, int i5)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=6)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 6 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4, i5);
+  }
+
+  template<class T, int N, class TG>
+  //! Access operator for seven-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \return A const reference to element (i0, i1, i2, i3,
+    i4, i5, i6).
+    \exception SeldonData::WrongDim data dimension is not 7.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4, int i5,
+					      int i6)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=7)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 7 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4, i5, i6);
+  }
+
+  template<class T, int N, class TG>
+  //! Access operator for eight-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \return A const reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7).
+    \exception SeldonData::WrongDim data dimension is not 8.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4, int i5,
+					      int i6, int i7)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=8)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 8 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4, i5, i6, i7);
+  }
+
+  template<class T, int N, class TG>
+  //! Access operator for nine-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \return A const reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7, i8).
+    \exception SeldonData::WrongDim data dimension is not 9.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4, int i5,
+					      int i6, int i7, int i8)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=9)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 9 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+    if ( (i8<0) || (i8>=data_.extent(8)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #8 should be in [0, "
+		       + to_str(data_.extent(8)-1) + "], but is equal to "
+		       + to_str(i8) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8);
+  }
+
+  //! Access operator for ten-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \param i9 index for dimension #9.
+    \return A const reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7, i8, i9).
+    \exception SeldonData::WrongDim data dimension is not 10.
+    \exception SeldonData::WrongIndex an index is out of range.
+  */
+  template<class T, int N, class TG>
+  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
+					      int i3, int i4, int i5,
+					      int i6, int i7, int i8,
+					      int i9)  const
+
+  {
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (N!=10)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator() const",
+		     "operator() was called with 10 arguments.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+    if ( (i8<0) || (i8>=data_.extent(8)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #8 should be in [0, "
+		       + to_str(data_.extent(8)-1) + "], but is equal to "
+		       + to_str(i8) + ".");
+    if ( (i9<0) || (i9>=data_.extent(9)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator() const",
+		       "Index along dimension #9 should be in [0, "
+		       + to_str(data_.extent(9)-1) + "], but is equal to "
+		       + to_str(i9) + ".");
+#endif
+
+    return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
+  }
+
   //! Access operator.
   /*!
     \param indices array of indices.
@@ -5952,7 +6525,7 @@ namespace SeldonData
 
   //! Displays data.
   template<class T, int N, class TG>
-  void Data<T, N, TG>::Print()
+  void Data<T, N, TG>::Print()  const
   {
     cout << data_ << endl;
   }
