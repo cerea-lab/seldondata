@@ -44,11 +44,12 @@ namespace SeldonData
     Array<int, 1> IndexIn(10), IndexIn0(10), IndexOut(10);
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> Coeff(10), Coeff0(10);
-    Array<bool, 1> Pos(N);
+    Array<bool, 1> Pos(10);
     TIn coeff;
 
     for (i=0; i<10; i++)
       {
+	Pos(i) = 0;
 	LengthIn(i) = dataIn.GetLength(i);
 	LengthOut(i) = dataOut.GetLength(i);
 	IndexOut(i) = 0;
@@ -162,11 +163,12 @@ namespace SeldonData
     Array<int, 1> IndexIn(10), IndexOut(10);
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> MinIn(10), DeltaIn(10), Coeff(10);
-    Array<bool, 1> Pos(N);
+    Array<bool, 1> Pos(10);
     TIn coord_out, coord_in, coeff;
 
     for (i=0; i<10; i++)
       {
+	Pos(i) = 0;
 	LengthIn(i) = dataIn.GetLength(i);
 	LengthOut(i) = dataOut.GetLength(i);
 	Coeff(i) = 0;
@@ -271,13 +273,14 @@ namespace SeldonData
     Array<int, 1> IndexIn(10), IndexOut(10);
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> Coeff(10);
-    Array<bool, 1> Pos(N);
+    Array<bool, 1> Pos(10);
     TIn coeff;
 
     dataOut.SetZero();
 
     for (i=0; i<10; i++)
       {
+	Pos(i) = 0;
 	LengthIn(i) = dataIn.GetLength(i);
 	LengthOut(i) = dataOut.GetLength(i);
 	IndexOut(i) = 0;
@@ -384,10 +387,16 @@ namespace SeldonData
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> Coeff(10), Coeff0(10);
     TIn temp;
-    Array<bool, 1> Pos(N), Pos_dim(N);
+    Array<bool, 1> Pos(10), Pos_dim(10);
     TIn coeff;
 
     dataOut.SetZero();
+
+    for (i=0; i<10; i++)
+      {
+	Pos(i) = 0;
+	Pos_dim(i) = 0;
+      }
 
     for (i=0; i<10; i++)
       if ((i<N)&&(i!=dim))
@@ -643,7 +652,7 @@ namespace SeldonData
     Array<int, 1> LengthIn(10), LengthOut(10);
     Array<TIn, 1> Coeff(10);
     TIn temp;
-    Array<bool, 1> Pos(N), Pos_dim(N);
+    Array<bool, 1> Pos(10), Pos_dim(10);
     int NbElementsOut;
 
     dataOut.SetZero();
@@ -657,6 +666,12 @@ namespace SeldonData
     GeneralIndices = 0;
     GeneralCoeffs.resize(NbElementsOut, int(pow(2., N-1)+0.5));
     GeneralCoeffs = 0;
+
+    for (i=0; i<10; i++)
+      {
+	Pos(i) = 0;
+	Pos_dim(i) = 0;
+      }
 
     for (i=0; i<10; i++)
       if (i < N)
