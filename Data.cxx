@@ -1709,7 +1709,7 @@ namespace SeldonData
     \return The value of current data at (indices(0), indices(1), ...).
   */
   template<class T, int N, class TG>
-  inline T& Data<T, N, TG>::operator() (Array<int, 1>& indices)
+  inline T& Data<T, N, TG>::operator() (const Array<int, 1>& indices)
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
