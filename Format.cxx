@@ -201,8 +201,8 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
-      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
-		    "Unable to open file " + FileName + ".");
+      throw IOError("FormatBinary<T>::Read(string FileName, Array<T, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
 #endif
 
     this->Read(FileStream, A);
@@ -217,22 +217,30 @@ namespace SeldonData
   void FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A) const
   {
 
-    unsigned long DataSize = sizeof(T) * A.numElements();
+    unsigned long data_size = sizeof(T) * A.numElements();
     T* data = A.data();
 
 #ifdef DEBUG_SELDONDATA_IO
-    // Checks file length.
-    FileStream.seekg(0, ios::end);
-    unsigned long FileSize = FileStream.tellg();
-
-    if (DataSize>FileSize)
+    // Checks if the file ready.
+    if (!FileStream.good())
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
-		    "Reading " + to_str(DataSize) + " bytes is impossible." +
-		    " The input file is only " + to_str(FileSize) + " bytes-long.");
+		    "File is not ready.");
+
+    // Checks file length.
+    unsigned long position;
+    position = FileStream.tellg();
+    FileStream.seekg(0, ios::end);
+    unsigned long file_size = FileStream.tellg();
+    file_size -= position;
+
+    if (data_size>file_size)
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
+		    "Reading " + to_str(data_size) + " bytes is impossible." +
+		    " The input file is only " + to_str(file_size) + " bytes-long.");
 #endif
 
     FileStream.seekg(0, ios::beg);
-    FileStream.read(reinterpret_cast<char*>(data), DataSize);
+    FileStream.read(reinterpret_cast<char*>(data), data_size);
     
   }
 
