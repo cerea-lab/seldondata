@@ -190,7 +190,7 @@ namespace SeldonData
 					 IndexOut(3), IndexOut(4), IndexOut(5),
 					 IndexOut(6), IndexOut(7), IndexOut(8),
 					 IndexOut(9));
-	    l = (coord_out - MinIn(k)) / DeltaIn(k);
+	    l = int( (coord_out - MinIn(k)) / DeltaIn(k) );
 	    l = l<1? 1 : l;
 	    l = l<LengthIn(k)? l : (LengthIn(k)-1);
 	    IndexIn(k) = l;
