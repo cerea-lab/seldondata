@@ -23,7 +23,7 @@ namespace SeldonData
     int length_;
     int variable_;
 
-    value_type previous_;
+    value_type zero_;
     
   public:
     Grid()  throw();
@@ -37,7 +37,6 @@ namespace SeldonData
     int GetVariable() const;
     virtual bool IsDependent(int i) const;
 
-    value_type GetPrevious() const;
     virtual value_type GetStart() const;
     virtual value_type GetInc() const;
 

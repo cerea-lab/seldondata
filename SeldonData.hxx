@@ -4,9 +4,19 @@
 #include <blitz/array.h>
 using namespace blitz;
 
+#include <string>
+#include <sstream>
 
 namespace SeldonData
 {
+
+  template <typename T>
+  std::string to_string(const T &input)
+  {
+    std::ostringstream output;
+    output << input;
+    return output.str();
+  }
 
 }  // namespace SeldonData.
 
