@@ -1139,10 +1139,10 @@ namespace SeldonData
     \return Value of the required element.
   */
   template<class T, int N, class TG>
-  T Data<T, N, TG>::Value(int i0, int i1, int i2,
-			  int i3, int i4, int i5,
-			  int i6, int i7, int i8,
-			  int i9) const
+  inline T Data<T, N, TG>::Value(int i0, int i1, int i2,
+				 int i3, int i4, int i5,
+				 int i6, int i7, int i8,
+				 int i9) const
   {
     if (N==1)
       return (*this)(i0);

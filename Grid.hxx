@@ -8,6 +8,7 @@ namespace SeldonData
   /* Grid */
   /********/
 
+  //! Base class for grids.
   template <class T>
   class Grid
   {
@@ -83,6 +84,7 @@ namespace SeldonData
   /* RegularGrid */
   /***************/
 
+  //! Regular grids.
   template<class T>
   class RegularGrid: public Grid<T>
   {
@@ -152,6 +154,7 @@ namespace SeldonData
   /* GeneralGrid */
   /***************/
 
+  //! General grids.
   template<class T, int n>
   class GeneralGrid: public Grid<T>
   {

@@ -7,6 +7,7 @@ using std::endl;
 namespace SeldonData
 {
 
+  //! Data class.
   template<class T, int N, class TG = T>
   class Data
   {

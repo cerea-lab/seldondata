@@ -215,10 +215,10 @@ namespace SeldonData
   template<class T>
   typename Grid<T>::reference
   inline Grid<T>::Value(int i0, int i1,
-		 int i2, int i3,
-		 int i4, int i5,
-		 int i6, int i7,
-		 int i8, int i9)
+			int i2, int i3,
+			int i4, int i5,
+			int i6, int i7,
+			int i8, int i9)
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
@@ -257,10 +257,10 @@ namespace SeldonData
   template<class T>
   typename Grid<T>::value_type
   inline Grid<T>::Value(int i0, int i1,
-		 int i2, int i3,
-		 int i4, int i5,
-		 int i6, int i7,
-		 int i8, int i9) const
+			int i2, int i3,
+			int i4, int i5,
+			int i6, int i7,
+			int i8, int i9) const
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
