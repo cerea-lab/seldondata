@@ -6,13 +6,45 @@
 namespace SeldonData
 {
 
+  //! Constructor for one-dimensional data.
+  /*!
+    
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0)  throw():
     data_(G0.GetLength()), grids_(N)
   {
 
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=1)
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Requires " + to_string(N)
+	  + " grids, but got 1 grids." << endl;
+	abort();
+      }
+#endif
+
     grids_(0) = G0.Duplicate();
     SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
@@ -34,6 +66,22 @@ namespace SeldonData
 
     grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
     SetVariables();
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
@@ -58,6 +106,23 @@ namespace SeldonData
     grids_(2) = G2.Duplicate();
     SetVariables();
 
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
+
   }
 
   template<class T, int N>
@@ -81,6 +146,23 @@ namespace SeldonData
     grids_(0) = G0.Duplicate(); grids_(1) = G1.Duplicate();
     grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
     SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
@@ -108,6 +190,23 @@ namespace SeldonData
     grids_(4) = G4.Duplicate();
     SetVariables();
 
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
+
   }
 
   template<class T, int N>
@@ -133,6 +232,23 @@ namespace SeldonData
     grids_(2) = G2.Duplicate(); grids_(3) = G3.Duplicate();
     grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
     SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
@@ -162,6 +278,23 @@ namespace SeldonData
     grids_(6) = G6.Duplicate();
     SetVariables();
 
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
+
   }
 
   template<class T, int N>
@@ -190,6 +323,23 @@ namespace SeldonData
     grids_(4) = G4.Duplicate(); grids_(5) = G5.Duplicate();
     grids_(6) = G6.Duplicate(); grids_(7) = G7.Duplicate();
     SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
@@ -221,6 +371,23 @@ namespace SeldonData
     grids_(8) = G8.Duplicate();
     SetVariables();
 
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
+
   }
 
   template<class T, int N>
@@ -251,6 +418,23 @@ namespace SeldonData
     grids_(6) = G6.Duplicate(); grids_(7) = G7.Duplicate();
     grids_(8) = G8.Duplicate(); grids_(9) = G9.Duplicate();
     SetVariables();
+
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    int i, j;
+    for (i=0; i<N; i++)
+      for (j=0; j<N; j++)
+	if ( (grids_(i)->GetLength(j)!=0)
+	     && (grids_(i)->GetLength(j)!=grids_(j)->GetLength()) )
+      {
+	cout << "ERROR!" << endl;
+	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
+	     << endl << "   Length of grid #" << i << " along dimension #"
+	     << j << " is " << grids_(i)->GetLength(j) << " but should be "
+	     << grids_(j)->GetLength() << "." << endl;
+	abort();
+      }
+#endif
 
   }
 
