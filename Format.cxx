@@ -805,19 +805,19 @@ namespace SeldonData
  
   //! Reads a file in "Chimere" format.
   template<class TD, int N, class TG>
-  void FormatChimere::Read(string FileName, Data<TD, N, TG>& D) const
+  void FormatChimere::Read(string FileName, Data<TD, N, TG>& D, int nb_lines) const
   {
 
-    this->Read(FileName, D.GetArray());
+    this->Read(FileName, D.GetArray(), nb_lines);
 
   }
 
   //! Reads a file in "Chimere" format.
   template<class TD, int N, class TG>
-  void FormatChimere::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
+  void FormatChimere::Read(ifstream& FileStream, Data<TD, N, TG>& D, int nb_lines) const
   {
 
-    this->Read(FileStream, D.GetArray());
+    this->Read(FileStream, D.GetArray(), nb_lines);
 
   }
 
@@ -827,7 +827,7 @@ namespace SeldonData
 
   //! Reads a file in "Chimere" format.
   template<class TA, int N>
-  void FormatChimere::Read(string FileName, Array<TA, N>& A) const
+  void FormatChimere::Read(string FileName, Array<TA, N>& A, int nb_lines) const
   {
 
     ifstream FileStream;
@@ -837,7 +837,7 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
-      throw IOError("FormatChimere::Read(string FileName, Array<TA, N>& A)",
+      throw IOError("FormatChimere::Read(string FileName, Array<TA, N>& A, int nb_lines)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
@@ -849,13 +849,13 @@ namespace SeldonData
 
   //! Reads a file in "Chimere" format.
   template<class TA, int N>
-  void FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A) const
+  void FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A, int nb_lines) const
   {
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file ready.
     if (!FileStream.good())
-      throw IOError("FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A)",
+      throw IOError("FormatChimere::Read(ifstream& FileStream, Array<TA, N>& A, int nb_lines)",
 		    "File is not ready.");
 #endif
 
@@ -872,8 +872,19 @@ namespace SeldonData
 	Index(j) = 0;
 	Length(j) = A.extent(j);
       }
-    int Nx = Length(N-1);
-    int Ny = Length(N-2);
+
+    int nb_elements_per_line = Length(N-1);
+
+    if (nb_lines==-1)
+      if (N==2)
+	nb_lines = 1;
+      else if (N==3)
+	nb_lines = Length(1);
+      else
+	nb_lines = nb_elements
+	  / nb_elements_per_line
+	  / Length(0)
+	  / Length(1);
 
     fstream::fmtflags flags = FileStream.flags();
      
@@ -893,6 +904,19 @@ namespace SeldonData
 
     reading = ((date_==-1) || (date==date_));
 
+    string temp_str;
+    while (!reading)
+      {
+	for (i=0; i<nb_lines+1; i++)
+	  getline(FileStream, temp_str);
+
+	FileStream.flags(ifstream::dec | fstream::skipws);
+	FileStream >> date;
+	FileStream.flags(flags);
+	
+	reading = ((date_==-1) || (date==date_));
+      }
+
     i = 0;
     while ((i<nb_elements) && (FileStream.good()))
       {
@@ -905,7 +929,8 @@ namespace SeldonData
 	k = 0;
 	j = N-1;
 
-	while ((k<Nx*Ny) && (FileStream.good()))
+	while ((k<nb_lines * nb_elements_per_line)
+	       && (FileStream.good()))
 	  {
 
 	    c = FileStream.peek();
