@@ -3,6 +3,26 @@ o--------------------o
 o--------------------o
 
 
+Version 1.3 (2004-02-26)
+-----------
+
+** Improvements:
+
+- Added methods:
+   + Data::Data(int, ...)
+   + Data::Resize(int, ...)
+   + Data::ResizeGrid()
+   + Data::Apply(T (function)(const T&))
+   + Data::RelativeRMS_interpolation()
+   + Data::RelativeRMS()
+- Added functions:
+   + LinearInterpolationUniformToGeneral
+   + LinearInterpolationRegularToGeneral
+   + LinearInterpolationDimension
+
+** Bug fixes:
+
+
 Version 1.2 (2003-10-02)
 -----------
 
