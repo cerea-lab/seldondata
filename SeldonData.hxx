@@ -22,6 +22,10 @@
 #include <blitz/array.h>
 using namespace blitz;
 
+// Talos.
+#include <Talos.hxx>
+using namespace Talos;
+
 #include <string>
 #include <sstream>
 
