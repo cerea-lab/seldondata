@@ -29,50 +29,6 @@ using namespace Talos;
 #include <string>
 #include <sstream>
 
-namespace SeldonData
-{
-
-  //! Converts most types to string.
-  /*!
-    \param input variable to be converted.
-    \return A string containing 'input'.
-  */
-  template<typename T>
-  std::string to_str(const T& input)
-  {
-    std::ostringstream output;
-    output << input;
-    return output.str();
-  }
-
-  //! Converts string to most types, specially numbers.
-  /*!
-    \param input string to be converted.
-    \return 'input' converted to 'T'.
-  */
-  template <class T>
-  void to_num(std::string s, T& num)
-  {
-    std::istringstream str(s);
-    str >> num;
-  }
-
-  //! Converts string to most types, specially numbers.
-  /*!
-    \param input string to be converted.
-    \return 'input' converted to 'T'.
-  */
-  template <class T>
-  T to_num(std::string s)
-  {
-    T num;
-    std::istringstream str(s);
-    str >> num;
-    return num;
-  }
-
-}  // namespace SeldonData.
-
 
 //////////////////
 // DEBUG LEVELS //
