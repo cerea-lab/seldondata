@@ -53,6 +53,20 @@ namespace SeldonData
     str >> num;
   }
 
+  //! Converts string to most types, specially numbers.
+  /*!
+    \param input string to be converted.
+    \return 'input' converted to 'T'.
+   */
+  template <class T>
+  T to_num(std::string s)
+  {
+    T num;
+    std::istringstream str(s);
+    str >> num;
+    return num;
+  }
+
 }  // namespace SeldonData.
 
 #include "Errors.hxx"
