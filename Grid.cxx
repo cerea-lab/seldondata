@@ -37,6 +37,8 @@ namespace SeldonData
     length_ = 0;
     variable_ = 0;
     zero_ = value_type(0);
+
+    duplicate_ = true;
   }
 
   //! Constructor.
@@ -50,6 +52,8 @@ namespace SeldonData
     length_ = length;
     variable_ = variable;
     zero_ = value_type(0);
+
+    duplicate_ = true;
   }
 
   //! Copy constructor.
@@ -62,6 +66,8 @@ namespace SeldonData
     length_ = G.GetLength();
     variable_ = G.GetVariable();
     zero_ = value_type(0);
+
+    duplicate_ = G.GetDuplicate();
   }
 
   //! Destructor.
@@ -81,6 +87,8 @@ namespace SeldonData
     length_ = G.GetLength();
     variable_ = G.GetVariable();
     zero_ = value_type(0);
+
+    duplicate_ = G.GetDuplicate();
 
     return *this;
   }
@@ -159,6 +167,29 @@ namespace SeldonData
     variable_ = variable;
   }
   
+  //! Sets whether the grid should be duplicated in certain cases.
+  /*!
+    \param duplicate true if the grid should
+    be duplicated, false otherwise.
+  */
+  template<class T>
+  bool Grid<T>::SetDuplicate(duplicate) const
+  {
+    duplicate_ = duplicate;
+  }
+
+  //! Should the grid be duplicated?
+  /*! When an instance of 'Data' is created, one may want to
+    duplicate the grid or not (if two instances of 'Data' should
+    share a given grid).
+    \return true if the grid should be duplicated, false otherwise.
+  */
+  template<class T>
+  bool Grid<T>::GetDuplicate() const
+  {
+    return duplicate_;
+  }
+
   //! Duplicates the grid and returns a pointer to the new copy.
   /*! After duplication, no memory is shared with the new grid.
     \return A pointer to a copy of the current grid.
@@ -173,6 +204,33 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_MEMORY
     if ( G == NULL )
       throw NoMemory("Grid<T>::Duplicate");
+#endif
+
+    return G;
+
+  }
+
+  //! Returns a pointer to a copy of the grid or to the grid itself.
+  /*! After copy, no memory is shared with the new grid if 'duplicate_'
+    is set to true. Otherwise, the new grid is the same as the current
+    grid, and the returned pointer is the 'this'.
+    \return A pointer to a copy of the current grid, or to the current grid.
+    \exception SeldonData::NoMemory no more memory is available; duplication is impossible.
+  */
+  template<class T>
+  Grid<T>* Grid<T>::Copy() const
+  {
+
+    Grid<T>* G;
+
+    if (duplicate)
+      G = new Grid<T>(*this);
+    else
+      G = this;
+
+#ifdef DEBUG_SELDONDATA_MEMORY
+    if ( G == NULL )
+      throw NoMemory("Grid<T>::Copy");
 #endif
 
     return G;

@@ -73,6 +73,7 @@ namespace SeldonData
 
     void SetVariable(int variable);
 
+    bool Duplicate() const;
     virtual Grid<T>* Duplicate() const;
 
     virtual reference operator () (int i);
