@@ -661,7 +661,7 @@ namespace SeldonData
     Grid<T>(G),
     // values_ is a copy of G::values_. Function copy()
     // is used to avoid memory overlap.
-    values_((G.GetValues()).copy())
+    values_((G.GetArray()).copy())
   {
   }
 
@@ -697,7 +697,7 @@ namespace SeldonData
     length_ = G.GetLength();
     variable_ = G.GetVariable();
 
-    values_ = G.GetValues();
+    values_ = G.GetArray();
   }
 
   //! Returns grid length.
@@ -740,7 +740,7 @@ namespace SeldonData
   */
   template<class T>
   inline Array<typename RegularGrid<T>::value_type, 1>&
-  RegularGrid<T>::GetValues()
+  RegularGrid<T>::GetArray()
   {
     return values_;
   }
@@ -751,7 +751,7 @@ namespace SeldonData
   */
   template<class T>
   inline const Array<typename RegularGrid<T>::value_type, 1>&
-  RegularGrid<T>::GetValues() const
+  RegularGrid<T>::GetArray() const
   {
     return values_;
   }
@@ -1104,7 +1104,7 @@ namespace SeldonData
     // values_ and dependencies_ are copies of G::values_ and
     // G::dependencies respectively. Function copy()
     // is used to avoid memory overlap.
-    values_((G.GetValues()).copy()),
+    values_((G.GetArray()).copy()),
     dependencies_((G.GetDependencies()).copy())
   {
     main_variable_ = G.GetMainVariable();
@@ -1143,14 +1143,14 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_DIMENSION
     bool dim = true;
     for (int i=0; i<n; i++)
-      dim = dim && (values_.extent(i) == (G.GetValues()).extent(i));
+      dim = dim && (values_.extent(i) == (G.GetArray()).extent(i));
     if (!dim)
       throw WrongDim("GeneralGrid<T, n>::operator= (const GeneralGrid<T, n>&)",
 		     "Grids must have the same size.");
 #endif
     
     // Warning: must have the same lengths.
-    values_ = G.GetValues();
+    values_ = G.GetArray();
     dependencies_ = G.GetDependencies();
 
     main_variable_ = G.GetMainVariable();
@@ -1201,7 +1201,7 @@ namespace SeldonData
   */
   template<class T, int n>
   inline Array<typename GeneralGrid<T, n>::value_type, n>&
-  GeneralGrid<T, n>::GetValues()
+  GeneralGrid<T, n>::GetArray()
   {
     return values_;
   }
@@ -1212,7 +1212,7 @@ namespace SeldonData
   */
   template<class T, int n>
   inline const Array<typename GeneralGrid<T, n>::value_type, n>&
-  GeneralGrid<T, n>::GetValues() const
+  GeneralGrid<T, n>::GetArray() const
   {
     return values_;
   }

@@ -143,8 +143,8 @@ namespace SeldonData
     int GetLength(int i) const;
 
     int GetNbElements() const;
-    Array<value_type, 1>& GetValues();
-    const Array<value_type, 1>& GetValues() const;
+    Array<value_type, 1>& GetArray();
+    const Array<value_type, 1>& GetArray() const;
 
     Grid<T>* Duplicate() const;
 
@@ -218,8 +218,8 @@ namespace SeldonData
     int GetLength(int i) const;
 
     int GetNbElements() const;
-    Array<value_type, n>& GetValues();
-    const Array<value_type, n>& GetValues() const;
+    Array<value_type, n>& GetArray();
+    const Array<value_type, n>& GetArray() const;
     Array<int, 1>& GetDependencies();
     const Array<int, 1>& GetDependencies() const;
     int GetMainVariable() const;

@@ -69,7 +69,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(string FileName, RegularGrid<TG>& G) const
   {
 
-    this->Read(FileName, G.GetValues());
+    this->Read(FileName, G.GetArray());
 
   }
 
@@ -79,7 +79,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(ifstream& FileStream, RegularGrid<TG>& G) const
   {
 
-    this->Read(FileStream, G.GetValues());
+    this->Read(FileStream, G.GetArray());
 
   }
 
@@ -89,7 +89,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
   {
 
-    this->Read(FileName, G.GetValues());
+    this->Read(FileName, G.GetArray());
 
   }
 
@@ -99,7 +99,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
   {
 
-    this->Read(FileStream, G.GetValues());
+    this->Read(FileStream, G.GetArray());
 
   }
 
@@ -109,7 +109,7 @@ namespace SeldonData
   void FormatBinary<T>::Write(RegularGrid<TG>& G, string FileName) const
   {
 
-    this->Write(G.GetValues(), FileName);
+    this->Write(G.GetArray(), FileName);
 
   }
 
@@ -119,7 +119,7 @@ namespace SeldonData
   void FormatBinary<T>::Write(RegularGrid<TG>& G, ofstream FileStream) const
   {
 
-    this->Write(G.GetValues(), FileStream);
+    this->Write(G.GetArray(), FileStream);
     
   }
 
@@ -129,7 +129,7 @@ namespace SeldonData
   void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
   {
 
-    this->Write(G.GetValues(), FileName);
+    this->Write(G.GetArray(), FileName);
 
   }
 
@@ -139,7 +139,7 @@ namespace SeldonData
   void FormatBinary<T>::Write(GeneralGrid<TG, n>& G, ofstream FileStream) const
   {
 
-    this->Write(G.GetValues(), FileStream);
+    this->Write(G.GetArray(), FileStream);
     
   }
 
@@ -471,7 +471,7 @@ namespace SeldonData
    void FormatText::Read(string FileName, RegularGrid<TG>& G) const
    {
 
-     this->Read(FileName, G.GetValues());
+     this->Read(FileName, G.GetArray());
 
    }
 
@@ -480,7 +480,7 @@ namespace SeldonData
    void FormatText::Read(ifstream& FileStream, RegularGrid<TG>& G) const
    {
 
-     this->Read(FileStream, G.GetValues());
+     this->Read(FileStream, G.GetArray());
 
    }
 
@@ -489,7 +489,7 @@ namespace SeldonData
    void FormatText::Read(string FileName, GeneralGrid<TG, n>& G) const
    {
 
-     this->Read(FileName, G.GetValues());
+     this->Read(FileName, G.GetArray());
 
    }
 
@@ -498,7 +498,7 @@ namespace SeldonData
    void FormatText::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
    {
 
-     this->Read(FileStream, G.GetValues());
+     this->Read(FileStream, G.GetArray());
 
    }
 
@@ -507,7 +507,7 @@ namespace SeldonData
    void FormatText::Write(RegularGrid<TG>& G, string FileName) const
    {
 
-     this->Write(G.GetValues(), FileName);
+     this->Write(G.GetArray(), FileName);
 
    }
 
@@ -516,7 +516,7 @@ namespace SeldonData
    void FormatText::Write(RegularGrid<TG>& G, ofstream& FileStream) const
    {
 
-     this->Write(G.GetValues(), FileStream);
+     this->Write(G.GetArray(), FileStream);
     
    }
 
@@ -525,7 +525,7 @@ namespace SeldonData
    void FormatText::Write(GeneralGrid<TG, n>& G, string FileName) const
    {
 
-     this->Write(G.GetValues(), FileName);
+     this->Write(G.GetArray(), FileName);
 
    }
 
@@ -534,7 +534,7 @@ namespace SeldonData
    void FormatText::Write(GeneralGrid<TG, n>& G, ofstream& FileStream) const
    {
 
-     this->Write(G.GetValues(), FileStream);
+     this->Write(G.GetArray(), FileStream);
     
    }
 
