@@ -1284,11 +1284,10 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if data was read.
-    if (!FileStream.good())
+    if (i<nb_elements)
       throw IOError("FormatFormattedText::Read(ExtStream& FileStream, string extract, Array<TA, N>& A)",
-		    string("Unable to read data associated with <")
-		    + info_str[l] + " " + to_str(info_nb0[l]) + " "
-		    + to_str(info_nb1[l]) + ">.");
+		    string("Only ") + to_str(i) + " elements were read instead of "
+		    + to_str(nb_elements) + ".");
 #endif
 
     FileStream.SetDelimiters(delimiters);
