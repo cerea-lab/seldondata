@@ -234,25 +234,25 @@ namespace SeldonData
     // Grid.
 
     template<class TG>
-    void Read(string FileName, RegularGrid<TG>& G) const;
+    void Read(string FileName, string extract, RegularGrid<TG>& G) const;
     template<class TG>
-    void Read(ExtStream& FileStream, RegularGrid<TG>& G) const;
+    void Read(ExtStream& FileStream, string extract, RegularGrid<TG>& G) const;
     template<class TG, int N>
-    void Read(string FileName, GeneralGrid<TG, N>& G) const;
+    void Read(string FileName, string extract, GeneralGrid<TG, N>& G) const;
     template<class TG, int N>
-    void Read(ExtStream& FileStream, GeneralGrid<TG, N>& G) const;
+    void Read(ExtStream& FileStream, string extract, GeneralGrid<TG, N>& G) const;
 
     // Data.
 
     template<class TD, int N, class TG>
-    void Read(string FileName, Data<TD, N, TG>& D) const;
+    void Read(string FileName, string extract, Data<TD, N, TG>& D) const;
     template<class TD, int N, class TG>
-    void Read(ExtStream& FileStream, Data<TD, N, TG>& D) const;
+    void Read(ExtStream& FileStream, string extract, Data<TD, N, TG>& D) const;
 
     // Array.
 
     template<class TA, int N>
-    void Read(string FileName, Array<TA, N>& A) const;
+    void Read(string FileName, string extract, Array<TA, N>& A) const;
     template<class TA, int N>
     void Read(ExtStream& FileStream, string extract, Array<TA, N>& A) const;
 

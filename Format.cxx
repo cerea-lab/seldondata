@@ -982,7 +982,7 @@ namespace SeldonData
     else if (info_str[i] == "a" || info_str[i] == "A")
       {
 	FileStream.GetFullLine();
-	FileStream.seekg(-1, ExtStream::beg);
+	FileStream.seekg(-1, ExtStream::cur);
       }
   }
 
@@ -1030,16 +1030,16 @@ namespace SeldonData
     else if (info_str[i] == "a")
       {
 	convert(trim(FileStream.GetLine(), delimiters_), *value);
-	FileStream.seekg(-1, ExtStream::beg);
+	FileStream.seekg(-1, ExtStream::cur);
 	FileStream.GetFullLine();
-	FileStream.seekg(-1, ExtStream::beg);
+	FileStream.seekg(-1, ExtStream::cur);
 	pos = FileStream.tellg();
 	return 1;
       }
     else if (info_str[i] == "A")
       {
 	convert(FileStream.GetFullLine(), *value);
-	FileStream.seekg(-1, ExtStream::beg);
+	FileStream.seekg(-1, ExtStream::cur);
 	pos = FileStream.tellg();
 	return 1;
       }
@@ -1124,6 +1124,7 @@ namespace SeldonData
 
     streampos pos_beg = FileStream.tellg();
     streampos pos_cur(pos_beg);
+    streampos position;
     
     vector<int> markups;
     split(extract, markups, " \t\n,;:/|");
@@ -1132,6 +1133,7 @@ namespace SeldonData
     TA* data = A.data();
     int i = 0;
     int k(0), l(0);
+    bool newline;
 
     while ((i<nb_elements) && (FileStream.good()))
       {
@@ -1141,12 +1143,46 @@ namespace SeldonData
 	    while (l!=markups[k])
 	      {
 		this->SkipMarkup(FileStream, pos_cur - pos_beg, l);
+		newline = false;
+		while ( (FileStream.good())
+			&& (FileStream.Discard(FileStream.PeekFullLine(position))) )
+		  {
+		    newline = true;
+		    FileStream.seekg(position);
+		  }
+		if (newline)
+		  {
+		    FileStream.seekg(-1, ExtStream::cur);
+		    pos_beg = FileStream.tellg();
+		  }
 		pos_cur = FileStream.tellg();
 		l++;
 	      }
 
 	    i += this->ReadMarkup(FileStream, pos_cur - pos_beg, l,
 				  &data[i], nb_elements - i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	    // Checks if data was read.
+	    if (!FileStream.good())
+	      throw IOError("FormatFormattedText::Read(ExtStream& FileStream, string extract, Array<TA, N>& A)",
+			    string("Unable to read data associated with <")
+			    + info_str[l] + " " + to_str(info_nb0[l]) + " "
+			    + to_str(info_nb1[l]) + ">.");
+#endif
+
+	    newline = false;
+	    while ( (FileStream.good())
+		    && (FileStream.Discard(FileStream.PeekFullLine(position))) )
+	      {
+		newline = true;
+		FileStream.seekg(position);
+	      }
+	    if (newline)
+	      {
+		FileStream.seekg(-1, ExtStream::cur);
+		pos_beg = FileStream.tellg();
+	      }
 	    pos_cur = FileStream.tellg();
 	    
 	    k++; l++;
@@ -1154,11 +1190,18 @@ namespace SeldonData
 	else
 	  {
 	    k = 0; l = 0;
-	    FileStream.GetFullLine();
-	    pos_beg = FileStream.tellg();
-	    pos_cur = pos_beg;
+	    pos_beg = pos_cur = FileStream.tellg();
 	  }
       }
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if data was read.
+    if (!FileStream.good())
+      throw IOError("FormatFormattedText::Read(ExtStream& FileStream, string extract, Array<TA, N>& A)",
+		    string("Unable to read data associated with <")
+		    + info_str[l] + " " + to_str(info_nb0[l]) + " "
+		    + to_str(info_nb1[l]) + ">.");
+#endif
 
     FileStream.SetDelimiters(delimiters);
     FileStream.SetComments(comments);
