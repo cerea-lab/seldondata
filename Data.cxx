@@ -3911,19 +3911,23 @@ namespace SeldonData
     return res;
   }
 
-  //! Threshold data.
-  /*! Any value less than 'threshold' is set to 'threshold'.
-    \param threshold the threshold.
+  //! Thresholds data.
+  /*! Any value less than 'threshold_min' is set to 'threshold_min'
+    and any value more than 'threshold_max' is set to 'threshold_max'.
+    \param threshold_min the lower threshold.
+    \param threshold_max the upper threshold.
   */
   template<class T, int N, class TG>
-  void Data<T, N, TG>::Threshold(T threshold)
+  void Data<T, N, TG>::Threshold(T threshold_min, T threshold_max)
   {
     T* data = data_.data();
     int NbElements = data_.numElements();
     
     for (int i=0; i<NbElements; i++)
-      if (data[i]<threshold)
-	data[i] = threshold;
+      if (data[i] < threshold_min)
+	data[i] = threshold_min;
+      else if (data[i] > threshold_max)
+	data[i] = threshold_max;	
   }
 
   //! Threshold absolute value of data.

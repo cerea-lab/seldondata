@@ -331,7 +331,7 @@ namespace SeldonData
     void SetZero();
     bool IsZero();
 
-    void Threshold(T threshold);
+    void Threshold(T threshold_min, T threshold_max);
     void ThresholdAbs(T threshold);
     void ThresholdMin(T threshold);
     void ThresholdMax(T threshold);
