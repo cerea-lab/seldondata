@@ -275,6 +275,11 @@ namespace SeldonData
     FileStream.seekg(0, ios::end);
     unsigned long file_size = FileStream.tellg() - position;
 
+    if (position > FileStream.tellg())
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
+		    "Unable to read " + to_str(data_size) + " byte(s)." +
+		    " The input stream is empty.");
+
     if (data_size>file_size)
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<T, N>& A)",
 		    "Unable to read " + to_str(data_size) + " byte(s)." +
@@ -311,6 +316,11 @@ namespace SeldonData
     position = FileStream.tellg();
     FileStream.seekg(0, ios::end);
     unsigned long file_size = FileStream.tellg() - position;
+
+    if (position > FileStream.tellg())
+      throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+		    "Unable to read " + to_str(data_size) + " byte(s)." +
+		    " The input stream is empty.");
 
     if (data_size>file_size)
       throw IOError("FormatBinary<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
