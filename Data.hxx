@@ -136,28 +136,28 @@ namespace SeldonData
 		   int i6, int i7, int i8,
 		   int i9);
 
-    const T& operator() (int i0) const;
-    const T& operator() (int i0, int i1) const;
-    const T& operator() (int i0, int i1, int i2) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4, int i5) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4, int i5,
-			 int i6) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4, int i5,
-			 int i6, int i7) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4, int i5,
-			 int i6, int i7, int i8) const;
-    const T& operator() (int i0, int i1, int i2,
-			 int i3, int i4, int i5,
-			 int i6, int i7, int i8,
-			 int i9) const;
+    T operator() (int i0) const;
+    T operator() (int i0, int i1) const;
+    T operator() (int i0, int i1, int i2) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4, int i5) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4, int i5,
+		  int i6) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4, int i5,
+		  int i6, int i7) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4, int i5,
+		  int i6, int i7, int i8) const;
+    T operator() (int i0, int i1, int i2,
+		  int i3, int i4, int i5,
+		  int i6, int i7, int i8,
+		  int i9) const;
 
     T& operator() (const Array<int, 1>& indices);
 

@@ -1799,7 +1799,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0)  const
+  inline T Data<T, N, TG>::operator() (int i0)  const
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1828,7 +1828,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1)  const
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1863,7 +1863,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2)  const
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1904,8 +1904,8 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3)  const
 
   {
 
@@ -1953,8 +1953,8 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4)  const
 
   {
 
@@ -2008,8 +2008,8 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4, int i5)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4, int i5)  const
 
   {
 
@@ -2070,9 +2070,9 @@ namespace SeldonData
     \exception SeldonData::WrongDim data dimension is not 7.
     \exception SeldonData::WrongIndex an index is out of range.
   */
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4, int i5,
-					      int i6)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4, int i5,
+				       int i6)  const
 
   {
 
@@ -2139,9 +2139,9 @@ namespace SeldonData
     \exception SeldonData::WrongDim data dimension is not 8.
     \exception SeldonData::WrongIndex an index is out of range.
   */
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4, int i5,
-					      int i6, int i7)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4, int i5,
+				       int i6, int i7)  const
 
   {
 
@@ -2214,9 +2214,9 @@ namespace SeldonData
     \exception SeldonData::WrongDim data dimension is not 9.
     \exception SeldonData::WrongIndex an index is out of range.
   */
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4, int i5,
-					      int i6, int i7, int i8)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4, int i5,
+				       int i6, int i7, int i8)  const
 
   {
 
@@ -2295,10 +2295,10 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline const T& Data<T, N, TG>::operator() (int i0, int i1, int i2,
-					      int i3, int i4, int i5,
-					      int i6, int i7, int i8,
-					      int i9)  const
+  inline T Data<T, N, TG>::operator() (int i0, int i1, int i2,
+				       int i3, int i4, int i5,
+				       int i6, int i7, int i8,
+				       int i9)  const
 
   {
 
