@@ -30,7 +30,6 @@ namespace SeldonData
 {
 
   //! Base class for input/output classes.
-  template<class T>
   class Format
   {
 
@@ -45,7 +44,7 @@ namespace SeldonData
 
   //! Input/ouput class to read binary files.
   template<class T>
-  class FormatBinary: public Format<T>
+  class FormatBinary: public Format
   {
 
   protected:
@@ -106,8 +105,7 @@ namespace SeldonData
 
 
   //! Input/ouput class to read text files.
-  template<class T>
-  class FormatText: public Format<T>
+  class FormatText: public Format
   {
 
   protected:
@@ -177,8 +175,7 @@ namespace SeldonData
 
 
   //! Input/ouput class to read files in Chimere format.
-  template<class T>
-  class FormatChimere: public Format<T>
+  class FormatChimere: public Format
   {
 
   protected:

@@ -33,14 +33,12 @@ namespace SeldonData
   ////////////
   
   //! Default constructor.
-  template<class T>
-  Format<T>::Format()  throw()
+  Format::Format()  throw()
   {
   }
 
   //! Destructor.
-  template<class T>
-  Format<T>::~Format()  throw()
+  Format::~Format()  throw()
   {
   }
 
@@ -386,8 +384,7 @@ namespace SeldonData
    ////////////////
 
    //! Default constructor.
-   template<class T>
-   FormatText<T>::FormatText()  throw()
+   FormatText::FormatText()  throw()
    {
      separator_ = "\t\t";
      flags_ = fstream::scientific | fstream::skipws;
@@ -396,8 +393,7 @@ namespace SeldonData
    }
 
    //! Constructor.
-   template<class T>
-   FormatText<T>::FormatText(string separator)  throw()
+   FormatText::FormatText(string separator)  throw()
    {
      separator_ = separator;
      flags_ = fstream::scientific | fstream::skipws;
@@ -406,8 +402,7 @@ namespace SeldonData
    }
 
    //! Constructor.
-   template<class T>
-   FormatText<T>::FormatText(fstream::fmtflags flags, string separator)  throw()
+   FormatText::FormatText(fstream::fmtflags flags, string separator)  throw()
    {
      separator_ = separator;
      flags_ = flags | fstream::skipws;
@@ -416,8 +411,7 @@ namespace SeldonData
    }
 
    //! Constructor.
-   template<class T>
-   FormatText<T>::FormatText(fstream::fmtflags flags, streamsize precision,
+   FormatText::FormatText(fstream::fmtflags flags, streamsize precision,
 			     streamsize width, string separator)  throw()
    {
      separator_ = separator;
@@ -427,8 +421,7 @@ namespace SeldonData
    }
 
    //! Destructor.
-   template<class T>
-   FormatText<T>::~FormatText()  throw()
+   FormatText::~FormatText()  throw()
    {
 
    }
@@ -437,8 +430,7 @@ namespace SeldonData
   /*!
     \param separator the new separator.
    */
-   template<class T>
-   void FormatText<T>::SetSeparator(string separator)
+   void FormatText::SetSeparator(string separator)
    {
      separator_ = separator;
    }
@@ -447,8 +439,7 @@ namespace SeldonData
   /*!
     \param flags format flags.
    */
-   template<class T>
-   void FormatText<T>::SetFlags(fstream::fmtflags flags)
+   void FormatText::SetFlags(fstream::fmtflags flags)
    {
      flags_ = flags;
    }
@@ -457,8 +448,7 @@ namespace SeldonData
   /*!
     \param precision floating-point decimal presision.
    */
-   template<class T>
-   void FormatText<T>::SetPrecision(streamsize precision)
+   void FormatText::SetPrecision(streamsize precision)
    {
      precision_ = precision;
    }
@@ -467,8 +457,7 @@ namespace SeldonData
   /*!
     \param width field width.
    */
-   template<class T>
-   void FormatText<T>::SetWidth(streamsize width)
+   void FormatText::SetWidth(streamsize width)
    {
      width_ = width;
    }
@@ -478,9 +467,8 @@ namespace SeldonData
    /********/
 
    //! Reads a text file.
-   template<class T>
    template<class TG>
-   void FormatText<T>::Read(string FileName, RegularGrid<TG>& G) const
+   void FormatText::Read(string FileName, RegularGrid<TG>& G) const
    {
 
      this->Read(FileName, G.GetValues());
@@ -488,9 +476,8 @@ namespace SeldonData
    }
 
    //! Reads a text file.
-   template<class T>
    template<class TG>
-   void FormatText<T>::Read(ifstream& FileStream, RegularGrid<TG>& G) const
+   void FormatText::Read(ifstream& FileStream, RegularGrid<TG>& G) const
    {
 
      this->Read(FileStream, G.GetValues());
@@ -498,9 +485,8 @@ namespace SeldonData
    }
 
    //! Reads a text file.
-   template<class T>
    template<class TG, int n>
-   void FormatText<T>::Read(string FileName, GeneralGrid<TG, n>& G) const
+   void FormatText::Read(string FileName, GeneralGrid<TG, n>& G) const
    {
 
      this->Read(FileName, G.GetValues());
@@ -508,9 +494,8 @@ namespace SeldonData
    }
 
    //! Reads a text file.
-   template<class T>
    template<class TG, int n>
-   void FormatText<T>::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
+   void FormatText::Read(ifstream& FileStream, GeneralGrid<TG, n>& G) const
    {
 
      this->Read(FileStream, G.GetValues());
@@ -518,9 +503,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TG>
-   void FormatText<T>::Write(RegularGrid<TG>& G, string FileName) const
+   void FormatText::Write(RegularGrid<TG>& G, string FileName) const
    {
 
      this->Write(G.GetValues(), FileName);
@@ -528,9 +512,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TG>
-   void FormatText<T>::Write(RegularGrid<TG>& G, ofstream& FileStream) const
+   void FormatText::Write(RegularGrid<TG>& G, ofstream& FileStream) const
    {
 
      this->Write(G.GetValues(), FileStream);
@@ -538,9 +521,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TG, int n>
-   void FormatText<T>::Write(GeneralGrid<TG, n>& G, string FileName) const
+   void FormatText::Write(GeneralGrid<TG, n>& G, string FileName) const
    {
 
      this->Write(G.GetValues(), FileName);
@@ -548,9 +530,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TG, int n>
-   void FormatText<T>::Write(GeneralGrid<TG, n>& G, ofstream& FileStream) const
+   void FormatText::Write(GeneralGrid<TG, n>& G, ofstream& FileStream) const
    {
 
      this->Write(G.GetValues(), FileStream);
@@ -562,9 +543,8 @@ namespace SeldonData
    /********/
   
    //! Reads a text file.
-   template<class T>
    template<class TD, int N, class TG>
-   void FormatText<T>::Read(string FileName, Data<TD, N, TG>& D) const
+   void FormatText::Read(string FileName, Data<TD, N, TG>& D) const
    {
 
      this->Read(FileName, D.GetArray());
@@ -572,9 +552,8 @@ namespace SeldonData
    }
 
    //! Reads a text file.
-   template<class T>
    template<class TD, int N, class TG>
-   void FormatText<T>::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
+   void FormatText::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
    {
 
      this->Read(FileStream, D.GetArray());
@@ -582,9 +561,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TD, int N, class TG>
-   void FormatText<T>::Write(Data<TD, N, TG>& D, string FileName) const
+   void FormatText::Write(Data<TD, N, TG>& D, string FileName) const
    {
 
      this->Write(D.GetArray(), FileName);
@@ -592,9 +570,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TD, int N, class TG>
-   void FormatText<T>::Write(Data<TD, N, TG>& D, ofstream& FileStream) const
+   void FormatText::Write(Data<TD, N, TG>& D, ofstream& FileStream) const
    {
 
      this->Write(D.GetArray(), FileStream);
@@ -606,9 +583,8 @@ namespace SeldonData
    /*********/
 
    //! Reads a text file.
-   template<class T>
    template<class TA, int N>
-   void FormatText<T>::Read(string FileName, Array<TA, N>& A) const
+   void FormatText::Read(string FileName, Array<TA, N>& A) const
    {
 
     ifstream FileStream;
@@ -625,7 +601,7 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
-      throw IOError("FormatText<T>::Read(string FileName, Array<TA, N>& A)",
+      throw IOError("FormatText::Read(string FileName, Array<TA, N>& A)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
@@ -636,15 +612,14 @@ namespace SeldonData
    }
 
    //! Reads a text file.
-   template<class T>
    template<class TA, int N>
-   void FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A) const
+   void FormatText::Read(ifstream& FileStream, Array<TA, N>& A) const
    {
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file ready.
     if (!FileStream.good())
-      throw IOError("FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+      throw IOError("FormatText::Read(ifstream& FileStream, Array<TA, N>& A)",
 		    "File is not ready.");
 #endif
 
@@ -696,7 +671,7 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if all was read.
     if (i!=nb_elements)
-      throw IOError("FormatText<T>::Read(ifstream& FileStream, Array<TA, N>& A)",
+      throw IOError("FormatText::Read(ifstream& FileStream, Array<TA, N>& A)",
 		    to_str(i) + " elements were read instead of "
 		    + to_str(nb_elements) + ".");
 #endif
@@ -704,9 +679,8 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TA, int N>
-   void FormatText<T>::Write(Array<TA, N>& A, string FileName) const
+   void FormatText::Write(Array<TA, N>& A, string FileName) const
    {
 
      ofstream FileStream;
@@ -723,7 +697,7 @@ namespace SeldonData
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file was opened.
     if (!FileStream.is_open())
-      throw IOError("FormatText<T>::Write(Array<TA, N>& A, string FileName)",
+      throw IOError("FormatText::Write(Array<TA, N>& A, string FileName)",
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
@@ -734,15 +708,14 @@ namespace SeldonData
    }
 
    //! Writes a text file.
-   template<class T>
    template<class TA, int N>
-   void FormatText<T>::Write(Array<TA, N>& A, ofstream& FileStream) const
+   void FormatText::Write(Array<TA, N>& A, ofstream& FileStream) const
    {
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks if the file ready.
     if (!FileStream.good())
-      throw IOError("FormatText<T>::Write(Array<TA, N>& A, ofstream& FileStream)",
+      throw IOError("FormatText::Write(Array<TA, N>& A, ofstream& FileStream)",
 		    "File is not ready.");
 #endif
 
@@ -792,14 +765,12 @@ namespace SeldonData
 //    ///////////////////
 
 //    //! Default constructor.
-//    template<class T>
-//    FormatChimere<T>::FormatChimere()  throw()
+//    FormatChimere::FormatChimere()  throw()
 //    {
 //    }
 
 //    //! Destructor.
-//    template<class T>
-//    FormatChimere<T>::~FormatChimere()  throw()
+//    FormatChimere::~FormatChimere()  throw()
 //    {
 //    }
 
@@ -808,9 +779,8 @@ namespace SeldonData
 //    /********/
  
 //    //! Reads a file in "Chimere" format.
-//    template<class T>
 //    template<class TD, int N, class TG>
-//    void FormatChimere<T>::Read(string FileName, int date, Data<TD, N, TG>& D) const
+//    void FormatChimere::Read(string FileName, int date, Data<TD, N, TG>& D) const
 //    {
 
 //      this->Read(FileName, date, D.GetArray());
@@ -818,9 +788,8 @@ namespace SeldonData
 //    }
 
 //    //! Writes a file in "Chimere" format.
-//    template<class T>
 //    template<class TD, int N, class TG>
-//    void FormatChimere<T>::Write(Data<TD, N, TG>& D, int date, string FileName) const
+//    void FormatChimere::Write(Data<TD, N, TG>& D, int date, string FileName) const
 //    {
 
 //      this->Write(D.GetArray(), date, FileName);
@@ -832,9 +801,8 @@ namespace SeldonData
 //    /*********/
 
 //    //! Reads a file in "Chimere" format.
-//    template<class T>
 //    template<class TA, int N>
-//    void FormatChimere<T>::Read(string FileName, int date, Array<TA, N>& A) const
+//    void FormatChimere::Read(string FileName, int date, Array<TA, N>& A) const
 //    {
 
 //      ifstream File(FileName.c_str());
@@ -872,9 +840,8 @@ namespace SeldonData
 //    }
 
 //    //! Writes a file in "Chimere" format.
-//    template<class T>
 //    template<class TA, int N>
-//    void FormatChimere<T>::Write(Array<TA, N>& A, int date, string FileName) const
+//    void FormatChimere::Write(Array<TA, N>& A, int date, string FileName) const
 //    {
 
 //  //     string format = "%" + format_ + "%c";
