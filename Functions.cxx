@@ -1,3 +1,21 @@
+// Copyright (C) 2003 Vivien Mallet
+//
+// This file is part of SeldonData library.
+// SeldonData library is a tool for data processing.
+// 
+// SeldonData is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+// 
+// SeldonData is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License (file "license") for more details.
+//
+// For more information, please see the SeldonData home page:
+//     http://membres.lycos.fr/vmallet/seldondata/
+
 #ifndef FILE_SELDONDATA_FUNCTIONS_CXX
 
 #include "Functions.hxx"
@@ -478,156 +496,6 @@ namespace SeldonData
 
   // GENERAL //
   /////////////
-
-
-  ////////////////////////////////////////////////////////////////////////////////////
-
-
-  //    template<class TU, class TV, class TW,
-  //  	   class T>
-  //    void LouisKz(Data<TU, 4>& U, Data<TV, 4>& V, Data<TW, 4>& W,
-  //  	       Data<TTp, 4>& Tp, Data<T, 4>& Kz, T z0, T L,
-  //  	       T Ka, T B, T C, T D)
-  //    {
-
-  //      int h, i, j, k;
-
-  //      int Nx = W.GetLength(1);
-  //      int Ny = W.GetLength(2);
-  //      int Nz = W.GetLength(3);
-  //      int Nt = min( min(U.GetLength(0), V.GetLength(0)), W.GetLength(0) );
-
-  //      T L, l, R, F;
-  //      T dWind_dz, derivative;
-  //      T g = 9.81;
-
-  //      Grid<T>& Levels = W.GetGrid(3);
-  //      Grid<T>& Nodes = U.GetGrid(3);
-
-  //      for (h=0; h<Nt; h++)
-  //        for (i=0; i<Nx; i++)
-  //  	for (j=0; j<Ny; j++)
-  //  	  for (k=0; k<Nz; k++)
-  //  	    {
-
-  //  	      /*********************/
-  //  	      /* l = Ka * ---- ... */
-	      
-  //  	      if (k==0)
-  //  		L = min( (Levels(1)-Levels(0)) / 2.5, T(100) );
-  //  	      else
-  //  		L = min( (Levels(k)-Levels(k-1)) / 2.5, T(100) );
-	      
-  //  	      l = Ka * (Levels(k)+z0) / (1.0 + Ka * (Levels(k)+z0) / L);
-	      
-  //  	      /* l = Ka * ---- ... */
-  //  	      /*********************/
-
-  //  	      /**************/
-  //  	      /* dWind / dz */
-
-  //  	      // dW/dz.
-	      
-  //  	      if (k==0)
-  //  		{
-  //  		  derivative = ( W(h, i, j, k+1) - W(h, i, j, k) )
-  //  		    / ( Levels(k+1) - Levels(k) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz = derivative;
-  //  		}
-  //  	      else
-  //  		{
-  //  		  derivative = ( W(h, i, j, k) - W(h, i, j, k-1) )
-  //  		    / ( Levels(k) - Levels(k-1) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz = derivative;
-  //  		}
-
-  //  	      // dU/dz.
-
-  //  	      if (k==0)
-  //  		{
-  //  		  derivative = U(h, i, j, k+1) - U(h, i, j, k)
-  //  		    / ( Nodes(k+1) - Nodes(k) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-  //  	      else if (k!=Nz-2)
-  //  		{
-  //  		  derivative = U(h, i, j, k) - U(h, i, j, k-1)
-  //  		    / ( Nodes(k) - Nodes(k-1) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-  //  	      else
-  //  		{
-  //  		  derivative = U(h, i, j, k-1) - U(h, i, j, k-2)
-  //  		    / ( Nodes(k-1) - Nodes(k-2) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-
-  //  	      // dV/dz.
-
-  //  	      if (k==0)
-  //  		{
-  //  		  derivative = V(h, i, j, k+1) - V(h, i, j, k)
-  //  		    / ( Nodes(k+1) - Nodes(k) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-  //  	      else if (k!=Nz-2)
-  //  		{
-  //  		  derivative = V(h, i, j, k) - V(h, i, j, k-1)
-  //  		    / ( Nodes(k) - Nodes(k-1) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-  //  	      else
-  //  		{
-  //  		  derivative = V(h, i, j, k-1) - V(h, i, j, k-2)
-  //  		    / ( Nodes(k-1) - Nodes(k-2) );
-  //  		  derivative = derivative * derivative;
-  //  		  dWind_dz += derivative;
-  //  		}
-
-  //  	      dWind_dz = sqrt(dWind_dz);
-
-  //  	      /* dWind / dz */
-  //  	      /**************/
-
-  //  	      /***********/
-  //  	      /* F(R, z) */
-
-  //  	      if (k==0)
-  //  		derivative = Tp(h, i, j, k+1) - Tp(h, i, j, k)
-  //  		  / ( Nodes(k+1) - Nodes(k) );
-  //  	      else if (k!=Nz-2)
-  //  		derivative = Tp(h, i, j, k) - Tp(h, i, j, k-1)
-  //  		  / ( Nodes(k) - Nodes(k-1) );
-  //  	      else
-  //  		derivative = Tp(h, i, j, k-1) - Tp(h, i, j, k-2)
-  //  		  / ( Nodes(k-1) - Nodes(k-2) );
-
-  //  	      R = g * derivative / ( dWind_dz * dWind_dz );
-
-  //  	      if (R>=0)
-  //  		F = 1.0 / ( 1.0 + 3.0 * B * R * sqrt(1.0+D*R) );
-  //  	      else
-  //  		{
-  //  		  F = 1.0 + 3.0 * B * C * sqrt(fabs(R)/27.0) *
-  //  		    (l * l) / ( (Levels(k) + z0) * (Levels(k) + z0) );
-  //  		  F = 1.0 - 3.0 * B * R / F;
-  //  		}
-
-  //  	      /* F(R, z) */
-  //  	      /***********/	      
-
-  //  	      Kz(h, i, j, k) = l * l * dWind_dz * F;
-
-  //  	    }
-
-  //    }
 
 }  // namespace SeldonData.
 
