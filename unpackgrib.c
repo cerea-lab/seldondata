@@ -725,6 +725,9 @@ void skipBDS(GRIBRecord *grib_rec)
 
   if (grib_rec->ed_num == 0)
     grib_rec->total_len+=(grib_rec->bds_len+1);
+  /* flag */
+  getBits(buf,(int *)&grib_rec->bds_flag,grib_rec->offset+24,4);
+  getBits(buf,&ub,grib_rec->offset+28,4);
   /* bit width of the packed data points */
   getBits(buf,(int *)&grib_rec->pack_width,grib_rec->offset+80,8);
 
