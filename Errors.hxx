@@ -1,11 +1,11 @@
-#define FILE_SELDONDATA_ERRORS_HXX
+#ifndef FILE_SELDONDATA_ERRORS_HXX
 
 #include <iostream>
 using std::cout;
 using std::endl;
 #include <string>
 
-namespace Seldon
+namespace SeldonData
 {
   
   ///////////
@@ -176,7 +176,7 @@ namespace Seldon
   /////////////
 
 
-  //! Error while performing an I/O operation.
+  //! An input/output operation failed.
   class IOError: public Error
   {
 
@@ -200,8 +200,44 @@ namespace Seldon
 
   };
 
+
+
+  ///////////////
+  // UNDEFINED //
+  ///////////////
+
+
+  //! Undefined function.
+  class Undefined: public Error
+  {
+
+  public:
+    //! Main constructor.
+    Undefined(string f): Error(f)
+    {
+    }
+    //! Constructor.
+    Undefined(string f, string c): Error(f, c)
+    {
+    }
+
+    //! Displays error description.
+    virtual void What()
+    {
+      if (this->function!="")
+	cout << "Call to undefined function " << this->function;
+      else
+	cout << "An undefined function was called";
+      cout << "." << endl;
+      if (this->comment!="")
+	cout << "   " << this->comment << endl;
+      cout << endl;
+    }
+
+  };
+
   
-}  // namespace Seldon.
+}  // namespace SeldonData.
 
 
 #define FILE_SELDONDATA_ERRORS_HXX

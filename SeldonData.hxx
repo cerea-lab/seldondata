@@ -8,21 +8,9 @@ using namespace blitz;
 namespace SeldonData
 {
 
-  // In <algorithm>.
-  // template<class T>
-  // T min(T& a, T& b)
-  // {
-  //   return (a<b?a:b);
-  // }
-  
-  // template<class T>
-  // T max(T& a, T& b)
-  // {
-  //   return (a>b?a:b);
-  // }
-
 }  // namespace SeldonData.
 
+#include "Errors.hxx"
 
 ////////////
 // MACROS //
@@ -46,19 +34,19 @@ namespace SeldonData
 
 */
 #ifndef TRY
-#define TRY try\\
+#define TRY try\
 {
 #endif
 #ifndef END
-#define END \\
-}\\
-catch(Seldon::Error& Err)\\
-{\\
-Err.What();\\
-}\\
-catch(...)\\
-{\\
-cout << "Unknown error..." <<endl;\\
+#define END \
+}\
+catch(SeldonData::Error& Err)\
+{\
+Err.What();\
+}\
+catch(...)\
+{\
+cout << "Unknown error..." <<endl;\
 }
 #endif
 

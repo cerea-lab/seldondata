@@ -510,6 +510,316 @@ namespace SeldonData
   template<class T, int N>
   void Data<T, N>::ChangeCoords(Function_Base<T>& f)
   {
+    
+    int i;
+    int i0, i1, i2, i3, i4, i5, i6, i7, i8, i9;
+
+    Array<Grid<T>*, 1> grids(N);
+    for (i=0; i<N; i++)
+      grids(i) = grids_(i)->Duplicate();
+
+    if (N==1)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	f(grids(0)->Value(i0),
+	  grids_(0)->Value(i0));
+    else if (N==2)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  f(grids(0)->Value(i0, i1),
+	    grids(1)->Value(i0, i1),
+	    grids_(0)->Value(i0, i1),
+	    grids_(1)->Value(i0, i1));
+    else if (N==3)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    f(grids(0)->Value(i0, i1, i2),
+	      grids(1)->Value(i0, i1, i2),
+	      grids(2)->Value(i0, i1, i2),
+	      grids_(0)->Value(i0, i1, i2),
+	      grids_(1)->Value(i0, i1, i2),
+	      grids_(2)->Value(i0, i1, i2));
+    else if (N==4)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      f(grids(0)->Value(i0, i1, i2, i3),
+		grids(1)->Value(i0, i1, i2, i3),
+		grids(2)->Value(i0, i1, i2, i3),
+		grids(3)->Value(i0, i1, i2, i3),
+		grids_(0)->Value(i0, i1, i2, i3),
+		grids_(1)->Value(i0, i1, i2, i3),
+		grids_(2)->Value(i0, i1, i2, i3),
+		grids_(3)->Value(i0, i1, i2, i3));
+    else if (N==5)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		f(grids(0)->Value(i0, i1, i2, i3, i4),
+		  grids(1)->Value(i0, i1, i2, i3, i4),
+		  grids(2)->Value(i0, i1, i2, i3, i4),
+		  grids(3)->Value(i0, i1, i2, i3, i4),
+		  grids(4)->Value(i0, i1, i2, i3, i4),
+		  grids_(0)->Value(i0, i1, i2, i3, i4),
+		  grids_(1)->Value(i0, i1, i2, i3, i4),
+		  grids_(2)->Value(i0, i1, i2, i3, i4),
+		  grids_(3)->Value(i0, i1, i2, i3, i4),
+		  grids_(4)->Value(i0, i1, i2, i3, i4));
+    else if (N==6)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		for (i5=0; i5<grids(5)->GetLength(); i5++)
+		  f(grids(0)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids(1)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids(2)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids(3)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids(4)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids(5)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(0)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(1)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(2)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(3)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(4)->Value(i0, i1, i2, i3,
+				    i4, i5),
+		    grids_(5)->Value(i0, i1, i2, i3,
+				    i4, i5));
+    else if (N==7)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		for (i5=0; i5<grids(5)->GetLength(); i5++)
+		  for (i6=0; i6<grids(6)->GetLength(); i6++)
+		    f(grids(0)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(1)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(2)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(3)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(4)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(5)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids(6)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(0)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(1)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(2)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(3)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(4)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(5)->Value(i0, i1, i2, i3,
+				      i4, i5, i6),
+		      grids_(6)->Value(i0, i1, i2, i3,
+				      i4, i5, i6));
+    else if (N==8)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		for (i5=0; i5<grids(5)->GetLength(); i5++)
+		  for (i6=0; i6<grids(6)->GetLength(); i6++)
+		    for (i7=0; i7<grids(7)->GetLength(); i7++)
+		      f(grids(0)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(1)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(2)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(3)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(4)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(5)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(6)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids(7)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(0)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(1)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(2)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(3)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(4)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(5)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(6)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7),
+			grids_(7)->Value(i0, i1, i2, i3,
+					i4, i5, i6, i7));
+    else if (N==9)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		for (i5=0; i5<grids(5)->GetLength(); i5++)
+		  for (i6=0; i6<grids(6)->GetLength(); i6++)
+		    for (i7=0; i7<grids(7)->GetLength(); i7++)
+		      for (i8=0; i8<grids(8)->GetLength(); i8++)
+			f(grids(0)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(1)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(2)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(3)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(4)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(5)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(6)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(7)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids(8)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(0)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(1)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(2)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(3)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(4)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(5)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(6)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(7)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8),
+			  grids_(8)->Value(i0, i1, i2, i3,
+					  i4, i5, i6, i7,
+					  i8));
+    else if (N==10)
+      for (i0=0; i0<grids(0)->GetLength(); i0++)
+	for (i1=0; i1<grids(1)->GetLength(); i1++)
+	  for (i2=0; i2<grids(2)->GetLength(); i2++)
+	    for (i3=0; i3<grids(3)->GetLength(); i3++)
+	      for (i4=0; i4<grids(4)->GetLength(); i4++)
+		for (i5=0; i5<grids(5)->GetLength(); i5++)
+		  for (i6=0; i6<grids(6)->GetLength(); i6++)
+		    for (i7=0; i7<grids(7)->GetLength(); i7++)
+		      for (i8=0; i8<grids(8)->GetLength(); i8++)
+			for (i9=0; i9<grids(9)->GetLength(); i9++)
+			  f(grids(0)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(1)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(2)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(3)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(4)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(5)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(6)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(7)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(8)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids(9)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(0)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(1)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(2)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(3)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(4)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(5)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(6)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(7)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(8)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9),
+			    grids_(9)->Value(i0, i1, i2, i3,
+					    i4, i5, i6, i7,
+					    i8, i9));
+
+    for (i=0; i<N; i++)
+      delete grids(i);
+    
+  }
+
+  template<class T, int N>
+  void Data<T, N>::ChangeCoordsInPlace(Function_Base<T>& f)
+  {
 
     int i, j;
     int NbGrids = grids_.numElements();
@@ -525,8 +835,13 @@ namespace SeldonData
       {
 	for (j=0; j<NbGrids; j++)
 	  grids(j) = grids_old(j)->Duplicate();
-	grids_(i)->ChangeCoords(f, grids);
+	grids_(i)->ChangeCoordsInPlace(f, grids);
+	for (j=0; j<NbGrids; j++)
+	  delete grids(j);
       }
+
+    for (int i=0; i<N; i++)
+      delete grids_old(i);
 
   }
 

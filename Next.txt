@@ -1,2 +1,6 @@
 SubData -> changement de grille aussi (SubGrid?)
 SubGrid -> à faire? Changement de grille?
+
+Constructeurs de Data: const Grid<TG>...
+
+Function.hxx: const T& ou T pour les variables pas affectées.
