@@ -1,4 +1,4 @@
-#ifndef FILE_DATA_HXX
+#ifndef FILE_SELDONDATA_DATA_HXX
 
 #include <iostream>
 using std::cout;
@@ -16,37 +16,37 @@ namespace SeldonData
     Array<Grid<T>*, 1> grids_;
 
   public:
-    Data(Grid<T>& G0);
-    Data(Grid<T>& G0, Grid<T>& G1);
+    Data(Grid<T>& G0)  throw();
+    Data(Grid<T>& G0, Grid<T>& G1)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2);
+	 Grid<T>& G2)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3);
-    Data(Grid<T>& G0, Grid<T>& G1,
-	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4);
+	 Grid<T>& G2, Grid<T>& G3)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
 	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5);
+	 Grid<T>& G4)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
 	 Grid<T>& G2, Grid<T>& G3,
-	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6);
+	 Grid<T>& G4, Grid<T>& G5)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
 	 Grid<T>& G2, Grid<T>& G3,
 	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6, Grid<T>& G7);
+	 Grid<T>& G6)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
 	 Grid<T>& G2, Grid<T>& G3,
 	 Grid<T>& G4, Grid<T>& G5,
-	 Grid<T>& G6, Grid<T>& G7,
-	 Grid<T>& G8);
+	 Grid<T>& G6, Grid<T>& G7)  throw();
     Data(Grid<T>& G0, Grid<T>& G1,
 	 Grid<T>& G2, Grid<T>& G3,
 	 Grid<T>& G4, Grid<T>& G5,
 	 Grid<T>& G6, Grid<T>& G7,
-	 Grid<T>& G8, Grid<T>& G9);
-    ~Data();
+	 Grid<T>& G8)  throw();
+    Data(Grid<T>& G0, Grid<T>& G1,
+	 Grid<T>& G2, Grid<T>& G3,
+	 Grid<T>& G4, Grid<T>& G5,
+	 Grid<T>& G6, Grid<T>& G7,
+	 Grid<T>& G8, Grid<T>& G9)  throw();
+    ~Data()  throw();
     
     T& operator() (int i0);
     T& operator() (int i0, int i1);
@@ -157,5 +157,5 @@ namespace SeldonData
 }  // namespace Data.
 
 
-#define FILE_DATA_HXX
+#define FILE_SELDONDATA_DATA_HXX
 #endif

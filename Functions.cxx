@@ -1,4 +1,4 @@
-#ifndef FILE_FUNCTIONS_CXX
+#ifndef FILE_SELDONDATA_FUNCTIONS_CXX
 
 #include "Functions.hxx"
 #include "stdio.h"
@@ -551,5 +551,5 @@ namespace SeldonData
 
 }  // namespace SeldonData.
 
-#define FILE_FUNCTIONS_CXX
+#define FILE_SELDONDATA_FUNCTIONS_CXX
 #endif

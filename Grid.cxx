@@ -1,4 +1,4 @@
-#ifndef FILE_GRID_CXX
+#ifndef FILE_SELDONDATA_GRID_CXX
 
 #include "Grid.hxx"
 
@@ -10,7 +10,7 @@ namespace SeldonData
   //////////
 
   template<class T>
-  Grid<T>::Grid()
+  Grid<T>::Grid()  throw()
   {
     length_ = 0;
     variable_ = 0;
@@ -18,7 +18,7 @@ namespace SeldonData
   }
 
   template<class T>
-  Grid<T>::Grid(int length, int variable)
+  Grid<T>::Grid(int length, int variable)  throw()
   {
     length_ = length;
     variable_ = variable;
@@ -26,7 +26,7 @@ namespace SeldonData
   }
 
   template<class T>
-  Grid<T>::Grid(const Grid<T>& G)
+  Grid<T>::Grid(const Grid<T>& G)  throw()
   {
     length_ = G.GetLength();
     variable_ = G.GetVariable();
@@ -34,7 +34,7 @@ namespace SeldonData
   }
 
   template<class T>
-  Grid<T>::~Grid()
+  Grid<T>::~Grid()  throw()
   {
   }
 
@@ -61,7 +61,14 @@ namespace SeldonData
   template<class T>
   bool Grid<T>::IsDependent(int i) const
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if ( (i<0) || (i>9) )
+      throw WrongDim("Grid<T>::IsDependent", "Dimension number is " + i);
+#endif
+
     return (i == variable_);
+
   }
 
   template<class T>
@@ -100,8 +107,16 @@ namespace SeldonData
   template<class T>
   Grid<T>* Grid<T>::Duplicate() const
   {
+
     Grid<T>* G = new Grid<T>(*this);
+
+#ifdef DEBUG_SELDONDATA_MEMORY
+    if ( G == NULL )
+      throw NoMemory("Grid<T>::Duplicate");
+#endif
+
     return G;
+
   }
 
   template<class T>
@@ -399,12 +414,12 @@ namespace SeldonData
   /////////////////
 
   template<class T>
-  RegularGrid<T>::RegularGrid()
+  RegularGrid<T>::RegularGrid()  throw()
   {
   }
 
   template<class T>
-  RegularGrid<T>::RegularGrid(int length, int variable):
+  RegularGrid<T>::RegularGrid(int length, int variable)  throw():
     Grid<T>(length, variable), values_(length_)
   {
     start_ = T(0);
@@ -417,7 +432,7 @@ namespace SeldonData
   template<class T>
   RegularGrid<T>::RegularGrid(typename RegularGrid<T>::value_type start,
 			      typename RegularGrid<T>::value_type inc,
-			      int length, int variable):
+			      int length, int variable)  throw():
     Grid<T>(length, variable), values_(length_)
   {
     start_ = start;
@@ -429,7 +444,7 @@ namespace SeldonData
 
   template<class T>
   RegularGrid<T>::RegularGrid(const Array<typename RegularGrid<T>::value_type, 1>& values,
-			      int variable):
+			      int variable)  throw():
     Grid<T>(values.numElements(), variable), values_(values.copy())
   {
     start_ = values_(0);
@@ -440,7 +455,7 @@ namespace SeldonData
   }
 
   template<class T>
-  RegularGrid<T>::RegularGrid(const Grid<T>& G):
+  RegularGrid<T>::RegularGrid(const Grid<T>& G)  throw():
     Grid<T>(G), values_(G.GetLength())
   {
     for (int i=0; i<G.GetLength(); i++)
@@ -450,7 +465,7 @@ namespace SeldonData
   }
 
   template<class T>
-  RegularGrid<T>::RegularGrid(const RegularGrid<T>& G):
+  RegularGrid<T>::RegularGrid(const RegularGrid<T>& G)  throw():
     Grid<T>(G), values_((G.GetValues()).copy())
   {
     start_ = G.GetStart();
@@ -458,7 +473,7 @@ namespace SeldonData
   }
 
   template<class T>
-  RegularGrid<T>::~RegularGrid()
+  RegularGrid<T>::~RegularGrid()  throw()
   {
   }
 
@@ -611,7 +626,7 @@ namespace SeldonData
   /////////////////
 
   template<class T, int n>
-  GeneralGrid<T, n>::GeneralGrid()
+  GeneralGrid<T, n>::GeneralGrid()  throw()
   {
   }
 
@@ -620,7 +635,7 @@ namespace SeldonData
   template<class T, int n>
   GeneralGrid<T, n>::GeneralGrid(Array<typename GeneralGrid<T, n>::value_type, n>& values,
 				 int variable,
-				 const TinyVector<int, n>& dependencies):
+				 const TinyVector<int, n>& dependencies)  throw():
     values_(values.copy()), dependencies_(n)
   {
     int i;
@@ -641,7 +656,7 @@ namespace SeldonData
   template<class T, int n>
   GeneralGrid<T, n>::GeneralGrid(const TinyVector<int, n>& values_shape,
 				 int variable,
-				 const TinyVector<int, n>& dependencies):
+				 const TinyVector<int, n>& dependencies)  throw():
     values_(values_shape), dependencies_(n)
   {
     int i;
@@ -660,12 +675,12 @@ namespace SeldonData
   }
 
   template<class T, int n>
-  GeneralGrid<T, n>::GeneralGrid(const Grid<T>& G): Grid<T>(G)
+  GeneralGrid<T, n>::GeneralGrid(const Grid<T>& G): Grid<T>(G)  throw()
   {
   }
 
   template<class T, int n>
-  GeneralGrid<T, n>::GeneralGrid(const GeneralGrid<T, n>& G):
+  GeneralGrid<T, n>::GeneralGrid(const GeneralGrid<T, n>& G)  throw():
     Grid<T>(G), values_((G.GetValues()).copy()),
     dependencies_((G.GetDependencies()).copy())
   {
@@ -673,7 +688,7 @@ namespace SeldonData
   }
 
   template<class T, int n>
-  GeneralGrid<T, n>::~GeneralGrid()
+  GeneralGrid<T, n>::~GeneralGrid()  throw()
   {
   }
 
@@ -1220,5 +1235,5 @@ namespace SeldonData
 }  // namespace SeldonData.
 
 
-#define FILE_GRID_CXX
+#define FILE_SELDONDATA_GRID_CXX
 #endif

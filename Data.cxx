@@ -1,4 +1,4 @@
-#ifndef FILE_DATA_CXX
+#ifndef FILE_SELDONDATA_DATA_CXX
 
 #include "Data.hxx"
 
@@ -6,7 +6,7 @@ namespace SeldonData
 {
 
   template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0):
+  Data<T, N>::Data(Grid<T>& G0)  throw():
     data_(G0.GetLength()), grids_(N)
   {
 
@@ -16,7 +16,7 @@ namespace SeldonData
   }
 
   template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1):
+  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1)  throw():
     data_(G0.GetLength(),G1.GetLength()), grids_(N)
   {
 
@@ -26,7 +26,7 @@ namespace SeldonData
   }
 
   template<class T, int N>
-  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2):
+  Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength()), grids_(N)
   {
@@ -39,7 +39,7 @@ namespace SeldonData
 
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3):
+		   Grid<T>& G3)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength()), grids_(N)
   {
@@ -52,7 +52,7 @@ namespace SeldonData
 
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4):
+		   Grid<T>& G3, Grid<T>& G4)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(),
 	  G4.GetLength()), grids_(N)
@@ -67,7 +67,7 @@ namespace SeldonData
 
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
-		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5):
+		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength()), grids_(N)
@@ -83,7 +83,7 @@ namespace SeldonData
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6):
+		   Grid<T>& G6)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength()), grids_(N)
@@ -100,7 +100,7 @@ namespace SeldonData
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6, Grid<T>& G7):
+		   Grid<T>& G6, Grid<T>& G7)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength()),
@@ -118,7 +118,7 @@ namespace SeldonData
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
-		   Grid<T>& G6, Grid<T>& G7, Grid<T>& G8):
+		   Grid<T>& G6, Grid<T>& G7, Grid<T>& G8)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength(),
@@ -138,7 +138,7 @@ namespace SeldonData
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
 		   Grid<T>& G6, Grid<T>& G7, Grid<T>& G8,
-		   Grid<T>& G9):
+		   Grid<T>& G9)  throw():
     data_(G0.GetLength(),G1.GetLength(),
 	  G2.GetLength(), G3.GetLength(), G4.GetLength(),
 	  G5.GetLength(), G6.GetLength(), G7.GetLength(),
@@ -155,7 +155,7 @@ namespace SeldonData
   }
 
   template<class T, int N>
-  Data<T, N>::~Data()
+  Data<T, N>::~Data()  throw()
   {
     for (int i=0; i<N; i++)
       delete grids_(i);
@@ -546,5 +546,5 @@ namespace SeldonData
 }  // namespace SeldonData.
 
 
-#define FILE_DATA_CXX
+#define FILE_SELDONDATA_DATA_CXX
 #endif

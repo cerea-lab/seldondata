@@ -1,4 +1,4 @@
-#ifndef FILE_GRID_HXX
+#ifndef FILE_SELDONDATA_GRID_HXX
 
 namespace SeldonData
 {
@@ -26,10 +26,10 @@ namespace SeldonData
     value_type previous_;
     
   public:
-    Grid();
-    Grid(int length, int variable = 0);
-    Grid(const Grid& G);
-    virtual ~Grid();
+    Grid()  throw();
+    Grid(int length, int variable = 0)  throw();
+    Grid(const Grid& G)  throw();
+    virtual ~Grid()  throw();
 
     virtual Grid<T>& operator= (const Grid<T>&);
 
@@ -90,13 +90,13 @@ namespace SeldonData
     Array<value_type, 1> values_;
 
   public:
-    RegularGrid();
-    RegularGrid(int length, int variable = 0);
-    RegularGrid(value_type start, value_type inc, int length, int variable = 0);
-    RegularGrid(const Array<value_type, 1>& values, int variable = 0);
-    RegularGrid(const Grid<T>& G);
-    RegularGrid(const RegularGrid<T>& G);
-    ~RegularGrid();
+    RegularGrid()  throw();
+    RegularGrid(int length, int variable = 0)  throw();
+    RegularGrid(value_type start, value_type inc, int length, int variable = 0)  throw();
+    RegularGrid(const Array<value_type, 1>& values, int variable = 0)  throw();
+    RegularGrid(const Grid<T>& G)  throw();
+    RegularGrid(const RegularGrid<T>& G)  throw();
+    ~RegularGrid()  throw();
 
     RegularGrid<T>& operator= (const Grid<T>&);
     RegularGrid<T>& operator= (const RegularGrid<T>&);
@@ -150,16 +150,16 @@ namespace SeldonData
     Array<int, 1> dependencies_;
 
   public:
-    GeneralGrid();
+    GeneralGrid()  throw();
     GeneralGrid(Array<value_type, n>& values,
 		int variable,
-		const TinyVector<int, n>& dependencies);
+		const TinyVector<int, n>& dependencies)  throw();
     GeneralGrid(const TinyVector<int, n>& values_shape,
 		int variable,
-		const TinyVector<int, n>& dependencies);
-    GeneralGrid(const GeneralGrid<T, n>& G);
-    GeneralGrid(const Grid<T>& G);
-    ~GeneralGrid();
+		const TinyVector<int, n>& dependencies)  throw();
+    GeneralGrid(const GeneralGrid<T, n>& G)  throw();
+    GeneralGrid(const Grid<T>& G)  throw();
+    ~GeneralGrid()  throw();
 
     GeneralGrid<T, n>& operator= (const Grid<T>&);
     GeneralGrid<T, n>& operator= (const GeneralGrid<T, n>&);
@@ -202,5 +202,5 @@ namespace SeldonData
 }  // namespace Data.
 
 
-#define FILE_GRID_HXX
+#define FILE_SELDONDATA_GRID_HXX
 #endif

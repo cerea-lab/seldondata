@@ -1,4 +1,4 @@
-#ifndef FILE_FUNCTION_HXX
+#ifndef FILE_SELDONDATA_FUNCTION_HXX
 
 #include <iostream>
 using std::cout;
@@ -78,5 +78,5 @@ namespace SeldonData
 
 }  // namespace SeldonData.
 
-#define FILE_FUNCTION_HXX
+#define FILE_SELDONDATA_FUNCTION_HXX
 #endif

@@ -1,4 +1,4 @@
-#ifndef FILE_FORMAT_HXX
+#ifndef FILE_SELDONDATA_FORMAT_HXX
 
 #include <stdio.h>
 #include <iostream>
@@ -18,8 +18,8 @@ namespace SeldonData
   protected:
 
   public:
-    Format();
-    ~Format();
+    Format()  throw();
+    ~Format()  throw();
 
   };
 
@@ -31,8 +31,8 @@ namespace SeldonData
   protected:
 
   public:
-    FormatBinary();
-    ~FormatBinary();
+    FormatBinary()  throw();
+    ~FormatBinary()  throw();
 
     // Grid.
 
@@ -89,9 +89,9 @@ namespace SeldonData
     string format_;
 
   public:
-    FormatText();
-    FormatText(string format);
-    ~FormatText();
+    FormatText()  throw();
+    FormatText(string format)  throw();
+    ~FormatText()  throw();
 
     // Grid.
 
@@ -143,8 +143,8 @@ namespace SeldonData
   protected:
 
   public:
-    FormatECMWF();
-    ~FormatECMWF();
+    FormatECMWF()  throw();
+    ~FormatECMWF()  throw();
 
     // Data.
 
@@ -166,5 +166,5 @@ namespace SeldonData
 
 }  // namespace SeldonData.
 
-#define FILE_FORMAT_HXX
+#define FILE_SELDONDATA_FORMAT_HXX
 #endif

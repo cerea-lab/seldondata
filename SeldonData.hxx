@@ -1,4 +1,4 @@
-#ifndef FILE_SELDONDATA_HXX
+#ifndef FILE_SELDONDATA_SELDONDATA_HXX
 
 // Blitz++.
 #include <blitz/array.h>
@@ -74,5 +74,5 @@ cout << "Unknown error..." <<endl;\\
 #include "Format.cxx"
 #include "Functions.cxx"
 
-#define FILE_SELDONDATA_HXX
+#define FILE_SELDONDATA_SELDONDATA_HXX
 #endif

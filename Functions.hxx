@@ -1,4 +1,4 @@
-#ifndef FILE_FUNCTIONS_HXX
+#ifndef FILE_SELDONDATA_FUNCTIONS_HXX
 
 namespace SeldonData
 {
@@ -18,5 +18,5 @@ namespace SeldonData
   
 }  // namespace SeldonData.
 
-#define FILE_FUNCTIONS_HXX
+#define FILE_SELDONDATA_FUNCTIONS_HXX
 #endif

@@ -1,4 +1,4 @@
-#ifndef FILE_FORMAT_CXX
+#ifndef FILE_SELDONDATA_FORMAT_CXX
 
 #include "Format.hxx"
 
@@ -11,13 +11,13 @@ namespace SeldonData
   ////////////
   
   template<class T>
-  Format<T>::Format()
+  Format<T>::Format()  throw()
   {
     
   }
 
   template<class T>
-  Format<T>::~Format()
+  Format<T>::~Format()  throw()
   {
     
   }
@@ -28,13 +28,13 @@ namespace SeldonData
   //////////////////
 
   template<class T>
-  FormatBinary<T>::FormatBinary()
+  FormatBinary<T>::FormatBinary()  throw()
   {
 
   }
 
   template<class T>
-  FormatBinary<T>::~FormatBinary()
+  FormatBinary<T>::~FormatBinary()  throw()
   {
 
   }
@@ -233,19 +233,19 @@ namespace SeldonData
   ////////////////
 
   template<class T>
-  FormatText<T>::FormatText()
+  FormatText<T>::FormatText()  throw()
   {
     format_ = "e";
   }
 
   template<class T>
-  FormatText<T>::FormatText(string format)
+  FormatText<T>::FormatText(string format)  throw()
   {
     format_ = format;
   }
 
   template<class T>
-  FormatText<T>::~FormatText()
+  FormatText<T>::~FormatText()  throw()
   {
 
   }
@@ -445,16 +445,16 @@ namespace SeldonData
 
 
   /////////////////
-  // FORMATECMXF //
+  // FORMATECMWF //
   /////////////////
 
   template<class T>
-  FormatECMWF<T>::FormatECMWF()
+  FormatECMWF<T>::FormatECMWF()  throw()
   {
   }
 
   template<class T>
-  FormatECMWF<T>::~FormatECMWF()
+  FormatECMWF<T>::~FormatECMWF()  throw()
   {
   }
 
@@ -549,5 +549,5 @@ namespace SeldonData
 
 }  // namespace SeldonData.
 
-#define FILE_FORMAT_CXX
+#define FILE_SELDONDATA_FORMAT_CXX
 #endif
