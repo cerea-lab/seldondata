@@ -823,9 +823,9 @@ namespace SeldonData
     \param delimiters characters used to delimit elements in the file.
   */
   FormatFormattedText::FormatFormattedText(string format,
-					   string delimiters,
-					   string comments):
-    format_(format), delimiters_(delimiters), comments_(comments)
+					   string comments,
+					   string delimiters):
+    format_(format), comments_(comments), delimiters_(delimiters)
   {
     this->SetVectors();
   }
@@ -1100,9 +1100,92 @@ namespace SeldonData
     comments_ = comments;
   }
 
+  /********/
+  /* Grid */
+  /********/
+
+  //! Reads a text file.
+  template<class TG>
+  void FormatFormattedText::Read(string FileName, string extract, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, extract, G.GetArray());
+
+  }
+
+  //! Reads a text file.
+  template<class TG>
+  void FormatFormattedText::Read(ExtStream& FileStream, string extract, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileStream, extract, G.GetArray());
+
+  }
+
+  //! Reads a text file.
+  template<class TG, int n>
+  void FormatFormattedText::Read(string FileName, string extract, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileName, extract, G.GetArray());
+
+  }
+
+  //! Reads a text file.
+  template<class TG, int n>
+  void FormatFormattedText::Read(ExtStream& FileStream, string extract, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileStream, extract, G.GetArray());
+
+  }
+
+  /********/
+  /* Data */
+  /********/
+  
+  //! Reads a text file.
+  template<class TD, int N, class TG>
+  void FormatFormattedText::Read(string FileName, string extract, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileName, extract, D.GetArray());
+
+  }
+
+  //! Reads a text file.
+  template<class TD, int N, class TG>
+  void FormatFormattedText::Read(ExtStream& FileStream, string extract, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileStream, extract, D.GetArray());
+
+  }
+
   /*********/
   /* Array */
   /*********/
+
+  //! Reads a text file.
+  template<class TA, int N>
+  void FormatFormattedText::Read(string FileName, string extract, Array<TA, N>& A) const
+  {
+
+    ExtStream FileStream;
+    FileStream.Open(FileName, comments_, delimiters_);
+    
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (!FileStream.is_open())
+      throw IOError("FormatFormattedText::Read(string FileName, string extract, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    this->Read(FileStream, extract, A);
+
+    FileStream.close();
+
+  }
 
   //! Reads a text file.
   template<class TA, int N>
@@ -1185,11 +1268,14 @@ namespace SeldonData
 	      }
 	    pos_cur = FileStream.tellg();
 	    
-	    k++; l++;
+	    k++;
+	    if (FileStream.good())
+	      l++;
 	  }
 	else
 	  {
 	    k = 0; l = 0;
+	    FileStream.GetFullLine();
 	    pos_beg = pos_cur = FileStream.tellg();
 	  }
       }

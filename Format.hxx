@@ -219,8 +219,8 @@ namespace SeldonData
 
   public:
     FormatFormattedText(string format,
-			string delimiters = " \t:;,|\n",
-			string comments = "#%");
+			string comments = "#%",
+			string delimiters = " \t:;,|\n");
     ~FormatFormattedText();
 
     string GetFormat() const;
