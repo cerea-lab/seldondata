@@ -10,16 +10,16 @@ namespace SeldonData
   // FORMAT //
   ////////////
   
+  //! Default constructor.
   template<class T>
   Format<T>::Format()  throw()
   {
-    
   }
 
+  //! Destructor.
   template<class T>
   Format<T>::~Format()  throw()
   {
-    
   }
 
 
@@ -27,16 +27,16 @@ namespace SeldonData
   // FORMATBINARY //
   //////////////////
 
+  //! Default constructor.
   template<class T>
   FormatBinary<T>::FormatBinary()  throw()
   {
-
   }
 
+  //! Destructor.
   template<class T>
   FormatBinary<T>::~FormatBinary()  throw()
   {
-
   }
 
   /********/

@@ -3,10 +3,10 @@
 namespace SeldonData
 {
   
-  template<class TIn, int N,
-    class TOut>
-  void LinearInterpolation(Data<TIn, N>& dataI,
-			   Data<TOut, N>& dataO);
+//    template<class TIn, int N,
+//      class TOut>
+//    void LinearInterpolation(Data<TIn, N>& dataI,
+//  			   Data<TOut, N>& dataO);
 
 //    template<class TU, class TV, class TW,
 //  	   class T>

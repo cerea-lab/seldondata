@@ -94,6 +94,8 @@ namespace SeldonData
 	    int i6 = -1, int i7 = -1,
 	    int i8 = -1, int i9 = -1) const;
 
+    void Copy(Data<T, N, TG>& data);
+
     int GetNbElements();
     int GetNbDim();
     int GetLength(int dim);

@@ -763,7 +763,8 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)", "Index is " + i);
+    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)",
+						"Index is " + to_str(i) + ".");
 #endif
 
     return values_(i);
@@ -781,7 +782,8 @@ namespace SeldonData
   {
 
 #ifdef DEBUG_SELDONDATA_INDICES
-    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)", "Index is " + i);
+    if ((i<0) || (i>=length_)) throw WrongIndex("reference RegularGrid<T>::operator() (int)",
+						"Index is " + to_str(i) + ".");
 #endif
 
     return values_(i);

@@ -1166,6 +1166,23 @@ namespace SeldonData
       return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! Sets current Data instance to data.
+  /*!
+    \param data Data instance to be copied.
+  */
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::Copy(Data<T, N, TG>& data)
+  {
+    for (int i=0; i<N; i++)
+      {
+	delete grids_(i);
+	grids_(i) = data[i].Duplicate();
+      }
+
+    data_.resize(data.GetArray().shape());
+    data_ = data.GetArray();
+  }
+
   //! Returns the number of stored elements.
   /*!
     \return Number of elements.

@@ -11,6 +11,7 @@ using namespace std;
 namespace SeldonData
 {
 
+  //! Base class for input/output classes.
   template<class T>
   class Format
   {
@@ -24,6 +25,7 @@ namespace SeldonData
   };
 
 
+  //! Input/ouput class to read binary files.
   template<class T>
   class FormatBinary: public Format<T>
   {
@@ -81,6 +83,7 @@ namespace SeldonData
   };
 
 
+  //! Input/ouput class to read text files.
   template<class T>
   class FormatText: public Format<T>
   {
@@ -136,6 +139,7 @@ namespace SeldonData
   };
 
 
+  //! Input/ouput class to read files in ECMWF format.
   template<class T>
   class FormatECMWF: public Format<T>
   {
