@@ -31,6 +31,11 @@ using namespace Talos;
 #include <exception>
 #include <stdexcept>
 
+//! SeldonData namespace.
+namespace SeldonData
+{
+}
+
 
 //////////////////
 // DEBUG LEVELS //
