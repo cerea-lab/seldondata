@@ -11,7 +11,7 @@ namespace SeldonData
 {
 
   template <typename T>
-  std::string to_string(const T &input)
+  std::string to_str(const T &input)
   {
     std::ostringstream output;
     output << input;

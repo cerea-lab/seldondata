@@ -8,7 +8,7 @@ namespace SeldonData
 
   //! Constructor for one-dimensional data.
   /*!
-    
+    \param G0 grid for dimension #0.
   */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0)  throw():
@@ -20,7 +20,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 1 grids." << endl;
 	abort();
       }
@@ -48,6 +48,11 @@ namespace SeldonData
 
   }
 
+  //! Constructor for two-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1)  throw():
     data_(G0.GetLength(), G1.GetLength()), grids_(N)
@@ -58,7 +63,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 2 grids." << endl;
 	abort();
       }
@@ -85,6 +90,12 @@ namespace SeldonData
 
   }
 
+  //! Constructor for three-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2)  throw():
     data_(G0.GetLength(), G1.GetLength(),
@@ -96,7 +107,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 3 grids." << endl;
 	abort();
       }
@@ -125,6 +136,13 @@ namespace SeldonData
 
   }
 
+  //! Constructor for four-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3)  throw():
@@ -137,7 +155,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 4 grids." << endl;
 	abort();
       }
@@ -166,6 +184,14 @@ namespace SeldonData
 
   }
 
+  //! Constructor for five-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4)  throw():
@@ -179,7 +205,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 5 grids." << endl;
 	abort();
       }
@@ -209,6 +235,15 @@ namespace SeldonData
 
   }
 
+  //! Constructor for six-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+    \param G5 grid for dimension #5.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5)  throw():
@@ -222,7 +257,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 6 grids." << endl;
 	abort();
       }
@@ -252,6 +287,16 @@ namespace SeldonData
 
   }
 
+  //! Constructor for seven-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+    \param G5 grid for dimension #5.
+    \param G6 grid for dimension #6.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
@@ -266,7 +311,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 7 grids." << endl;
 	abort();
       }
@@ -297,6 +342,17 @@ namespace SeldonData
 
   }
 
+  //! Constructor for eight-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+    \param G5 grid for dimension #5.
+    \param G6 grid for dimension #6.
+    \param G7 grid for dimension #7.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
@@ -312,7 +368,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 8 grids." << endl;
 	abort();
       }
@@ -343,6 +399,18 @@ namespace SeldonData
 
   }
 
+  //! Constructor for nine-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+    \param G5 grid for dimension #5.
+    \param G6 grid for dimension #6.
+    \param G7 grid for dimension #7.
+    \param G8 grid for dimension #8.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
@@ -358,7 +426,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 9 grids." << endl;
 	abort();
       }
@@ -390,6 +458,19 @@ namespace SeldonData
 
   }
 
+  //! Constructor for ten-dimensional data.
+  /*!
+    \param G0 grid for dimension #0.
+    \param G1 grid for dimension #1.
+    \param G2 grid for dimension #2.
+    \param G3 grid for dimension #3.
+    \param G4 grid for dimension #4.
+    \param G5 grid for dimension #5.
+    \param G6 grid for dimension #6.
+    \param G7 grid for dimension #7.
+    \param G8 grid for dimension #8.
+    \param G9 grid for dimension #9.
+  */
   template<class T, int N>
   Data<T, N>::Data(Grid<T>& G0, Grid<T>& G1, Grid<T>& G2,
 		   Grid<T>& G3, Grid<T>& G4, Grid<T>& G5,
@@ -406,7 +487,7 @@ namespace SeldonData
       {
 	cout << "ERROR!" << endl;
 	cout << "Wrong dimension in Data<T, N>::Data(Grid<T>, ...)."
-	     << endl << "   Requires " + to_string(N)
+	     << endl << "   Requires " + to_str(N)
 	  + " grids, but got 10 grids." << endl;
 	abort();
       }
@@ -438,6 +519,7 @@ namespace SeldonData
 
   }
 
+  //! Destructor.
   template<class T, int N>
   Data<T, N>::~Data()  throw()
   {
@@ -445,75 +527,489 @@ namespace SeldonData
       delete grids_(i);
   }
 
+  //! Access operator for one-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \return A reference to element #i0.
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0)  
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=1)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 1 argument.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+#endif
+
     return data_(i0);
   }
 
+  //! Access operator for two-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \return A reference to element (i0, i1).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1)  
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=2)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 2 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+#endif
+
     return data_(i0, i1);
   }
 
+  //! Access operator for three-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \return A reference to element (i0, i1, i2).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1, int i2)
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=3)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 3 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+#endif
+
     return data_(i0, i1, i2);
   }
 
+  //! Access operator for four-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \return A reference to element (i0, i1, i2, i3).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=4)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 4 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+#endif
+
     return data_(i0, i1, i2, i3);
   }
 
+  //! Access operator for five-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \return A reference to element (i0, i1, i2, i3, i4).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=5)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 5 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4);
   }
 
+  //! Access operator for six-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \return A reference to element (i0, i1, i2, i3, i4, i5).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=6)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 6 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4, i5);
   }
 
   template<class T, int N>
+  //! Access operator for seven-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \return A reference to element (i0, i1, i2, i3,
+    i4, i5, i6).
+  */
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=7)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 7 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4, i5, i6);
   }
 
   template<class T, int N>
+  //! Access operator for eight-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \return A reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7).
+  */
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6, int i7)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=8)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 8 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4, i5, i6, i7);
   }
 
   template<class T, int N>
+  //! Access operator for nine-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \return A reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7, i8).
+  */
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
 			     int i6, int i7, int i8)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=9)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 9 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+    if ( (i8<0) || (i8>=data_.extent(8)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #8 should be in [0, "
+		       + to_str(data_.extent(8)-1) + "], but is equal to "
+		       + to_str(i8) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8);
   }
 
+  //! Access operator for ten-dimensional data.
+  /*!
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \param i9 index for dimension #9.
+    \return A reference to element (i0, i1, i2, i3, i4,
+    i5, i6, i7, i8, i9).
+  */
   template<class T, int N>
   T& Data<T, N>::operator() (int i0, int i1, int i2,
 			     int i3, int i4, int i5,
@@ -521,9 +1017,84 @@ namespace SeldonData
 			     int i9)
 
   {
+
+#ifdef DEBUG_SELDONDATA_DIMENSION
+    if (N!=10)
+      throw WrongDim("Data<T, " + to_str(N) + ">::operator()",
+		     "operator() was called with 10 arguments.");
+#endif
+
+#ifdef DEBUG_SELDONDATA_INDICES
+    if ( (i0<0) || (i0>=data_.extent(0)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #0 should be in [0, "
+		       + to_str(data_.extent(0)-1) + "], but is equal to "
+		       + to_str(i0) + ".");
+    if ( (i1<0) || (i1>=data_.extent(1)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #1 should be in [0, "
+		       + to_str(data_.extent(1)-1) + "], but is equal to "
+		       + to_str(i1) + ".");
+    if ( (i2<0) || (i2>=data_.extent(2)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #2 should be in [0, "
+		       + to_str(data_.extent(2)-1) + "], but is equal to "
+		       + to_str(i2) + ".");
+    if ( (i3<0) || (i3>=data_.extent(3)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #3 should be in [0, "
+		       + to_str(data_.extent(3)-1) + "], but is equal to "
+		       + to_str(i3) + ".");
+    if ( (i4<0) || (i4>=data_.extent(4)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #4 should be in [0, "
+		       + to_str(data_.extent(4)-1) + "], but is equal to "
+		       + to_str(i4) + ".");
+    if ( (i5<0) || (i5>=data_.extent(5)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #5 should be in [0, "
+		       + to_str(data_.extent(5)-1) + "], but is equal to "
+		       + to_str(i5) + ".");
+    if ( (i6<0) || (i6>=data_.extent(6)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #6 should be in [0, "
+		       + to_str(data_.extent(6)-1) + "], but is equal to "
+		       + to_str(i6) + ".");
+    if ( (i7<0) || (i7>=data_.extent(7)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #7 should be in [0, "
+		       + to_str(data_.extent(7)-1) + "], but is equal to "
+		       + to_str(i7) + ".");
+    if ( (i8<0) || (i8>=data_.extent(8)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #8 should be in [0, "
+		       + to_str(data_.extent(8)-1) + "], but is equal to "
+		       + to_str(i8) + ".");
+    if ( (i9<0) || (i9>=data_.extent(9)) )
+      throw WrongIndex("Data<T, " + to_str(N) + ">::operator()",
+		       "Index along dimension #9 should be in [0, "
+		       + to_str(data_.extent(9)-1) + "], but is equal to "
+		       + to_str(i9) + ".");
+#endif
+
     return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! General access function.
+  /*!
+    Only useful arguments are taken into account.
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \param i9 index for dimension #9.
+    \return A reference to the required element.
+  */
   template<class T, int N>
   T& Data<T, N>::Value(int i0, int i1, int i2,
 		       int i3, int i4, int i5,
@@ -531,27 +1102,42 @@ namespace SeldonData
 		       int i9)    
   {
     if (N==1)
-      return data_(i0);
+      return (*this)(i0);
     if (N==2)
-      return data_(i0, i1);
+      return (*this)(i0, i1);
     if (N==3)
-      return data_(i0, i1, i2);
+      return (*this)(i0, i1, i2);
     if (N==4)
-      return data_(i0, i1, i2, i3);
+      return (*this)(i0, i1, i2, i3);
     if (N==5)
-      return data_(i0, i1, i2, i3, i4);
+      return (*this)(i0, i1, i2, i3, i4);
     if (N==6)
-      return data_(i0, i1, i2, i3, i4, i5);
+      return (*this)(i0, i1, i2, i3, i4, i5);
     if (N==7)
-      return data_(i0, i1, i2, i3, i4, i5, i6);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6);
     if (N==8)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7);
     if (N==9)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8);
     if (N==10)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! General access function.
+  /*!
+    Only useful arguments are taken into account.
+    \param i0 index for dimension #0.
+    \param i1 index for dimension #1.
+    \param i2 index for dimension #2.
+    \param i3 index for dimension #3.
+    \param i4 index for dimension #4.
+    \param i5 index for dimension #5.
+    \param i6 index for dimension #6.
+    \param i7 index for dimension #7.
+    \param i8 index for dimension #8.
+    \param i9 index for dimension #9.
+    \return Value of the required element.
+  */
   template<class T, int N>
   T Data<T, N>::Value(int i0, int i1, int i2,
 		      int i3, int i4, int i5,
@@ -559,80 +1145,122 @@ namespace SeldonData
 		      int i9) const
   {
     if (N==1)
-      return data_(i0);
+      return (*this)(i0);
     if (N==2)
-      return data_(i0, i1);
+      return (*this)(i0, i1);
     if (N==3)
-      return data_(i0, i1, i2);
+      return (*this)(i0, i1, i2);
     if (N==4)
-      return data_(i0, i1, i2, i3);
+      return (*this)(i0, i1, i2, i3);
     if (N==5)
-      return data_(i0, i1, i2, i3, i4);
+      return (*this)(i0, i1, i2, i3, i4);
     if (N==6)
-      return data_(i0, i1, i2, i3, i4, i5);
+      return (*this)(i0, i1, i2, i3, i4, i5);
     if (N==7)
-      return data_(i0, i1, i2, i3, i4, i5, i6);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6);
     if (N==8)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7);
     if (N==9)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8);
     if (N==10)
-      return data_(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
+      return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
+  //! Returns the number of stored elements.
+  /*!
+    \return Number of elements.
+   */
   template<class T, int N>
   int Data<T, N>::GetNbElements()
   {
     return data_.numElements();
   }
 
+  //! Returns the number of stored elements.
+  /*!
+    \return Number of elements.
+   */
   template<class T, int N>
   int Data<T, N>::GetNbDim()
   {
     return N;
   }
 
+  //! Returns length along dimension #i.
+  /*!
+    \param i dimension number.
+    \return Length along the i-th dimension.
+  */
   template<class T, int N>
   int Data<T, N>::GetLength(int i)
   {
-    if (i<N)
+    if ((i>=0) && (i<N))
       return data_.extent(i);
     else
       return 0;
   }
 
+  //! Returns a pointer to the grid #i.
+  /*!
+    \param i grid to be returned.
+    \return A pointer to the grid #i.
+  */
   template<class T, int N>
-  Grid<T>& Data<T, N>::GetGrid(int i)
+  Grid<T>* Data<T, N>::GetGrid(int i)
+  {
+    return grids_(i);
+  }
+
+  //! Returns a reference to the grid #i.
+  /*!
+    \param i grid to be returned.
+    \return A reference to the grid #i.
+  */
+  template<class T, int N>
+  Grid<T>& Data<T, N>::operator[] (int i)
   {
     return *grids_(i);
   }
 
-  template<class T, int N>
-  Grid<T>& Data<T, N>::operator [] (int i)
-  {
-    return *grids_(i);
-  }
-
+  //! Returns the array of pointers to grids.
+  /*!
+    For every Data, an array gathers pointers to grids.
+    The i-th element of the array is the grid related to
+    dimension #i.
+    \return A reference to the array of pointers to grids.
+  */
   template<class T, int N>
   Array<Grid<T>*, 1>& Data<T, N>::GetGrids()
   {
     return grids_;
   }
 
+  //! Returns the blitz::Array storing elements.
+  /*!
+    \return A reference to the blitz::Array storing data.
+  */
   template<class T, int N>
   Array<T, N>& Data<T, N>::GetArray()
   {
     return data_;
   }
 
+  //! Returns the array storing elements.
+  /*!
+    \return A reference to the array storing data.
+  */
   template<class T, int N>
   T* Data<T, N>::GetData()
   {
     return data_.data();
   }
 
-  // SubArrays.
-  
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+   */
   template<class T, int N>
   template<class R0>
   void Data<T, N>::SubData(Data<T, 1>& data, R0 r0)
@@ -641,6 +1269,13 @@ namespace SeldonData
     this->data_ = array(r0);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+   */
   template<class T, int N>
   template<class R0, class R1>
   void Data<T, N>::SubData(Data<T, 2>& data, R0 r0, R1 r1)
@@ -649,6 +1284,14 @@ namespace SeldonData
     this->data_ = array(r0, r1);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2>
   void Data<T, N>::SubData(Data<T, 3>& data, R0 r0, R1 r1, R2 r2)
@@ -657,6 +1300,15 @@ namespace SeldonData
     this->data_ = array(r0, r1, r2);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3>
@@ -668,6 +1320,16 @@ namespace SeldonData
 			r3);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4>
@@ -679,6 +1341,17 @@ namespace SeldonData
 			r3, r4);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+    \param r5 range for dimension #5 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4, class R5>
@@ -690,6 +1363,18 @@ namespace SeldonData
 			r3, r4, r5);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+    \param r5 range for dimension #5 (source).
+    \param r6 range for dimension #6 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4, class R5,
@@ -702,6 +1387,19 @@ namespace SeldonData
 			r3, r4, r5, r6);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+    \param r5 range for dimension #5 (source).
+    \param r6 range for dimension #6 (source).
+    \param r7 range for dimension #7 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4, class R5,
@@ -716,6 +1414,20 @@ namespace SeldonData
 			r7);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+    \param r5 range for dimension #5 (source).
+    \param r6 range for dimension #6 (source).
+    \param r7 range for dimension #7 (source).
+    \param r8 range for dimension #8 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4, class R5,
@@ -730,6 +1442,21 @@ namespace SeldonData
 			r7, r8);
   }
 
+  //! Extracts data.
+  /*!
+    Current data (*this) is set to a sub-data of 'data'.
+    \param data source data.
+    \param r0 range for dimension #0 (source).
+    \param r1 range for dimension #1 (source).
+    \param r2 range for dimension #2 (source).
+    \param r3 range for dimension #3 (source).
+    \param r4 range for dimension #4 (source).
+    \param r5 range for dimension #5 (source).
+    \param r6 range for dimension #6 (source).
+    \param r7 range for dimension #7 (source).
+    \param r8 range for dimension #8 (source).
+    \param r9 range for dimension #9 (source).
+  */
   template<class T, int N>
   template<class R0, class R1, class R2,
     class R3, class R4, class R5,
@@ -744,8 +1471,10 @@ namespace SeldonData
 			r7, r8, r9);
   }
 
-  // Calculus.
-  
+  //! Applies a given function on all elements.
+  /*!
+    \param function function to be applied.
+   */
   template<class T, int N>
   void Data<T, N>::Apply(void function(T&))
   {
@@ -756,6 +1485,10 @@ namespace SeldonData
       function(data[i]);
   }
 
+  //! Applies a given function on all elements.
+  /*!
+    \param function function to be applied.
+   */
   template<class T, int N>
   template<class F>
   void Data<T, N>::Apply(F& function)
@@ -767,6 +1500,7 @@ namespace SeldonData
       function.Apply(data[i]);
   }
 
+  //! Sets data to zero.
   template<class T, int N>
   void Data<T,N>::SetZero()
   {
@@ -777,6 +1511,10 @@ namespace SeldonData
       data[i] = T(0);
   }
 
+  //! Is data equal to zero?
+  /*!
+    \return true if data is zero, false otherwise.
+   */
   template<class T, int N>
   bool Data<T,N>::IsZero()
   {
@@ -791,6 +1529,13 @@ namespace SeldonData
     return res;
   }
 
+  //! Change coordinates.
+  /*!
+    The coordinates transformation is provided by function
+    f. f takes as input old coordinates and new coordinates (in this
+    order). Old coordinates are assumed to be unchanged by f.
+    \param f coordinates transformation.
+   */
   template<class T, int N>
   void Data<T, N>::ChangeCoords(Function_Base<T>& f)
   {
@@ -1101,6 +1846,15 @@ namespace SeldonData
     
   }
 
+  //! Coordinate transformation "in place".
+  /*!
+    Function f takes as inputs all coordinates and transforms those coordinates.
+    This transformation is performed in place because function f works directly
+    on its inputs.
+    \param f coordinate transformation.
+    \warning One should use ChangeCoords instead of ChangeCoordsInPlace in order
+    to save memory.
+   */
   template<class T, int N>
   void Data<T, N>::ChangeCoordsInPlace(Function_Base<T>& f)
   {
@@ -1129,12 +1883,14 @@ namespace SeldonData
 
   }
 
+  //! Displays data.
   template<class T, int N>
   void Data<T, N>::Print()
   {
     cout << data_ << endl;
   }
 
+  //! For every grid, sets dimension to which the grid is related.
   template<class T, int N>
   void Data<T, N>::SetVariables()
   {

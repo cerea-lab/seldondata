@@ -4,3 +4,13 @@ SubGrid -> à faire? Changement de grille?
 Constructeurs de Data: const Grid<TG>...
 
 Function.hxx: const T& ou T pour les variables pas affectées.
+
+Fonctions inline!
+
+Grille <---> Data : pas du même type T!
+
+Empty Grid && vérif des tailles... Que faire?
+
+Function.hxx: Undefined functions!
+
+Data: constructor: ajouter \exception.

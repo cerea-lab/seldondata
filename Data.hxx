@@ -97,7 +97,7 @@ namespace SeldonData
     int GetNbDim();
     int GetLength(int dim);
 
-    Grid<T>& GetGrid(int i);
+    Grid<T>* GetGrid(int i);
     Grid<T>& operator [] (int i);
     Array<Grid<T>*, 1>& GetGrids();
 
