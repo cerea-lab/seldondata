@@ -860,22 +860,22 @@ namespace SeldonData
 #endif
 
 #ifdef DEBUG_SELDONDATA_INDICES
-  long* input_dimensions = var->edges();
-  for (i=0; i<var->num_dims(); i++)
-    if (A.extent(i) > input_dimensions[i])
-      throw WrongIndex("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
-		       "Array extent is " + to_str(A.extent(i))
-		       + " along dimension #" + to_str(i)
-		       + " , but it should not be strictly more than "
-		       + to_str(input_dimensions[i]) + ".");
-  delete[] input_dimensions;
+    long* input_dimensions = var->edges();
+    for (i=0; i<var->num_dims(); i++)
+      if (A.extent(i) > input_dimensions[i])
+	throw WrongIndex("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
+			 "Array extent is " + to_str(A.extent(i))
+			 + " along dimension #" + to_str(i)
+			 + " , but it should not be strictly more than "
+			 + to_str(input_dimensions[i]) + ".");
+    delete[] input_dimensions;
 #endif
 
-  long* extents = new long[N];
-  for (i=0; i<N; i++)
-    extents[i] = A.extent(i);
+    long* extents = new long[N];
+    for (i=0; i<N; i++)
+      extents[i] = A.extent(i);
 
-  bool op = var->get(A.data(), extents);
+    bool op = var->get(A.data(), extents);
 
 #ifdef DEBUG_SELDONDATA_IO
     // Checks whether input operation succeeded.
@@ -1045,10 +1045,10 @@ namespace SeldonData
     if (i<nb_elements)
       {
 	throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
-		    "Cannot find all values. File \"" + FileName + "\" contains "
-		    + to_str(i) + " elements for field #"
-		    + to_str(variable) + ", but data has "
-		    + to_str(nb_elements) + " elements.");
+		      "Cannot find all values. File \"" + FileName + "\" contains "
+		      + to_str(i) + " elements for field #"
+		      + to_str(variable) + ", but data has "
+		      + to_str(nb_elements) + " elements.");
 
 	if (status == -1)
 	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",

@@ -35,7 +35,7 @@ namespace SeldonData
   /*!
     A function f should be a class derived from Function_Base.
     Then, operator() should be overloaded to define the function f.
-   */
+  */
   template<class T, class TOut = void>
   class Function_Base
   {
@@ -271,7 +271,7 @@ namespace SeldonData
     A function f for coordinates transformation should be a class derived
     from FuncCoords_Base. Then, operator() should be overloaded
     to define the function f.
-   */
+  */
   template<class T>
   class FuncCoords_Base
   {

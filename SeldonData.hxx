@@ -32,7 +32,7 @@ namespace SeldonData
   /*!
     \param input variable to be converted.
     \return A string containing 'input'.
-   */
+  */
   template<typename T>
   std::string to_str(const T& input)
   {
@@ -45,7 +45,7 @@ namespace SeldonData
   /*!
     \param input string to be converted.
     \return 'input' converted to 'T'.
-   */
+  */
   template <class T>
   void to_num(std::string s, T& num)
   {
@@ -57,7 +57,7 @@ namespace SeldonData
   /*!
     \param input string to be converted.
     \return 'input' converted to 'T'.
-   */
+  */
   template <class T>
   T to_num(std::string s)
   {

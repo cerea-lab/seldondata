@@ -2013,7 +2013,7 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3>
+	   class R3>
   void Data<T, N, TG>::SubData(Data<T, 4, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3)
   {
@@ -2034,7 +2034,7 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4>
+	   class R3, class R4>
   void Data<T, N, TG>::SubData(Data<T, 5, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4)
   {
@@ -2056,7 +2056,7 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4, class R5>
+	   class R3, class R4, class R5>
   void Data<T, N, TG>::SubData(Data<T, 6, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4, R5 r5)
   {
@@ -2079,8 +2079,8 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4, class R5,
-    class R6>
+	   class R3, class R4, class R5,
+	   class R6>
   void Data<T, N, TG>::SubData(Data<T, 7, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4, R5 r5, R6 r6)
   {
@@ -2104,8 +2104,8 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4, class R5,
-    class R6, class R7>
+	   class R3, class R4, class R5,
+	   class R6, class R7>
   void Data<T, N, TG>::SubData(Data<T, 8, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4, R5 r5, R6 r6,
 			       R7 r7)
@@ -2132,8 +2132,8 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4, class R5,
-    class R6, class R7, class R8>
+	   class R3, class R4, class R5,
+	   class R6, class R7, class R8>
   void Data<T, N, TG>::SubData(Data<T, 9, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4, R5 r5, R6 r6,
 			       R7 r7, R8 r8)
@@ -2161,8 +2161,8 @@ namespace SeldonData
   */
   template<class T, int N, class TG>
   template<class DTG, class R0, class R1, class R2,
-    class R3, class R4, class R5,
-    class R6, class R7, class R8, class R9>
+	   class R3, class R4, class R5,
+	   class R6, class R7, class R8, class R9>
   void Data<T, N, TG>::SubData(Data<T, 10, DTG>& data, R0 r0, R1 r1, R2 r2,
 			       R3 r3, R4 r4, R5 r5, R6 r6,
 			       R7 r7, R8 r8, R9 r9)
@@ -3569,7 +3569,7 @@ namespace SeldonData
   //! Returns the maximum.
   /*!
     \return The maximum.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::GetMax() const
   {
@@ -3586,7 +3586,7 @@ namespace SeldonData
   //! Returns the maximum (absolute value).
   /*!
     \return The maximum (absolute value).
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::GetMaxAbs() const
   {
@@ -3603,7 +3603,7 @@ namespace SeldonData
   //! Returns the (signed) value of the maximum in absolute value.
   /*!
     \return The (signed) value of the maximum in absolute value.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::GetSignedMaxAbs() const
   {
@@ -3629,7 +3629,7 @@ namespace SeldonData
   //! Returns the minimum.
   /*!
     \return The minimum.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::GetMin() const
   {
@@ -3646,7 +3646,7 @@ namespace SeldonData
   //! Returns indices of the maximum.
   /*!
     \return Array of indices of the maximum.
-   */
+  */
   template<class T, int N, class TG>
   Array<int, 1> Data<T, N, TG>::GetMaxIndex() const
   {
@@ -3675,7 +3675,7 @@ namespace SeldonData
   //! Returns indices of the maximum in absolute value.
   /*!
     \return Array of indices of the maximum in absolute value.
-   */
+  */
   template<class T, int N, class TG>
   Array<int, 1> Data<T, N, TG>::GetMaxAbsIndex() const
   {
@@ -3704,7 +3704,7 @@ namespace SeldonData
   //! Returns indices of the minimum.
   /*!
     \return Array of indices of the minimum.
-   */
+  */
   template<class T, int N, class TG>
   Array<int, 1> Data<T, N, TG>::GetMinIndex() const
   {
@@ -3733,7 +3733,7 @@ namespace SeldonData
   //! Returns the sum of all values.
   /*!
     \return The sum of all values.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Sum() const
   {
@@ -3750,7 +3750,7 @@ namespace SeldonData
   //! Returns the mean.
   /*!
     \return The mean.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Mean() const
   {
@@ -3760,7 +3760,7 @@ namespace SeldonData
   //! Returns the variance.
   /*!
     \return The variance.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Variance() const
   {
@@ -3781,7 +3781,7 @@ namespace SeldonData
   //! Returns the standard deviation.
   /*!
     \return The standard deviation.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::StandardDeviation() const
   {
@@ -3791,7 +3791,7 @@ namespace SeldonData
   //! Returns the norm 1.
   /*!
     \return The norm 1.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Norm1() const
   {
@@ -3808,7 +3808,7 @@ namespace SeldonData
   //! Returns the norm 2.
   /*!
     \return The norm 2.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Norm2() const
   {
@@ -3826,7 +3826,7 @@ namespace SeldonData
   /*!
     \param p norm parameter.
     \return The norm p.
-   */
+  */
   template<class T, int N, class TG>
   T Data<T, N, TG>::Norm(T p) const
   {
@@ -3843,7 +3843,7 @@ namespace SeldonData
   //! Sets data to a constant value.
   /*!
     \param value value to which data is set.
-   */
+  */
   template<class T, int N, class TG>
   void Data<T, N, TG>::Fill(T value)
   {
@@ -4198,7 +4198,7 @@ namespace SeldonData
     array A is reversed along dimension #1, on exit, A(i, j, k) = A(i, Ny-1-j, k),
     where Ny is the length along dimension #1.
     \param j dimension
-   */
+  */
   template<class T, int N, class TG>
   void Data<T, N, TG>::ReverseData(int dim)
   {

@@ -123,10 +123,10 @@ namespace SeldonData
 		   int i3, int i4, int i5,
 		   int i6);
     T& operator() (int i0, int i1, int i2,
-		  int i3, int i4, int i5,
+		   int i3, int i4, int i5,
 		   int i6, int i7);
     T& operator() (int i0, int i1, int i2,
-		  int i3, int i4, int i5,
+		   int i3, int i4, int i5,
 		   int i6, int i7, int i8);
     T& operator() (int i0, int i1, int i2,
 		   int i3, int i4, int i5,

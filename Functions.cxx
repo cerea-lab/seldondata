@@ -299,10 +299,10 @@ namespace SeldonData
 	      IndexIn(k)++;
 
 	    Coeff(k) = ( dataOut[k].Value(IndexOut(0), IndexOut(1),
-					   IndexOut(2), IndexOut(3),
-					   IndexOut(4), IndexOut(5),
-					   IndexOut(6), IndexOut(7),
-					   IndexOut(8), IndexOut(9))
+					  IndexOut(2), IndexOut(3),
+					  IndexOut(4), IndexOut(5),
+					  IndexOut(6), IndexOut(7),
+					  IndexOut(8), IndexOut(9))
 			 - dataIn[k](IndexIn(k)-1) ) /
 	      ( dataIn[k](IndexIn(k)) - dataIn[k](IndexIn(k)-1) );
 	  }

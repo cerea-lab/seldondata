@@ -51,7 +51,7 @@ namespace SeldonData
     //! Constructor.
     /*!
       \param f name of the function where the error occured.
-     */
+    */
     Error(string f)
     {
       cout << "ERROR!" << endl;
@@ -62,7 +62,7 @@ namespace SeldonData
     /*!
       \param f name of the function where the error occured.
       \param c comment about the error.
-     */
+    */
     Error(string f, string c)
     {
       cout << "ERROR!" << endl;

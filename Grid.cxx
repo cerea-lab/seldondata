@@ -988,9 +988,9 @@ namespace SeldonData
     out = ( (j<0) || (j>=values_.extent(0)) );
 
     if (out) throw WrongIndex("reference RegularGrid<T>::Value",
-		       "Index along dimension #" + to_str(variable_) + " should be in [0, "
-		       + to_str(values_.extent(0)-1) + "], but is equal to "
-		       + to_str(j) + ".");
+			      "Index along dimension #" + to_str(variable_) + " should be in [0, "
+			      + to_str(values_.extent(0)-1) + "], but is equal to "
+			      + to_str(j) + ".");
 
     return values_(j);
 #endif
