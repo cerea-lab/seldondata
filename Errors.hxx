@@ -150,10 +150,11 @@ namespace SeldonData
   {
 
   public:
-    //! Main constructor.
+    //! Constructor.
     WrongIndex(string f): Error(f)
     {
     }
+    //! Main constructor.
     WrongIndex(string f, string c): Error(f, c)
     {
     }

@@ -10,8 +10,13 @@ using namespace blitz;
 namespace SeldonData
 {
 
-  template <typename T>
-  std::string to_str(const T &input)
+  //! Converts most types to string.
+  /*!
+    \param input variable to be converted.
+    \return A string containing 'input'.
+   */
+  template<typename T>
+  std::string to_str(const T& input)
   {
     std::ostringstream output;
     output << input;
@@ -61,11 +66,16 @@ cout << "Unknown error..." <<endl;\
 #endif
 
 
+//! To display a message... call Hermes!
 #define ERR(x) cout << "Hermes - " #x << endl
+//! To display a variable (with its name); same as DISPLAY.
 #define DISP(x) cout << #x ": " << x << endl
+//! To display a variable (with its name); same as DISP.
 #define DISPLAY(x) cout << #x ": " << x << endl
 
+// To get 'min' and 'max' functions.
 #include <algorithm>
+
 #include "Function.hxx"
 #include "Grid.cxx"
 #include "Data.cxx"
