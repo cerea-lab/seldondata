@@ -406,7 +406,7 @@ namespace SeldonData
     int i0, i1, i2, i3, i4, i5, i6, i7, i8, i9;
 
     // Sets the variable_-th grid to current grid.
-    if (grids(variable_)!=NULL)
+    if ( (grids(variable_)!=NULL) && (grids(variable_)!=this) )
       delete grids(variable_);
     grids(variable_) = this;
 
