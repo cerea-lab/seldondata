@@ -183,7 +183,7 @@ namespace SeldonData
   template<class T>
   RegularGrid<T>::RegularGrid(const Array<typename RegularGrid<T>::value_type, 1>& values,
 			      int variable):
-    Grid<T>(values.numElements(), variable), values_(values)
+    Grid<T>(values.numElements(), variable), values_(values.copy())
   {
     start_ = values_(0);
     if (length_>1)
@@ -204,7 +204,7 @@ namespace SeldonData
 
   template<class T>
   RegularGrid<T>::RegularGrid(const RegularGrid<T>& G):
-    Grid<T>(G), values_(G.GetValues())
+    Grid<T>(G), values_((G.GetValues()).copy())
   {
     start_ = G.GetStart();
     inc_ = G.GetInc();
@@ -373,7 +373,7 @@ namespace SeldonData
   GeneralGrid<T, n>::GeneralGrid(Array<typename GeneralGrid<T, n>::value_type, n>& values,
 				 int variable,
 				 Array<int, 1>& dependencies):
-    values_(values), dependencies_(dependencies)
+    values_(values.copy()), dependencies_(dependencies.copy())
   {
     int i;
 
@@ -396,8 +396,8 @@ namespace SeldonData
 
   template<class T, int n>
   GeneralGrid<T, n>::GeneralGrid(const GeneralGrid<T, n>& G):
-    Grid<T>(G), values_(G.GetValues()),
-    dependencies_(G.GetDependencies())
+    Grid<T>(G), values_((G.GetValues()).copy()),
+    dependencies_((G.GetDependencies()).copy())
   {
     main_variable_ = G.GetMainVariable();
     nb_dim_ = n;
@@ -422,6 +422,7 @@ namespace SeldonData
     length_ = G.GetLength();
     variable_ = G.GetVariable();
 
+    // Warning: must have the same length.
     values_ = G.GetValues();
     dependencies_ = G.GetDependencies();
 

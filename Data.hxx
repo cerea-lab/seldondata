@@ -144,7 +144,7 @@ namespace SeldonData
     void SetZero();
     bool IsZero();
 
-    void ChangeCoords(Function_Base<T>& f);
+    void ChangeCoords(Function_Base<T>& f, Array<bool, N>& Dep);
 
     void Print();
 

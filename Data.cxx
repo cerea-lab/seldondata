@@ -508,9 +508,29 @@ namespace SeldonData
   }
 
   template<class T, int N>
-  void Data<T, N>::ChangeCoords(Function_Base<T>& f)
+  void Data<T, N>::ChangeCoords(Function_Base<T>& f, Array<bool, N>& Dep)
   {
     int i0, i1, i2, i3, i4, i5, i6, i7, i8, i9;
+    int i, j, nb;
+    Array<Grid<T>*, 1> grids_old = grids_;
+    Array<int, 1> Lengths;
+
+//      for (i=0; i<N; i++)
+//        {
+//  	nb = 1;
+//  	for (j=0; j<N; j++)
+//  	  if ((Dep(i, j))&&(i!=j))
+//  	    {
+//  	      nb++;
+//  	      Lengths.resizeAndPreserve(nb);
+//  	      Lengths(nb-1) = j;
+//  	    }
+//  	if (nb==1)
+//  	  grids_old(i) = new RegularGrid<T>(grids_(i)->GetLength());
+//  	else if (nb==2)
+//  	  grids_old(i) = ;
+//        }
+
     if (N==1)
       for (i0=0; i0<grids_(0)->GetLength(); i0++)
 	f(grids_(0)->Value(i0));
