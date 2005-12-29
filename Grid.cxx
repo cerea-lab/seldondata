@@ -779,10 +779,17 @@ namespace SeldonData
   RegularGrid<T>&
   RegularGrid<T>::operator= (const RegularGrid<T>& G)
   {
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    if (this->pointers_ != 1 && this->length_ != G.GetLength())
+      throw WrongDim("RegularGrid<T, n>::operator= (const RegularGrid<T, n>&)",
+		     "Grids must have the same size.");
+#endif
+
     this->length_ = G.GetLength();
     this->variable_ = G.GetVariable();
 
-    values_ = G.GetArray();
+    values_.resize(G.GetArray().shape());
+    values_ = G.GetArray().copy();
 
     return (*this);
   }
@@ -1299,21 +1306,23 @@ namespace SeldonData
   GeneralGrid<T, n>&
   GeneralGrid<T, n>::operator= (const GeneralGrid<T, n>& G)
   {
-    this->length_ = G.GetLength();
-    this->variable_ = G.GetVariable();
-
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     bool dim = true;
     for (int i=0; i<n; i++)
       dim = dim && (values_.extent(i) == (G.GetArray()).extent(i));
-    if (!dim)
+    if (this->pointers_ != 1 && !dim)
       throw WrongDim("GeneralGrid<T, n>::operator= (const GeneralGrid<T, n>&)",
 		     "Grids must have the same size.");
 #endif
     
-    // Warning: must have the same lengths.
-    values_ = G.GetArray();
-    dependencies_ = G.GetDependencies();
+    this->length_ = G.GetLength();
+    this->variable_ = G.GetVariable();
+
+    values_.resize(G.GetArray().shape());
+    values_ = G.GetArray().copy();
+
+    dependencies_.resize(G.GetDependencies().shape());
+    dependencies_ = G.GetDependencies().copy();
 
     main_variable_ = G.GetMainVariable();
 
