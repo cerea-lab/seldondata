@@ -168,6 +168,13 @@ namespace SeldonData
   template<class T>
   inline void Grid<T>::SetVariable(int variable)
   {
+#ifndef SELDONDATA_ALLOW_VARIABLE_CHANGE
+    if (variable_ != variable && pointers_ > 1)
+      throw Error("Grid::SetVariable(int)",
+		  string("Unable to change grid main variable from ")
+		  + to_str(variable_) + string(" to ") + to_str(variable)
+		  + string(". Option disabled."));
+#endif
     variable_ = variable;
   }
   
