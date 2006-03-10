@@ -2511,7 +2511,10 @@ namespace SeldonData
     for (int i=0; i<N; i++)
       {
 	if (grids_(i)!=NULL)
-	  delete grids_(i);
+	  if (grids_(i)->GetPointers()==1)
+	    delete grids_(i);
+	  else
+	    grids_(i)->SetPointers(grids_(i)->GetPointers()-1);
 	grids_(i) = data[i].Copy();
       }
 
