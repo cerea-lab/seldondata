@@ -175,6 +175,8 @@ namespace SeldonData
 
     template <class T0>
     void Copy(Data<T0, N, TG>& data);
+    template <class T0>
+    void ReferenceCopy(Data<T0, N, TG>& data);
 
     int GetNbElements();
     int GetNbDim();

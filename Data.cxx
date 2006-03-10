@@ -2500,13 +2500,39 @@ namespace SeldonData
       return (*this)(i0, i1, i2, i3, i4, i5, i6, i7, i8, i9);
   }
 
-  //! Sets current Data instance to data.
+  //! Performs a copy (duplication) of \a data.
   /*!
     \param data Data instance to be copied.
+    \warning Grids may or may not be duplicated (in memory), depending on
+    their own settings.
   */
   template<class T, int N, class TG>
   template <class T0>
   void Data<T, N, TG>::Copy(Data<T0, N, TG>& data)
+  {
+    for (int i=0; i<N; i++)
+      {
+	if (grids_(i)!=NULL)
+	  if (grids_(i)->GetPointers()==1)
+	    delete grids_(i);
+	  else
+	    grids_(i)->SetPointers(grids_(i)->GetPointers()-1);
+	grids_(i) = data[i].Copy();
+      }
+
+    data_.resize(data.GetArray().shape());
+    data_ = data.GetArray().copy();
+  }
+
+  //! Performs a reference copy of \a data.
+  /*! On exit, current Data instance and \a data share the same data array.
+    \param data Data instance to be copied.
+    \warning Grids may or may not be duplicated (in memory), depending on
+    their own settings.
+  */
+  template<class T, int N, class TG>
+  template <class T0>
+  void Data<T, N, TG>::ReferenceCopy(Data<T0, N, TG>& data)
   {
     for (int i=0; i<N; i++)
       {
