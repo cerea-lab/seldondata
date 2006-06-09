@@ -2638,6 +2638,16 @@ namespace SeldonData
     return data_;
   }
 
+  //! Returns the blitz::Array storing elements.
+  /*!
+    \return A reference to the blitz::Array storing data.
+  */
+  template<class T, int N, class TG>
+  inline Array<T, N>& Data<T, N, TG>::operator() ()
+  {
+    return data_;
+  }
+
   //! Returns the array storing elements.
   /*!
     \return A pointer to the array storing data.
