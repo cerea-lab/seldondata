@@ -1,1 +1,5 @@
-1.4a
+SeldonData 1.5
+
+Depends on:
+ - Talos 0.4
+ - Blitz++ 0.6 and higher

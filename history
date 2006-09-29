@@ -3,6 +3,32 @@ o--------------------o
 o--------------------o
 
 
+Version 1.5 (2006-09-29)
+-----------
+
+** Improvements:
+
+- Improved management of 'Data'.
+   + Added 'Data::operator()()' which does the same as 'Data::GetArray()'.
+   + Added 'Data::ReferenceCopy' and changed 'Data::Copy' so that it performs a 
+     full copy (duplication) instead of a reference copy.
+- 'RegularGrid::operator=' and 'GeneralGrid::operator=' now resize the target 
+  grid.
+- Changing grid main variable is now disabled unless
+  'SELDONDATA_ALLOW_VARIABLE_CHANGE' is set.
+
+** Bug fixes:
+
+- In 'Data::Copy', grids of current Data instance were deleted, even if they
+  were shared with other Data instances.
+- Fixed a bug in the detection of the end of a file.
+- Fixed a bug in 'Bias_interpolation'.
+
+** Other changes:
+
+- Modified the code so that it should be compliant with g++ 3.4 requirements.
+
+
 Version 1.4 (2004-10-02)
 -----------
 
