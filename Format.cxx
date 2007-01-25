@@ -76,6 +76,16 @@ namespace SeldonData
   //! Reads a binary file.
   template<class T>
   template<class TG>
+  void FormatBinary<T>::Read(ExtStream& FileStream, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileStream, G.GetArray());
+
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TG>
   void FormatBinary<T>::Read(ifstream& FileStream, RegularGrid<TG>& G) const
   {
 
@@ -90,6 +100,17 @@ namespace SeldonData
   {
 
     this->Read(FileName, G.GetArray());
+
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TG, int n>
+  void FormatBinary<T>
+  ::Read(ExtStream& FileStream, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileStream, G.GetArray());
 
   }
 
@@ -180,6 +201,16 @@ namespace SeldonData
   //! Reads a binary file.
   template<class T>
   template<class TD, int N, class TG>
+  void FormatBinary<T>::Read(ExtStream& FileStream, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileStream, D.GetArray());
+
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TD, int N, class TG>
   void FormatBinary<T>::Read(ifstream& FileStream, Data<TD, N, TG>& D) const
   {
 
@@ -249,8 +280,7 @@ namespace SeldonData
   void FormatBinary<T>::Read(string FileName, Array<TA, N>& A) const
   {
 
-    ifstream FileStream;
-    FileStream.open(FileName.c_str(), ifstream::binary);
+    ExtStream FileStream(FileName);
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
@@ -263,6 +293,50 @@ namespace SeldonData
 
     FileStream.close();
 
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<int N>
+  void FormatBinary<T>::Read(ExtStream& FileStream, Array<T, N>& A) const
+  {
+
+    unsigned long data_size = A.numElements() * sizeof(T);
+    T* data = A.data();
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream, ")
+		    + "Array<T, N>& A)", string("Unable to read data in \"")
+		    + FileStream.GetFileName() + "\".");
+
+    // Checks file length.
+    streampos position;
+    position = FileStream.tellg();
+    FileStream.seekg(0, ios::end);
+    unsigned long file_size = FileStream.tellg() - position;
+
+    if (position > FileStream.tellg())
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream,")
+		    + " Array<T, N>& A)", string("Unable to read ")
+		    + to_str(data_size) + string(" byte(s) in \"")
+		    + FileStream.GetFileName()
+		    + "\". The input stream is empty.");
+
+    if (data_size>file_size)
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream,")
+		    + " Array<T, N>& A)", string("Unable to read ")
+		    + to_str(data_size) + string(" byte(s) in \"")
+		    + FileStream.GetFileName()
+		    + string("\". The input stream is only ")
+		    + to_str(file_size) + " byte(s) long.");
+
+    FileStream.seekg(position);
+#endif
+
+    FileStream.read(reinterpret_cast<char*>(data), data_size);
+    
   }
 
   //! Reads a binary file.
@@ -301,6 +375,70 @@ namespace SeldonData
 
     FileStream.read(reinterpret_cast<char*>(data), data_size);
     
+  }
+
+  //! Reads a binary file.
+  template<class T>
+  template<class TA, int N>
+  void FormatBinary<T>::Read(ExtStream& FileStream, Array<TA, N>& A) const
+  {
+
+    unsigned long data_size = A.numElements() * sizeof(T);
+
+    unsigned long length = CONST_SELDONDATA_BUFFER_SIZE / sizeof(T);
+    T* data = new T[length];
+
+    TA* data_output = A.data();
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file ready.
+    if (!FileStream.good())
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream,")
+		    + " Array<TA, N>& A)", string("Unable to read data in \"")
+		    + FileStream.GetFileName() + "\".");
+
+    // Checks file length.
+    streampos position;
+    position = FileStream.tellg();
+    FileStream.seekg(0, ios::end);
+    unsigned long file_size = FileStream.tellg() - position;
+
+    if (position > FileStream.tellg())
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream,")
+		    + " Array<T, N>& A)", string("Unable to read ")
+		    + to_str(data_size) + string(" byte(s) in \"")
+		    + FileStream.GetFileName()
+		    + "\". The input stream is empty.");
+
+    if (data_size>file_size)
+      throw IOError(string("FormatBinary<T>::Read(ExtStream& FileStream,")
+		    + " Array<TA, N>& A)", string("Unable to read ")
+		    + to_str(data_size) + string(" byte(s) in \"")
+		    + FileStream.GetFileName()
+		    + string("\". The input stream is only ")
+		    + to_str(file_size) + " byte(s) long.");
+
+    FileStream.seekg(position);
+#endif
+
+    int i = 0;
+    int j = 0;
+    for (i=0; i < int(data_size / sizeof(T) / length); i++)
+      {
+	FileStream.read(reinterpret_cast<char*>(data), length * sizeof(T));
+	for (j=0; j<int(length); j++)
+	  data_output[j + i*length] = data[j];
+      }
+
+    if (data_size % (length * sizeof(T)) != 0)
+      {
+	FileStream.read(reinterpret_cast<char*>(data), data_size - i * length * sizeof(T));
+	for (j=0; j < int((data_size % (length * sizeof(T))) / sizeof(T)); j++)
+	  data_output[j + i*length] = data[j];
+      }
+
+    delete [] data;
+
   }
 
   //! Reads a binary file.
@@ -368,8 +506,7 @@ namespace SeldonData
 				  Array<TA, N>& A) const
   {
 
-    ifstream FileStream;
-    FileStream.open(FileName.c_str(), ifstream::binary);
+    ExtStream FileStream(FileName);
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
@@ -402,8 +539,7 @@ namespace SeldonData
 				   Array<TA, N>& A) const
   {
 
-    ifstream FileStream;
-    FileStream.open(FileName.c_str(), ifstream::binary);
+    ExtStream FileStream(FileName);
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if the file was opened.
