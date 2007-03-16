@@ -14,7 +14,7 @@
 // GNU General Public License (file "license") for more details.
 //
 // For more information, please see the SeldonData home page:
-//     http://membres.lycos.fr/vmallet/seldondata/
+//     http://spacetown.free.fr/lib/seldondata/
 
 #ifndef FILE_SELDONDATA_GRID_HXX
 

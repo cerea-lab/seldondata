@@ -14,7 +14,7 @@
 // GNU General Public License (file "license") for more details.
 //
 // For more information, please see the SeldonData home page:
-//     http://membres.lycos.fr/vmallet/seldondata/
+//     http://spacetown.free.fr/lib/seldondata/
 
 #ifndef FILE_SELDONDATA_FORMAT_CXX
 
@@ -1796,6 +1796,7 @@ namespace SeldonData
     FILE *grib_file;
     size_t nrec(0);
 
+
     int status(0);
     
     grib_rec.buffer = NULL;
@@ -1814,12 +1815,12 @@ namespace SeldonData
     int nb_elements = A.numElements();
     int max_length(nb_elements);
     double* data = NULL;
-    
+
     while (max_length != 0
 	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
       if (int(grib_rec.param) == variable)
 	{
-	  for (i=0; i<int(grib_rec.nx * grib_rec.ny); i++)
+	  for (i = 0; i < int(grib_rec.nx * grib_rec.ny); i++)
 	    A.data()[nb_elements - max_length + i] = data[i];
 	  delete[] data;
 	  data = NULL;
