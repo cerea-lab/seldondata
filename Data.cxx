@@ -2558,9 +2558,9 @@ namespace SeldonData
     return data_.numElements();
   }
 
-  //! Returns the number of stored elements.
+  //! Returns the number of dimensions.
   /*!
-    \return Number of elements.
+    \return Number of dimensions.
   */
   template<class T, int N, class TG>
   inline int Data<T, N, TG>::GetNbDim()
