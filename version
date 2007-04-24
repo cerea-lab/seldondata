@@ -1,5 +1,5 @@
-SeldonData 1.5a
+SeldonData 1.5.1
 
-Depends on:
- - Talos 0.4
+Depends on
+ - Talos 1.0
  - Blitz++ 0.6 and higher

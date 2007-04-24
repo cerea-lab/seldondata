@@ -3,6 +3,16 @@ o--------------------o
 o--------------------o
 
 
+Version 1.5.1 (2007-04-24)
+-----------
+
+** Improvements:
+
+- Improved error messages when the end of a binary file is reached: the name 
+  of the file is now given.
+- Added methods 'FormatBinary::Read(ExtStream&, ...)'.
+
+
 Version 1.5 (2006-09-29)
 -----------
 
