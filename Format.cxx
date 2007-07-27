@@ -1,13 +1,13 @@
-// Copyright (C) 2003-2005 Vivien Mallet
+// Copyright (C) 2003-2007 Vivien Mallet
 //
 // This file is part of SeldonData library.
 // SeldonData library is a tool for data processing.
-// 
+//
 // SeldonData is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // SeldonData is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -1715,94 +1715,17 @@ namespace SeldonData
   /* Array */
   /*********/
 
-  //! Reads a Grib file.
-  template <int N>
-  void FormatGrib::Read(string FileName, int variable, Array<double, N>& A) const
-  {
-
-    GRIBRecord grib_rec;
-    FILE *grib_file;
-    size_t nrec(0);
-
-    int status(0);
-    
-    grib_rec.buffer = NULL;
-    grib_rec.pds_ext = NULL;
-    grib_rec.gridpoints = NULL;
-
-    grib_file = fopen(FileName.c_str(), "r");
-
-#ifdef SELDONDATA_DEBUG_CHECK_IO
-    // Checks if the file was opened.
-    if (grib_file == NULL)
-      throw IOError("FormatGrib::Read(string FileName, int variable, Array<double, N>& A)",
-		    "Unable to open file \"" + FileName + "\".");
-#endif
-
-    int nb_elements = A.numElements();
-    int max_length(nb_elements);
-    double* data = A.data();
-    
-    while (max_length != 0
-	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
-      if (int(grib_rec.param) == variable)
-	{
-	  max_length -=  grib_rec.nx * grib_rec.ny;
-	  data = &A.data()[nb_elements - max_length];
-	  nrec++;
-	}
-    
-#ifdef SELDONDATA_DEBUG_CHECK_IO
-
-    if (status == 1)
-      throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
-		    "Read error after " + to_str(nrec) + " records.");
-
-    if (max_length != 0)
-      {
-	if (status == -2)
-	  throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
-			"File \"" + FileName + "\" contains at least "
-			+ to_str(nb_elements - max_length + grib_rec.nx * grib_rec.ny)
-			+ " elements for field #" + to_str(variable) + ", but data has only "
-			+ to_str(nb_elements) + " elements. The current record (whose length is "
-			+ to_str(grib_rec.nx * grib_rec.ny) + " elements) must be completely read.");
-	
-	if (status == -1)
-	  throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
-			"End of file found. " + to_str(nb_elements - max_length)
-			+ " elements were read for field #" + to_str(variable)
-			+ " in file \"" + FileName + "\", but data has "
-			+ to_str(nb_elements) + " elements.");
-
-	throw IOError("FormatGrib::Read(string FileName, Array<double, N>& A)",
-		      "Cannot find all values. File \"" + FileName + "\" contains "
-		      + to_str(nb_elements - max_length) + " elements for field #"
-		      + to_str(variable) + ", but data has "
-		      + to_str(nb_elements) + " elements.");
-      }
-
-#endif
-    
-  }
 
   //! Reads a Grib file.
   template <class TA, int N>
   void FormatGrib::Read(string FileName, int variable, Array<TA, N>& A) const
   {
-
-    int i;
-    GRIBRecord grib_rec;
+    int i, j, nx, ny;
+    long int pos = 0;
     FILE *grib_file;
-    size_t nrec(0);
-
-
-    int status(0);
+   
+    int status(0), param(0);
     
-    grib_rec.buffer = NULL;
-    grib_rec.pds_ext = NULL;
-    grib_rec.gridpoints = NULL;
-
     grib_file = fopen(FileName.c_str(), "r");
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
@@ -1814,20 +1737,24 @@ namespace SeldonData
 
     int nb_elements = A.numElements();
     int max_length(nb_elements);
-    double* data = NULL;
+    size_t nrec(0);
 
-    while (max_length != 0
-	   && (status = unpackgrib(grib_file, variable, &data, max_length, &grib_rec)) == 0)
-      if (int(grib_rec.param) == variable)
-	{
-	  for (i = 0; i < int(grib_rec.nx * grib_rec.ny); i++)
-	    A.data()[nb_elements - max_length + i] = data[i];
-	  delete[] data;
-	  data = NULL;
-	  max_length -=  grib_rec.nx * grib_rec.ny;
-	  nrec++;
-	}
-    
+    float *data = new float[nb_elements];
+
+    while (max_length != 0 &&
+	   (status = decode_grib(grib_file, &pos, &param, &data, &nx, &ny))
+	   == 0)
+      {
+	j = nb_elements - max_length;
+	if (param == variable)
+	  {
+	    for(i = 0; i < nx * ny; i++)
+	      A.data()[j + i] = data[i];
+	    max_length -= nx * ny;
+	  }
+	nrec ++;
+      }
+
 #ifdef SELDONDATA_DEBUG_CHECK_IO
 
     if (status == 1)
@@ -1839,27 +1766,32 @@ namespace SeldonData
 	if (status == -2)
 	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
 			"File \"" + FileName + "\" contains at least "
-			+ to_str(nb_elements - max_length + grib_rec.nx * grib_rec.ny)
-			+ " elements for field #" + to_str(variable) + ", but data has only "
-			+ to_str(nb_elements) + " elements. The current record (whose length is "
-			+ to_str(grib_rec.nx * grib_rec.ny) + " elements) must be completely read.");
+			+ to_str(nb_elements - max_length + nx * ny)
+			+ " elements for field #" + to_str(variable)
+			+ ", but data has only " + to_str(nb_elements)
+			+ " elements. The current record (whose length is "
+			+ to_str(nx * ny)
+			+ " elements) must be completely read.");
 	
 	if (status == -1)
 	  throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
-			"End of file found. " + to_str(nb_elements - max_length)
-			+ " elements were read for field #" + to_str(variable)
+			"End of file found. "
+			+ to_str(nb_elements - max_length)
+			+ " elements were read for field #"
+			+ to_str(variable)
 			+ " in file \"" + FileName + "\", but data has "
 			+ to_str(nb_elements) + " elements.");
 
 	throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
-		      "Cannot find all values. File \"" + FileName + "\" contains "
-		      + to_str(nb_elements - max_length) + " elements for field #"
-		      + to_str(variable) + ", but data has "
-		      + to_str(nb_elements) + " elements.");
+		      "Cannot find all values. File \"" + FileName
+		      + "\" contains " + to_str(nb_elements - max_length)
+		      + " elements for field #" + to_str(variable)
+		      + ", but data has " + to_str(nb_elements)
+		      + " elements.");
       }
 
 #endif
-    
+    delete[] data; 
   }
 
 #endif

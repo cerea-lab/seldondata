@@ -1,13 +1,13 @@
-// Copyright (C) 2003-2005 Vivien Mallet
+// Copyright (C) 2003-2007 Vivien Mallet
 //
 // This file is part of SeldonData library.
 // SeldonData library is a tool for data processing.
-// 
+//
 // SeldonData is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // SeldonData is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,7 +31,7 @@ using namespace std;
 #endif
 
 #ifdef SELDONDATA_WITH_GRIB
-#include "unpackgrib.c"
+#include "decode_grib.cpp"
 #endif
 
 namespace SeldonData
@@ -339,8 +339,6 @@ namespace SeldonData
 
     // Array.
 
-    template<int N>
-    void Read(string FileName, int variable, Array<double, N>& A) const;
     template<class TA, int N>
     void Read(string FileName, int variable, Array<TA, N>& A) const;
 
