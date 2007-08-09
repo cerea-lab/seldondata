@@ -32,6 +32,11 @@ namespace SeldonData
 				     Data<TOut, N, TGOut>& dataOut,
 				     int dim);
   
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  TOut LinearInterpolationPoint(Data<TIn, N, TGIn>& dataIn,
+				Array<TGOut, 1>& Coord);
+  
 }  // namespace SeldonData.
 
 #define FILE_SELDONDATA_FUNCTIONS_HXX

@@ -1126,6 +1126,91 @@ namespace SeldonData
   ///////////////
 
 
+  ///////////
+  // POINT //
+
+  //! Linear interpolation from data defined on regular grids to one point.
+  /*!
+    Linear interpolation from data defined on regular grids to
+    data on one point.
+    \param dataIn reference data.
+    \param Coord coordinates of the interpolation point.
+    \return data value on the interpolation point.
+  */
+  template<int N, class TIn, class TGIn,
+	   class TOut, class TGOut>
+  void LinearInterpolationPoint(Data<TIn, N, TGIn>& dataIn,
+				Array<TGOut, 1>& Coord, TOut& dataOut)
+  {
+    
+    if (Coord.extent(0) != N)
+      throw WrongDim("LinearInterpolationPoint(Data&, Array&)",
+		     "There are " + to_str(Coord.extent(0)) 
+		     + " coordinates for output point "
+		     + "and " + to_str(N) + " dimensions for input data. "
+		     + "These numbers must be equal.");
+    int i, k, l, m;
+    Array<int, 1> IndexIn(10);
+    Array<int, 1> LengthIn(10);
+    Array<TIn, 1> Coeff(10);
+    Array<bool, 1> Pos(10);
+    TIn coeff;
+
+    for (i=0; i<10; i++)
+      {
+	Pos(i) = 0;
+	LengthIn(i) = dataIn.GetLength(i);
+	IndexIn(i) = 0;
+	if (i < N)
+	  {
+	    while ( (IndexIn(i)<LengthIn(i))
+		&& (dataIn[i](IndexIn(i))<Coord(i)) )
+	      IndexIn(i)++;
+	    if (IndexIn(i)==LengthIn(i))
+	      IndexIn(i) = LengthIn(i)-1;
+	    else if (IndexIn(i)==0)
+	      IndexIn(i) = 1;
+	    if (LengthIn(i)!=0)
+	      Coeff(i) = ( Coord(i) - dataIn[i](IndexIn(i)-1) ) /
+		( dataIn[i](IndexIn(i)) - dataIn[i](IndexIn(i)-1) );
+	    else
+	      Coeff(i) = TIn(0);	
+	  }
+      }
+
+    dataOut = TOut(0);
+    for (k=0; k<int(pow(2.0, double(N))); k++)
+      {
+	l = k; coeff = TIn(1);
+	for (m=0; m<N; m++)
+	  {
+	    Pos(m) = l%2;
+	    if (l%2 == 1)
+	      coeff *= TIn(1) - Coeff(m);
+	    else
+	      coeff *= Coeff(m);
+	    l = l/2;
+	  }
+
+	dataOut += TOut( coeff *
+			 dataIn.Value(IndexIn(0) - Pos(0),
+				      IndexIn(1) - Pos(1),
+				      IndexIn(2) - Pos(2),
+				      IndexIn(3) - Pos(3),
+				      IndexIn(4) - Pos(4),
+				      IndexIn(5) - Pos(5),
+				      IndexIn(6) - Pos(6),
+				      IndexIn(7) - Pos(7),
+				      IndexIn(8) - Pos(8),
+				      IndexIn(9) - Pos(9)) );
+      }
+    // return dataOut;
+  }
+
+  // POINT //
+  ///////////
+
+
 }  // namespace SeldonData.
 
 #define FILE_SELDONDATA_FUNCTIONS_CXX
