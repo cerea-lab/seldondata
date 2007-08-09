@@ -34,8 +34,8 @@ namespace SeldonData
   
   template<int N, class TIn, class TGIn,
 	   class TOut, class TGOut>
-  TOut LinearInterpolationPoint(Data<TIn, N, TGIn>& dataIn,
-				Array<TGOut, 1>& Coord);
+  void LinearInterpolationPoint(Data<TIn, N, TGIn>& dataIn,
+				Array<TGOut, 1>& Coord, TOut& dataOut)
   
 }  // namespace SeldonData.
 
