@@ -515,7 +515,8 @@ namespace SeldonData
 		    "Unable to open file \"" + FileName + "\".");
 #endif
 
-    size_t pos = steps * sizeof(T) * A.numElements() / A.extent(0);
+    size_t pos = A.numElements() / A.extent(0);
+    pos *= steps * sizeof(T);
     FileStream.seekg(pos);
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
