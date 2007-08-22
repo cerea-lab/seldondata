@@ -2,12 +2,12 @@
 //
 // This file is part of SeldonData library.
 // SeldonData library is a tool for data processing.
-// 
+//
 // SeldonData is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // SeldonData is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -1226,7 +1226,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex index is out of range.
   */
   template<class T, int N, class TG>
-  inline T& Data<T, N, TG>::operator() (int i0)  
+  inline T& Data<T, N, TG>::operator() (int i0)
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1255,7 +1255,7 @@ namespace SeldonData
     \exception SeldonData::WrongIndex an index is out of range.
   */
   template<class T, int N, class TG>
-  inline T& Data<T, N, TG>::operator() (int i0, int i1)  
+  inline T& Data<T, N, TG>::operator() (int i0, int i1)
   {
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -2433,7 +2433,7 @@ namespace SeldonData
   inline T& Data<T, N, TG>::Value(int i0, int i1, int i2,
 				  int i3, int i4, int i5,
 				  int i6, int i7, int i8,
-				  int i9)    
+				  int i9)
   {
     if (N==1)
       return (*this)(i0);
@@ -4771,6 +4771,23 @@ namespace SeldonData
 
     return sum;
   }
+  
+  //! Computes the sum of all values.
+  /*!
+    Computes the sum of all values with a type that can be different from the
+    type of the values.
+  */
+  template<class T, int N, class TG>
+  template <class Ts>
+  void Data<T, N, TG>::Sum(Ts& sum) const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    sum = Ts(0);
+    for (int i=0; i<NbElements; i++)
+      sum += data[i];
+  }
 
   //! Returns the mean.
   /*!
@@ -4780,6 +4797,19 @@ namespace SeldonData
   T Data<T, N, TG>::Mean() const
   {
     return ( this->Sum() / data_.numElements() );
+  }
+
+  //! Computes the mean.
+  /*!
+    Computes the mean with a type that can be different from the type of
+    the values.
+  */
+  template<class T, int N, class TG>
+  template <class Ts>
+  void Data<T, N, TG>::Mean(Ts& mean) const
+  {
+    this->Sum(mean);
+    mean = mean / data_.numElements();
   }
 
   //! Returns the variance.
@@ -4796,11 +4826,33 @@ namespace SeldonData
     T var = T(0);
     for (int i=0; i<NbElements; i++)
       var += ( data[i] - mean ) * ( data[i] - mean );
-
+    
     if (NbElements!=1)
       var = var / T(NbElements-1);
 
     return var;
+  }
+
+  //! Computes the variance.
+  /*!
+    Computes the variance with a type that can be different from the type of
+    the values.
+  */
+  template<class T, int N, class TG>
+  template <class Ts>
+  void Data<T, N, TG>::Variance(Ts& var) const
+  {
+    const T* data = data_.data();
+    int NbElements = data_.numElements();
+    
+    Ts mean(0);
+    this->Mean(mean);
+    var = 0;
+    for (int i=0; i<NbElements; i++)
+      var += ( data[i] - mean ) * ( data[i] - mean );
+
+    if (NbElements!=1)
+      var = var / T(NbElements-1);
   }
 
   //! Returns the standard deviation.
@@ -4811,6 +4863,19 @@ namespace SeldonData
   T Data<T, N, TG>::StandardDeviation() const
   {
     return sqrt(this->Variance());
+  }
+
+  //! Computes the standard deviation.
+  /*!
+    Computes the standard deviation with a type that can be different from
+    the type of the values.
+  */
+  template<class T, int N, class TG>
+  template <class Ts>
+  void Data<T, N, TG>::StandardDeviation(Ts& std) const
+  {
+    this->Variance(std);
+    std = sqrt(std);
   }
 
   //! Returns the norm 1.
@@ -4938,7 +5003,7 @@ namespace SeldonData
       if (data[i] < threshold_min)
 	data[i] = threshold_min;
       else if (data[i] > threshold_max)
-	data[i] = threshold_max;	
+	data[i] = threshold_max;
   }
 
   //! Threshold absolute value of data.
@@ -5263,7 +5328,7 @@ namespace SeldonData
 	temp0 = data0_arr[i] - mean0;
 	covar += temp * temp0;
 	var += temp * temp;
-	var0 += temp0 * temp0;	
+	var0 += temp0 * temp0;
       }
 
     corr = covar / sqrt(var * var0);
@@ -5351,7 +5416,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5425,7 +5490,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5501,7 +5566,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5579,7 +5644,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5660,7 +5725,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5744,7 +5809,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5829,7 +5894,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -5918,7 +5983,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -6009,7 +6074,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 
@@ -6104,7 +6169,7 @@ namespace SeldonData
 			 string("Dimension ") + to_str(NewDim(i))
 			 + " is given twice or more in NewDim.");
 	// First time this dimension is given.
-	else 
+	else
 	  CheckNewDim(NewDim(i)) = true;
       }
 

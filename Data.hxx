@@ -2,12 +2,12 @@
 //
 // This file is part of SeldonData library.
 // SeldonData library is a tool for data processing.
-// 
+//
 // SeldonData is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // SeldonData is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -382,9 +382,17 @@ namespace SeldonData
     Array<int, 1> GetMinIndex() const;
 
     T Sum() const;
+    template <class Ts>
+    void Sum(Ts& sum) const;
     T Mean() const;
+    template <class Ts>
+    void Mean(Ts& mean) const;
     T Variance() const;
+    template <class Ts>
+    void Variance(Ts& var) const;
     T StandardDeviation() const;
+    template <class Ts>
+    void StandardDeviation(Ts& std) const;
 
     T Norm1() const;
     T Norm2() const;
