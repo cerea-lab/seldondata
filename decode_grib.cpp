@@ -1,25 +1,24 @@
-//   Copyright (C) 2007  CEREA
-//   Author(s) : Meryem Ahmed de Biasi
+// Copyright (C) 2007, ENPC - INRIA - EDF R&D 
+// Author(s) : Meryem Ahmed de Biasi
+//
+// This file is part of SeldonData library, used for data processing.
+//
+// SeldonData is free software; you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 2 of the License, or (at your option)
+// any later version.
+//
+// SeldonData is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// For more information, visit the SeldonData home page:
+// http://vivienmallet.net/lib/seldondata/
 
-//   This file is part of SeldonData library.
-//   SeldonData library is a tool for data processing.
-
-//   SeldonData is free software; you can redistribute it and/or modify it under
-//   the terms of the GNU General Public License as published by the Free
-//   Software Foundation; either version 2 of the License, or (at your option)
-//   any laterversion.
-
-//   SeldonData is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-
-//   For more information, please see the SeldonData home page:
-//   http://spacetown.free.fr/lib/seldondata/
-
-//   Program to decode Grib files.
-//   It is base on wgrib, by Wesley Ebisuzaki.
-//   wgrib homepage : http://www.cpc.ncep.noaa.gov/products/wesley/wgrib.html
+// Program to decode GRIB files.
+// It is based on and makes calls to WGRIB, by Wesley Ebisuzaki.
+// WGRIB home page : http://www.cpc.ncep.noaa.gov/products/wesley/wgrib.html
 
 
 #include <float.h>

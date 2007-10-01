@@ -1,20 +1,19 @@
-// Copyright (C) 2003-2007 Vivien Mallet
+// Copyright (C) 2003-2007, Vivien Mallet
 //
-// This file is part of SeldonData library.
-// SeldonData library is a tool for data processing.
+// This file is part of SeldonData library, used for data processing.
 //
-// SeldonData is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
+// SeldonData is free software; you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 2 of the License, or (at your option)
+// any later version.
 //
-// SeldonData is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License (file "license") for more details.
+// SeldonData is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+// more details.
 //
-// For more information, please see the SeldonData home page:
-//     http://spacetown.free.fr/lib/seldondata/
+// For more information, visit the SeldonData home page:
+//      http://vivienmallet.net/lib/seldondata/
 
 #ifndef FILE_SELDONDATA_FORMAT_HXX
 
