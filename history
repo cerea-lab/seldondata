@@ -2,6 +2,21 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
+Version 1.6 (2007-10-09)
+-----------
+
+** Improvements:
+
+- Changed the library used to decode GRIB files. Switched to WGRIB to improve 
+  portability.
+- Added a function to interpolate the value of a Data at a given point.
+- Added methods 'Data::Sum(Ts& sum)', 'Data::Mean(Ts& mean)',
+  'Data::Variance(Ts& var)' and 'Data::StandardDeviation(Ts& std)'.
+
+** Bug fixes:
+
+- 'FormatBinary::ReadSteps' may silently fail while reading a very large file.
+
 
 Version 1.5.1 (2007-04-24)
 -----------
