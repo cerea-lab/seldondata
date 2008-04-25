@@ -1791,7 +1791,7 @@ namespace SeldonData
       }
 
 #endif
-    delete[] data; 
+    free(data); 
   }
 
 #endif
