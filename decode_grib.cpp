@@ -186,5 +186,8 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
   
   *pos += len_grib;
   count ++;
+
+  free(buffer);
+
   return return_code;
 }
