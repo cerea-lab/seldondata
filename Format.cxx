@@ -1790,6 +1790,8 @@ namespace SeldonData
       }
 #endif
 
+    fclose(grib_file);
+
     free(data); 
   }
 
