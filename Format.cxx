@@ -1739,7 +1739,7 @@ namespace SeldonData
     int max_length(nb_elements);
     size_t nrec(0);
 
-    float *data = new float[nb_elements];
+    float *data;
 
     while (max_length != 0 &&
 	   (status = decode_grib(grib_file, &pos, &param, &data, &nx, &ny))
@@ -1753,6 +1753,7 @@ namespace SeldonData
 	    max_length -= nx * ny;
 	  }
 	nrec ++;
+	free(data);
       }
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
@@ -1791,8 +1792,6 @@ namespace SeldonData
 #endif
 
     fclose(grib_file);
-
-    free(data); 
   }
 
 #endif
