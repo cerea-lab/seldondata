@@ -2,6 +2,14 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
+Version 1.6.1 (2008-05-08)
+-------------
+
+** Bug fix:
+
+- There were memory leaks in 'FormatGrib::Read'.
+
+
 Version 1.6 (2007-10-09)
 -----------
 
