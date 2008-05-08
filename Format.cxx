@@ -1756,7 +1756,6 @@ namespace SeldonData
       }
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
-
     if (status == 1)
       throw IOError("FormatGrib::Read(string FileName, Array<TA, N>& A)",
 		    "Read error after " + to_str(nrec) + " records.");
@@ -1789,8 +1788,8 @@ namespace SeldonData
 		      + ", but data has " + to_str(nb_elements)
 		      + " elements.");
       }
-
 #endif
+
     free(data); 
   }
 
