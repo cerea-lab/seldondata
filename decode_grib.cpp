@@ -1,4 +1,4 @@
-// Copyright (C) 2007, ENPC - INRIA - EDF R&D 
+// Copyright (C) 2007, ENPC - INRIA - EDF R&D
 // Author(s) : Meryem Ahmed de Biasi
 //
 // This file is part of SeldonData library, used for data processing.
