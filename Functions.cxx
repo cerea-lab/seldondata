@@ -538,7 +538,7 @@ namespace SeldonData
   //! on regular grids, but one grid, to data defined on general grids.
   /*!
     Saves indices and coefficients of linear interpolation from data defined on regular
-    grids, except one grid which may be a general grid (i.e. depending on other 
+    grids, except one grid which may be a general grid (i.e. depending on other
     coordinates).
     Input data may be defined on a general grid along dimension 'dim', but only along
     this dimension. Output data may be defined on general or regular grids.
@@ -574,7 +574,7 @@ namespace SeldonData
   //! on regular grids, but one grid, to data defined on general grids.
   /*!
     Saves indices and coefficients of linear interpolation from data defined on regular
-    grids, except one grid which may be a general grid (i.e. depending on other 
+    grids, except one grid which may be a general grid (i.e. depending on other
     coordinates).
     Input data may be defined on a general grid along dimension 'dim', but only along
     this dimension. Output data may be defined on general or regular grids.
@@ -620,7 +620,7 @@ namespace SeldonData
   //! on regular grids, but one grid, to data defined on general grids.
   /*!
     Saves indices and coefficients of linear interpolation from data defined on regular
-    grids, except one grid which may be a general grid (i.e. depending on other 
+    grids, except one grid which may be a general grid (i.e. depending on other
     coordinates).
     Input data may be defined on a general grid along dimension 'dim', but only along
     this dimension. Output data may be defined on general or regular grids.
@@ -639,7 +639,7 @@ namespace SeldonData
 	   class TOut, class TGOut>
   void LinearInterpolationOneGeneralGetCoeffs(Data<TIn, N, TGIn>& dataIn,
 					      Data<TOut, N, TGOut>& dataOut,
-					      int dim, 
+					      int dim,
 					      Array<TIn, 2>& RegularCoeffs,
 					      Array<TIn, 2>& GeneralCoeffs,
 					      Array<int, 2>& RegularIndices,
@@ -698,7 +698,7 @@ namespace SeldonData
 		( dataIn[j](IndexIn(j)) - dataIn[j](IndexIn(j)-1) );
 
 	      // Saves coeffs and indices (values for dim are not saved).
-	      if (j < dim ) 
+	      if (j < dim )
 		{
 		  RegularCoeffs(i,j) = Coeff(j);
 		  RegularIndices(i,j) = IndexIn(j);
@@ -780,7 +780,7 @@ namespace SeldonData
   // ONEGENERALCOMPUTE //
 
   //! Compute linear interpolation from data defined
-  //! on regular grids, but one grid, to data defined on general grids, 
+  //! on regular grids, but one grid, to data defined on general grids,
   //! using indices and coefficients previously computed.
   /*!
     Performs linear interpolation from data defined on regular grids,
@@ -814,7 +814,7 @@ namespace SeldonData
 
 
   //! Compute linear interpolation from data defined
-  //! on regular grids, but one grid, to data defined on general grids, 
+  //! on regular grids, but one grid, to data defined on general grids,
   //! using indices and coefficients previously computed.
   /*!
     Performs linear interpolation from data defined on regular grids,
@@ -866,7 +866,7 @@ namespace SeldonData
     IntInput.Read(FileStream, RegularIndices);
     IntInput.Read(FileStream, GeneralIndices);
 
-    LinearInterpolationOneGeneralCompute(dataIn, dim, 
+    LinearInterpolationOneGeneralCompute(dataIn, dim,
 					 RegularCoeffs, GeneralCoeffs,
 					 RegularIndices, GeneralIndices,
 					 dataOut);
@@ -874,7 +874,7 @@ namespace SeldonData
 
 
   //! Compute linear interpolation from data defined
-  //! on regular grids, but one grid, to data defined on general grids, 
+  //! on regular grids, but one grid, to data defined on general grids,
   //! using indices and coefficients previously computed.
   /*!
     Performs linear interpolation from data defined on regular grids,
@@ -1144,7 +1144,7 @@ namespace SeldonData
     
     if (Coord.extent(0) != N)
       throw WrongDim("LinearInterpolationPoint(Data&, Array&)",
-		     "There are " + to_str(Coord.extent(0)) 
+		     "There are " + to_str(Coord.extent(0))
 		     + " coordinates for output point "
 		     + "and " + to_str(N) + " dimensions for input data. "
 		     + "These numbers must be equal.");
@@ -1163,7 +1163,7 @@ namespace SeldonData
 	if (i < N)
 	  {
 	    while ( (IndexIn(i)<LengthIn(i))
-		&& (dataIn[i](IndexIn(i))<Coord(i)) )
+		    && (dataIn[i](IndexIn(i))<Coord(i)) )
 	      IndexIn(i)++;
 	    if (IndexIn(i)==LengthIn(i))
 	      IndexIn(i) = LengthIn(i)-1;
@@ -1173,7 +1173,7 @@ namespace SeldonData
 	      Coeff(i) = ( Coord(i) - dataIn[i](IndexIn(i)-1) ) /
 		( dataIn[i](IndexIn(i)) - dataIn[i](IndexIn(i)-1) );
 	    else
-	      Coeff(i) = TIn(0);	
+	      Coeff(i) = TIn(0);
 	  }
       }
 

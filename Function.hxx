@@ -26,7 +26,7 @@ namespace SeldonData
 
 
   ///////////////////
-  // FUNCTION_BASE //  
+  // FUNCTION_BASE //
   ///////////////////
 
 
@@ -261,7 +261,7 @@ namespace SeldonData
 
 
   /////////////////////
-  // FUNCCOORDS_BASE //  
+  // FUNCCOORDS_BASE //
   /////////////////////
 
 

@@ -1217,7 +1217,7 @@ namespace SeldonData
       i++;
     main_variable_ = i;
 
-    this->length_ = values_.extent(main_variable_);      
+    this->length_ = values_.extent(main_variable_);
   }
 
   //! Main constructor.
@@ -1255,7 +1255,7 @@ namespace SeldonData
       i++;
     main_variable_ = i;
 
-    this->length_ = values_.extent(main_variable_);      
+    this->length_ = values_.extent(main_variable_);
   }
  
   //! Copy constructor.
