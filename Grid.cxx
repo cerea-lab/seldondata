@@ -988,7 +988,7 @@ namespace SeldonData
     else if (this->variable_==4)
       j = i4;
     else if (this->variable_==5)
-      j = i7;
+      j = i5;
     else if (this->variable_==6)
       j = i6;
     else if (this->variable_==7)
@@ -1019,7 +1019,7 @@ namespace SeldonData
     else if (this->variable_==4)
       return values_(i4);
     else if (this->variable_==5)
-      return values_(i7);
+      return values_(i5);
     else if (this->variable_==6)
       return values_(i6);
     else if (this->variable_==7)
@@ -1070,7 +1070,7 @@ namespace SeldonData
     else if (this->variable_==4)
       j = i4;
     else if (this->variable_==5)
-      j = i7;
+      j = i5;
     else if (this->variable_==6)
       j = i6;
     else if (this->variable_==7)
@@ -1101,7 +1101,7 @@ namespace SeldonData
     else if (this->variable_==4)
       return values_(i4);
     else if (this->variable_==5)
-      return values_(i7);
+      return values_(i5);
     else if (this->variable_==6)
       return values_(i6);
     else if (this->variable_==7)
