@@ -2,6 +2,15 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
+Version 1.6.2 (2008-11-13)
+-------------
+
+** Bug fix:
+
+- 'RegularGrid::Value' used the index along dimension 7 instead of the index
+  along dimension 5.
+
+
 Version 1.6.1 (2008-05-08)
 -------------
 
