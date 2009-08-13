@@ -1199,7 +1199,10 @@ namespace SeldonData
     grids_(N)
   {
     for (int i=0; i<N; i++)
-      grids_(i) = data[i].Copy();
+      if (data.GetGrid(i) != NULL)
+        grids_(i) = data[i].Copy();
+      else
+        grids_(i) = NULL;
 
     data_.resize(data.GetArray().shape());
     data_ = data.GetArray();
