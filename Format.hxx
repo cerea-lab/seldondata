@@ -291,7 +291,7 @@ namespace SeldonData
   public:
     FormatNetCDF()  throw();
     ~FormatNetCDF()  throw();
-
+    // For variables.
     // Grid.
 
     template<class TG>
@@ -309,6 +309,14 @@ namespace SeldonData
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
 
+    // For dimensions.
+    void ReadDimension(string FileName, string variable, int dim_num,
+					   int& dim_value) const;
+
+    // For attibutes.
+    void ReadAttribute(string FileName, string attribute, float& value) const;
+    void ReadAttribute(string FileName, string attribute, int& value) const;
+	
   };
 #endif
 
