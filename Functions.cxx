@@ -1,4 +1,5 @@
-// Copyright (C) 2003-2007, Vivien Mallet
+// Copyright (C) 2003-2007, INRIA
+// Author(s): Vivien Mallet
 //
 // This file is part of SeldonData library, used for data processing.
 //
