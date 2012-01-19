@@ -103,15 +103,12 @@ namespace SeldonData
 
 */
 
-#ifdef TRY
-#undef TRY
-#endif
+#ifndef TRY
 #define TRY try					\
     {
-
-#ifdef END
-#undef END
 #endif
+
+#ifndef END
 #define END							\
   }								\
     catch(SeldonData::Error& Err)				\
@@ -139,6 +136,7 @@ namespace SeldonData
 	cout << "Unknown error..." <<endl;			\
 	return 1;						\
       }
+#endif
 
 // To get 'min' and 'max' functions.
 #include <algorithm>
