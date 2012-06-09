@@ -25,7 +25,7 @@ using std::endl;
 
 namespace SeldonData
 {
-  
+
   ///////////
   // ERROR //
   ///////////
@@ -79,11 +79,11 @@ namespace SeldonData
     virtual void What()
     {
       cout << "An unknown error occured";
-      if (function.length()!=0)
-	cout << " in " << function;
+      if (function.length() != 0)
+        cout << " in " << function;
       cout << "." << endl;
-      if (comment.length()!=0)
-	cout << "   " << comment << endl;
+      if (comment.length() != 0)
+        cout << "   " << comment << endl;
       cout << endl;
     }
   };
@@ -113,16 +113,16 @@ namespace SeldonData
     virtual void What()
     {
       cout << "No more memory is available";
-      if (this->function!="")
-	cout << " in " << this->function;
+      if (this->function != "")
+        cout << " in " << this->function;
       cout << "." << endl;
-      if (this->comment!="")
-	cout << "   " << this->comment << endl;
+      if (this->comment != "")
+        cout << "   " << this->comment << endl;
       cout << endl;
     }
 
   };
-  
+
 
 
   //////////////
@@ -147,16 +147,16 @@ namespace SeldonData
     virtual void What()
     {
       cout << "Wrong dimension";
-      if (this->function!="")
-	cout << " in " << this->function;
+      if (this->function != "")
+        cout << " in " << this->function;
       cout << "." << endl;
-      if (this->comment!="")
-	cout << "   " << this->comment << endl;
+      if (this->comment != "")
+        cout << "   " << this->comment << endl;
       cout << endl;
     }
 
   };
-  
+
 
 
   ////////////////
@@ -185,16 +185,16 @@ namespace SeldonData
     virtual void What()
     {
       cout << "Index out of range";
-      if (this->function!="")
-	cout << " in " << this->function;
+      if (this->function != "")
+        cout << " in " << this->function;
       cout << "." << endl;
-      if (this->comment!="")
-	cout << "   " << this->comment << endl;
+      if (this->comment != "")
+        cout << "   " << this->comment << endl;
       cout << endl;
     }
 
   };
-  
+
 
 
   /////////////
@@ -216,11 +216,11 @@ namespace SeldonData
     virtual void What()
     {
       cout << "An input/output operation failed";
-      if (this->function!="")
-	cout << " in " << this->function;
+      if (this->function != "")
+        cout << " in " << this->function;
       cout << "." << endl;
-      if (this->comment!="")
-	cout << "   " << this->comment << endl;
+      if (this->comment != "")
+        cout << "   " << this->comment << endl;
       cout << endl;
     }
 
@@ -250,19 +250,19 @@ namespace SeldonData
     //! Displays error description.
     virtual void What()
     {
-      if (this->function!="")
-	cout << "Call to undefined function " << this->function;
+      if (this->function != "")
+        cout << "Call to undefined function " << this->function;
       else
-	cout << "An undefined function was called";
+        cout << "An undefined function was called";
       cout << "." << endl;
-      if (this->comment!="")
-	cout << "   " << this->comment << endl;
+      if (this->comment != "")
+        cout << "   " << this->comment << endl;
       cout << endl;
     }
 
   };
 
-  
+
 }  // namespace SeldonData.
 
 

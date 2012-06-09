@@ -158,7 +158,7 @@ namespace SeldonData
     FormatText(string separator)  throw();
     FormatText(fstream::fmtflags flags, string separator = "\t\t")  throw();
     FormatText(fstream::fmtflags flags, streamsize precision,
-	       streamsize width = -1, string separator = "\t\t")  throw();
+               streamsize width = -1, string separator = "\t\t")  throw();
     ~FormatText()  throw();
 
     void SetSeparator(string separator);
@@ -241,8 +241,8 @@ namespace SeldonData
 
   public:
     FormatFormattedText(string format,
-			string comments = "#%",
-			string delimiters = " \t:;,|\n");
+                        string comments = "#%",
+                        string delimiters = " \t:;,|\n");
     ~FormatFormattedText();
 
     string GetFormat() const;
@@ -315,12 +315,12 @@ namespace SeldonData
 
     // For dimensions.
     void ReadDimension(string FileName, string variable, int dim_num,
-					   int& dim_value) const;
+                       int& dim_value) const;
 
     // For attibutes.
     void ReadAttribute(string FileName, string attribute, float& value) const;
     void ReadAttribute(string FileName, string attribute, int& value) const;
-	
+
   };
 #endif
 
@@ -376,19 +376,19 @@ namespace SeldonData
 
     template<class TD, int N, class TG>
     void Read(string FileName, Data<TD, N, TG>& D,
-	      int nb_lines = -1) const;
+              int nb_lines = -1) const;
     template<class TD, int N, class TG>
     void Read(ifstream& FileStream, Data<TD, N, TG>& D,
-	      int nb_lines = -1) const;
+              int nb_lines = -1) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, Array<TA, N>& A,
-	      int nb_lines = -1) const;
+              int nb_lines = -1) const;
     template<class TA, int N>
     void Read(ifstream& FileStream, Array<TA, N>& A,
-	      int nb_lines = -1) const;
+              int nb_lines = -1) const;
 
   };
 

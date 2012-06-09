@@ -45,7 +45,7 @@ Version 1.6 (2007-10-09)
 
 ** Improvements:
 
-- Changed the library used to decode GRIB files. Switched to WGRIB to improve 
+- Changed the library used to decode GRIB files. Switched to WGRIB to improve
   portability.
 - Added a function to interpolate the value of a Data at a given point.
 - Added methods 'Data::Sum(Ts& sum)', 'Data::Mean(Ts& mean)',
@@ -61,7 +61,7 @@ Version 1.5.1 (2007-04-24)
 
 ** Improvements:
 
-- Improved error messages when the end of a binary file is reached: the name 
+- Improved error messages when the end of a binary file is reached: the name
   of the file is now given.
 - Added methods 'FormatBinary::Read(ExtStream&, ...)'.
 
@@ -73,9 +73,9 @@ Version 1.5 (2006-09-29)
 
 - Improved management of 'Data'.
    + Added 'Data::operator()()' which does the same as 'Data::GetArray()'.
-   + Added 'Data::ReferenceCopy' and changed 'Data::Copy' so that it performs a 
+   + Added 'Data::ReferenceCopy' and changed 'Data::Copy' so that it performs a
      full copy (duplication) instead of a reference copy.
-- 'RegularGrid::operator=' and 'GeneralGrid::operator=' now resize the target 
+- 'RegularGrid::operator=' and 'GeneralGrid::operator=' now resize the target
   grid.
 - Changing grid main variable is now disabled unless
   'SELDONDATA_ALLOW_VARIABLE_CHANGE' is set.

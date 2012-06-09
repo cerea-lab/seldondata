@@ -104,37 +104,37 @@ namespace SeldonData
 */
 
 #ifndef TRY
-#define TRY try					\
+#define TRY try                                        \
     {
 #endif
 
 #ifndef END
-#define END							\
-  }								\
-    catch(SeldonData::Error& Err)				\
-      {								\
-	Err.What();						\
-	return 1;						\
-      }								\
-    catch (std::exception& Err)					\
-      {								\
-	cout << "C++ exception: " << Err.what() << endl;	\
-	return 1;						\
-      }								\
-    catch (std::string& str)					\
-      {								\
-	cout << str << endl;					\
-	return 1;						\
-      }								\
-    catch (const char* str)					\
-      {								\
-	cout << str << endl;					\
-	return 1;						\
-      }								\
-    catch(...)							\
-      {								\
-	cout << "Unknown error..." <<endl;			\
-	return 1;						\
+#define END                                                        \
+  }                                                                \
+    catch(SeldonData::Error& Err)                                \
+      {                                                                \
+        Err.What();                                                \
+        return 1;                                                \
+      }                                                                \
+    catch (std::exception& Err)                                        \
+      {                                                                \
+        cout << "C++ exception: " << Err.what() << endl;        \
+        return 1;                                                \
+      }                                                                \
+    catch (std::string& str)                                        \
+      {                                                                \
+        cout << str << endl;                                        \
+        return 1;                                                \
+      }                                                                \
+    catch (const char* str)                                        \
+      {                                                                \
+        cout << str << endl;                                        \
+        return 1;                                                \
+      }                                                                \
+    catch(...)                                                        \
+      {                                                                \
+        cout << "Unknown error..." <<endl;                        \
+        return 1;                                                \
       }
 #endif
 
