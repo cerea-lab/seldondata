@@ -976,7 +976,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
-    int j = 0;
+    int j = -1;
 
     if (this->variable_ == 0)
       j = i0;
@@ -1058,7 +1058,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
     bool out;
-    int j = 0;
+    int j = -1;
 
     if (this->variable_ == 0)
       j = i0;
