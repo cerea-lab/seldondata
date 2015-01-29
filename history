@@ -3,6 +3,17 @@ o--------------------o
 o--------------------o
 
 
+Version 1.6.5 (2015-04-20)
+-------------
+
+** Improvements:
+
+- Better split header files and source files, and added "SeldonDataHeader.hxx".
+- Added 'Data::GetArray()'.
+- The macros 'TRY' and 'END' are not redefined anymore if they already exist.
+- Improved SWIG wrapper compilation.
+
+
 Version 1.6.4 (2010-04-27)
 -------------
 
