@@ -23,8 +23,10 @@
 
 #include <float.h>
 #include <cstdlib>
+#include <stdio.h>
 #include <string>
 
+#include "wgrib_globals.h"
 #include "pds4.h"
 #include "gds.h"
 #include "bms.h"
