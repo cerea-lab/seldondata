@@ -1777,7 +1777,7 @@ namespace SeldonData
 
     long* shape = var->edges();
     dim_value = shape[dim_num];
-
+    delete[] shape;
   }
 
   /////////////////////////////////////////////////
@@ -1801,15 +1801,20 @@ namespace SeldonData
                     "\"" + FileName + "\" is not a valid netCDF file.");
 #endif
 
+    NcAtt* att = 0;
     int Nb_atts = File.num_atts();
-
-    int i(0);
-    while ((i < Nb_atts) && (string(File.get_att(i)->name()) != attribute))
-      i++;
+    for (int i = 0; i < Nb_atts; ++i)
+      {
+        att = File.get_att(i);
+        if (attribute == att->name())
+          break;
+        delete att;
+        att = 0;
+      }
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether the attribute was found.
-    if (i == Nb_atts)
+    if (att == 0)
       throw IOError("FormatNetCDF<T>::ReadAttribute(string, string, float&)",
                     "Unable to find global attribute \"" + attribute
                     + "\" in \"" + FileName + "\".");
@@ -1817,15 +1822,13 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks if the attribute value is a float.
-    if (File.get_att(i)->type() != ncFloat)
+    if (att->type() != ncFloat)
       throw IOError("FormatNetCDF<T>::ReadAttribute(string, string, float&)",
                     "Attribute \"" + attribute + "\" is not a float"
                     + " in \"" + FileName + "\".");
 #endif
-
-    NcAtt* att = File.get_att(i);
     value = att->as_float(0);
-
+    delete att;
   }
 
   //! Reads the global attribute in a netCDF file
@@ -1844,15 +1847,20 @@ namespace SeldonData
                     "\"" + FileName + "\" is not a valid netCDF file.");
 #endif
 
+    NcAtt* att = 0;
     int Nb_atts = File.num_atts();
-
-    int i(0);
-    while ((i < Nb_atts) && (string(File.get_att(i)->name()) != attribute))
-      i++;
+    for (int i = 0; i < Nb_atts; ++i)
+      {
+        att = File.get_att(i);
+        if (attribute == att->name())
+          break;
+        delete att;
+        att = 0;
+      }
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether the attribute was found.
-    if (i == Nb_atts)
+    if (att == 0)
       throw IOError("FormatNetCDF<T>::ReadAttribute(string, string, int&)",
                     "Unable to find global attribute \"" + attribute
                     + "\" in \"" + FileName + "\".");
@@ -1860,15 +1868,13 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks if the attribute value is a float.
-    if (File.get_att(i)->type() != ncInt)
+    if (att->type() != ncInt)
       throw IOError("FormatNetCDF<T>::ReadAttribute(string, string, int&)",
                     "Attribute \"" + attribute + "\" is not a float"
                     + " in \"" + FileName + "\".");
 #endif
-
-    NcAtt* att = File.get_att(i);
     value = att->as_int(0);
-
+    delete att;
   }
 
 #endif
