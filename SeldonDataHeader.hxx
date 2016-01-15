@@ -31,6 +31,8 @@ using namespace Talos;
 #include <sstream>
 #include <exception>
 #include <stdexcept>
+#include <algorithm>
+
 
 //! SeldonData namespace.
 namespace SeldonData
@@ -81,9 +83,6 @@ namespace SeldonData
 #endif
 
 
-#include "Errors.hxx"
-
-
 ////////////
 // MACROS //
 ////////////
@@ -105,7 +104,6 @@ namespace SeldonData
   the problem (name of the involved function and comments).
 
 */
-
 #ifndef TRY
 #define TRY try                                        \
     {
@@ -141,9 +139,8 @@ namespace SeldonData
       }
 #endif
 
-// To get 'min' and 'max' functions.
-#include <algorithm>
 
+#include "Errors.hxx"
 #include "Function.hxx"
 #include "Grid.hxx"
 #include "Data.hxx"
