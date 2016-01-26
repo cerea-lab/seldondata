@@ -2018,6 +2018,137 @@ namespace SeldonData
     fclose(grib_file);
   }
 
+  // Format Grib2.
+  //! Default constructor.
+  FormatGrib2::FormatGrib2()  throw()
+  {
+  }
+
+  //! Destructor.
+  FormatGrib2::~FormatGrib2()  throw()
+  {
+  }
+
+  /********/
+  /* Grid */
+  /********/
+
+  //! Reads a Grib2 file.
+  template<class TG>
+  void FormatGrib2::Read(string FileName, int discipline, int parameterCategory,
+			 int parameterNumber, RegularGrid<TG>& G) const
+  {
+
+    this->Read(FileName, discipline, parameterCategory, parameterNumber,
+	       G.GetArray());
+
+  }
+
+  //! Reads a Grib2 file.
+  template<class TG, int n>
+  void FormatGrib2::Read(string FileName, int discipline, int parameterCategory,
+			 int parameterNumber, GeneralGrid<TG, n>& G) const
+  {
+
+    this->Read(FileName, discipline, parameterCategory, parameterNumber,
+	       G.GetArray());
+
+  }
+
+  /********/
+  /* Data */
+  /********/
+  
+  //! Reads a Grib2 file.
+  template<class TD, int N, class TG>
+  void FormatGrib2::Read(string FileName, int discipline, int parameterCategory,
+			 int parameterNumber, Data<TD, N, TG>& D) const
+  {
+
+    this->Read(FileName, discipline, parameterCategory, parameterNumber,
+	       D.GetArray());
+
+  }
+
+  /*********/
+  /* Array */
+  /*********/
+
+  //! Reads a Grib file.
+  template <class TA, int N>
+  void FormatGrib2::Read(string FileName, int discipline, int parameterCategory,
+			 int parameterNumber, Array<TA, N>& A) const
+  {
+    FILE* grib_file;
+ 
+    grib_file = fopen(FileName.c_str(), "r");
+    grib_multi_support_on(0);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
+    if (grib_file == NULL)
+      throw IOError("FormatGrib2::Read(string FileName, int discipline, int parameterCategory, int parameterNumber, Array<TA, N>& A)",
+		    "Unable to open file \"" + FileName + "\".");
+#endif
+
+    int nb_elements = A.numElements();
+    int max_length(nb_elements);
+
+    int Nt = 1, Nz = 1;
+    if (A.dimensions() == 4)
+      {
+	Nt = A.shape()[0];
+	Nz = A.shape()[1];
+      }
+    else if (A.dimensions() == 3)
+      Nz = A.shape()[0];
+
+    RegularGrid<double> GridX(nb_elements / Nt / Nz);
+    Data<double, 1> data(GridX);
+    int data_size;
+
+    int err = 0;
+    long disc, paramCat, paramNum;
+    grib_handle *h = NULL;
+    size_t values_len = nb_elements / Nt / Nz;
+
+    while ((h = grib_handle_new_from_file(0, grib_file, &err)) != NULL)
+      {
+	GRIB_CHECK(err, 0);
+	GRIB_CHECK(grib_get_long(h, "discipline", &disc), 0);
+	GRIB_CHECK(grib_get_long(h, "parameterCategory", &paramCat), 0);
+	GRIB_CHECK(grib_get_long(h, "parameterNumber", &paramNum), 0);
+
+	if (disc == discipline && paramCat == parameterCategory \
+	    && paramNum == parameterNumber)
+	  {
+	    GRIB_CHECK(grib_get_double_array(h, "values", data.GetData(),
+					     &values_len), 0);
+
+	    int j = nb_elements - max_length;
+	    data_size = data.GetNbElements();
+	    for(int i = 0; i < data_size; i++)
+	      A.data()[j + i] = data(i);
+	    max_length -= data_size;
+	  }
+      }
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    if (max_length < 0)
+      throw IOError("FormatGrib2::Read(string FileName, Array<TA, N>& A)",
+		    "Cannot find all values. File \"" + FileName
+		    + "\" contains " + to_str(nb_elements - max_length)
+		    + " elements for field #" + to_str(discipline)
+		    + ", " + to_str(parameterCategory) + ", "
+		    + to_str(parameterCategory)
+		    + ", but data has " + to_str(nb_elements)
+		    + " elements.");
+
+#endif
+    grib_handle_delete(h);
+    data.Resize();
+    fclose(grib_file);
+  }
+
 #endif
 
 

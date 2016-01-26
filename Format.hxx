@@ -32,6 +32,16 @@ using namespace std;
 
 #ifdef SELDONDATA_WITH_GRIB
 #include "decode_grib.cpp"
+#include "grib_api.h"
+extern "C"
+{
+  void grib_multi_support_on(grib_context* c);
+  grib_handle* grib_handle_new_from_file(grib_context* c, FILE* f, int* error);
+  int grib_get_long(grib_handle* h, const char* key, long* value);
+  int grib_get_double_array(grib_handle* h, const char* key, double* vals,
+			    size_t *length);
+  int grib_handle_delete(grib_handle* h);
+}
 #endif
 
 namespace SeldonData
@@ -353,6 +363,38 @@ namespace SeldonData
     template<class TA, int N>
     void Read(string FileName, int variable, Array<TA, N>& A) const;
 
+  };
+
+  //! Input/ouput class to read Grib2 files.
+  class FormatGrib2: public Format
+  {
+
+  protected:
+
+  public:
+    FormatGrib2()  throw();
+    ~FormatGrib2()  throw();
+
+    // Grid.
+
+    template<class TG>
+    void Read(string FileName, int discipline, int parameterCategory,
+	      int parameterNumber, RegularGrid<TG>& G) const;
+    template<class TG, int N>
+    void Read(string FileName, int discipline, int parameterCategory,
+	      int parameterNumber, GeneralGrid<TG, N>& G) const;
+
+    // Data.
+
+    template<class TD, int N, class TG>
+    void Read(string FileName, int discipline, int parameterCategory,
+	      int parameterNumber, Data<TD, N, TG>& D) const;
+
+    // Array.
+
+    template<class TA, int N>
+    void Read(string FileName, int discipline, int parameterCategory,
+	      int parameterNumber, Array<TA, N>& A) const;
   };
 #endif
 
