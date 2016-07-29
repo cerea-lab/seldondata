@@ -5705,7 +5705,7 @@ namespace SeldonData
 
     // Puts elements from old array to new array.
     Index = 0;
-    for (i = 0; i < NewData.size(); i++)
+    for (i = 0; i < (int) NewData.size(); i++)
       {
         this->Value(Index(NewDim(0)), Index(NewDim(1)), Index(NewDim(2)))
           = NewData(Index(0), Index(1), Index(2));
@@ -5783,7 +5783,7 @@ namespace SeldonData
 
     // Puts elements from old array to new array.
     Index = 0;
-    for (i = 0; i < NewData.size(); i++)
+    for (i = 0; i < (int) NewData.size(); i++)
       {
         this->Value(Index(NewDim(0)), Index(NewDim(1)),
                     Index(NewDim(2)), Index(NewDim(3)))

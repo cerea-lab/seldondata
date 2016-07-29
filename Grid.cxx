@@ -1451,7 +1451,7 @@ namespace SeldonData
 #endif
 
     bool res = false;
-    for (int j = 0; j < dependencies_.numElements(); j++)
+    for (int j = 0; j < (int) dependencies_.numElements(); j++)
       res = res || (dependencies_(j) == i);
 
     return res;
