@@ -83,63 +83,6 @@ namespace SeldonData
 #endif
 
 
-////////////
-// MACROS //
-////////////
-
-//! Convenient structure to catch exceptions.
-/*!
-  Use TRY and END to catch exceptions thrown by SeldonData:
-
-  [...]
-  TRY;
-
-  Code that could throw an exception.
-
-  END;
-
-  [...]
-
-  If an exception is caught, explanations are displayed to identify
-  the problem (name of the involved function and comments).
-
-*/
-#ifndef TRY
-#define TRY try                                        \
-    {
-#endif
-
-#ifndef END
-#define END                                                        \
-  }                                                                \
-    catch(SeldonData::Error& Err)                                \
-      {                                                                \
-        Err.What();                                                \
-        return 1;                                                \
-      }                                                                \
-    catch (std::exception& Err)                                        \
-      {                                                                \
-        cout << "C++ exception: " << Err.what() << endl;        \
-        return 1;                                                \
-      }                                                                \
-    catch (std::string& str)                                        \
-      {                                                                \
-        cout << str << endl;                                        \
-        return 1;                                                \
-      }                                                                \
-    catch (const char* str)                                        \
-      {                                                                \
-        cout << str << endl;                                        \
-        return 1;                                                \
-      }                                                                \
-    catch(...)                                                        \
-      {                                                                \
-        cout << "Unknown error..." <<endl;                        \
-        return 1;                                                \
-      }
-#endif
-
-
 #include "Errors.hxx"
 #include "Function.hxx"
 #include "Grid.hxx"
