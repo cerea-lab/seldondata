@@ -404,6 +404,7 @@ namespace SeldonData
 
     void SetZero();
     bool IsZero();
+    void SetNaN();
 
     void Threshold(T threshold_min, T threshold_max);
     void ThresholdAbs(T threshold);
@@ -487,7 +488,7 @@ namespace SeldonData
   private:
     void ClearGrids();
     void SetVariables();
-
+    void InitData();
   };
 
 

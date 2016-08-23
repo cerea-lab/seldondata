@@ -19,6 +19,7 @@
 #ifndef FILE_SELDONDATA_DATA_CXX
 
 #include <cstdlib>
+#include <limits>
 #include "Data.hxx"
 
 namespace SeldonData
@@ -55,6 +56,7 @@ namespace SeldonData
 
     grids_(0) = G0.Copy();
     SetVariables();
+    InitData();
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
@@ -98,6 +100,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     grids_(1) = G1.Copy();
     SetVariables();
+    InitData();
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
@@ -144,6 +147,7 @@ namespace SeldonData
     grids_(1) = G1.Copy();
     grids_(2) = G2.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -194,6 +198,7 @@ namespace SeldonData
     grids_(2) = G2.Copy();
     grids_(3) = G3.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -247,6 +252,7 @@ namespace SeldonData
     grids_(3) = G3.Copy();
     grids_(4) = G4.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -302,6 +308,7 @@ namespace SeldonData
     grids_(4) = G4.Copy();
     grids_(5) = G5.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -360,6 +367,7 @@ namespace SeldonData
     grids_(5) = G5.Copy();
     grids_(6) = G6.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -421,6 +429,7 @@ namespace SeldonData
     grids_(6) = G6.Copy();
     grids_(7) = G7.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -484,6 +493,7 @@ namespace SeldonData
     grids_(7) = G7.Copy();
     grids_(8) = G8.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -550,6 +560,7 @@ namespace SeldonData
     grids_(8) = G8.Copy();
     grids_(9) = G9.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -594,6 +605,7 @@ namespace SeldonData
 
     grids_(0) = G0.Copy();
     SetVariables();
+    InitData();
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
@@ -640,6 +652,7 @@ namespace SeldonData
     grids_(0) = G0.Copy();
     grids_(1) = G1.Copy();
     SetVariables();
+    InitData();
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     int i, j;
@@ -689,6 +702,7 @@ namespace SeldonData
     grids_(1) = G1.Copy();
     grids_(2) = G2.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -743,6 +757,7 @@ namespace SeldonData
     grids_(2) = G2.Copy();
     grids_(3) = G3.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -800,6 +815,7 @@ namespace SeldonData
     grids_(3) = G3.Copy();
     grids_(4) = G4.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -860,6 +876,7 @@ namespace SeldonData
     grids_(4) = G4.Copy();
     grids_(5) = G5.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -924,6 +941,7 @@ namespace SeldonData
     grids_(5) = G5.Copy();
     grids_(6) = G6.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -991,6 +1009,7 @@ namespace SeldonData
     grids_(6) = G6.Copy();
     grids_(7) = G7.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1061,6 +1080,7 @@ namespace SeldonData
     grids_(7) = G7.Copy();
     grids_(8) = G8.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -1135,6 +1155,7 @@ namespace SeldonData
     grids_(8) = G8.Copy();
     grids_(9) = G9.Copy();
     SetVariables();
+    InitData();
 
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
@@ -3817,7 +3838,7 @@ namespace SeldonData
 #endif
 
     data_.resize(G0.GetLength());
-
+    InitData();
   }
 
   //! Resizes a two-dimensional data.
@@ -3862,6 +3883,7 @@ namespace SeldonData
 #endif
 
     data_.resize(G0.GetLength(), G1.GetLength());
+    InitData();
 
   }
 
@@ -3911,6 +3933,7 @@ namespace SeldonData
 
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength());
+    InitData();
 
   }
 
@@ -3963,6 +3986,7 @@ namespace SeldonData
 
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength(), G3.GetLength());
+    InitData();
 
   }
 
@@ -4018,6 +4042,7 @@ namespace SeldonData
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength(), G3.GetLength(),
                  G4.GetLength());
+    InitData();
 
   }
 
@@ -4075,6 +4100,7 @@ namespace SeldonData
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength(), G3.GetLength(), G4.GetLength(),
                  G5.GetLength());
+    InitData();
 
   }
 
@@ -4135,6 +4161,7 @@ namespace SeldonData
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength(), G3.GetLength(), G4.GetLength(),
                  G5.GetLength(), G6.GetLength());
+    InitData();
 
   }
 
@@ -4197,6 +4224,7 @@ namespace SeldonData
     data_.resize(G0.GetLength(), G1.GetLength(),
                  G2.GetLength(), G3.GetLength(), G4.GetLength(),
                  G5.GetLength(), G6.GetLength(), G7.GetLength());
+    InitData();
 
   }
 
@@ -4262,6 +4290,7 @@ namespace SeldonData
                  G2.GetLength(), G3.GetLength(), G4.GetLength(),
                  G5.GetLength(), G6.GetLength(), G7.GetLength(),
                  G8.GetLength());
+    InitData();
 
   }
 
@@ -4330,6 +4359,7 @@ namespace SeldonData
                  G2.GetLength(), G3.GetLength(), G4.GetLength(),
                  G5.GetLength(), G6.GetLength(), G7.GetLength(),
                  G8.GetLength(), G9.GetLength());
+    InitData();
 
   }
 
@@ -5098,6 +5128,13 @@ namespace SeldonData
       res = res && (data[i] == T(0));
 
     return res;
+  }
+
+  //! Sets data to a signaling NaN.
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::SetNaN()
+  {
+    data_ = std::numeric_limits<T>::signaling_NaN();
   }
 
   //! Thresholds data.
@@ -6791,6 +6828,15 @@ namespace SeldonData
   {
     for (int i = 0; i < N; i++)
       grids_(i)->SetVariable(i);
+  }
+
+  //! For every grid, sets dimension to which the grid is related.
+  template<class T, int N, class TG>
+  void Data<T, N, TG>::InitData()
+  {
+#ifdef SELDONDATA_DEBUG_UNITIALIZED_IS_NAN
+    SetNaN();
+#endif
   }
 
 }  // namespace SeldonData.
