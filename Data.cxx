@@ -5105,7 +5105,8 @@ namespace SeldonData
   template<class T, int N, class TG>
   void Data<T, N, TG>::SetNaN()
   {
-    data_ = std::numeric_limits<T>::signaling_NaN();
+    // The following line need to be revised (2017/10/12 YK).
+    // data_ = std::numeric_limits<T>::signaling_NaN();
   }
 
   //! Thresholds data.
@@ -6805,7 +6806,7 @@ namespace SeldonData
   template<class T, int N, class TG>
   void Data<T, N, TG>::InitData()
   {
-#ifdef SELDONDATA_DEBUG_UNITIALIZED_IS_NAN
+#ifdef SELDONDATA_DEBUG_UNINITIALIZED_IS_NAN
     SetNaN();
 #endif
   }
