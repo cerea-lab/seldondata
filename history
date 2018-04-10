@@ -2,6 +2,14 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
+Version 1.7.1 (2018-04-10)
+-------------
+
+** Improvements:
+- Fixed a bug: InitData is temporally unused because of a conflict with Resize
+  function.
+- Improved 'Data' initialization from pointers.
+- Added to 'Data' NaN initialization of data for debugging.
 
 Version 1.7 (2016-08-22)
 -------------
