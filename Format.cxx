@@ -1734,7 +1734,7 @@ namespace SeldonData
   //! Appends data to a record variable in a netCDF file.
   template<class T>
   template<class TA, int N>
-  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, 
+  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A,
 				     string FileName, string variable) const
   {
 
@@ -2132,7 +2132,7 @@ namespace SeldonData
   /********/
   /* Data */
   /********/
-  
+
   //! Reads a Grib2 file.
   template<class TD, int N, class TG>
   void FormatGrib2::Read(string FileName, int discipline, int parameterCategory,
@@ -2154,7 +2154,7 @@ namespace SeldonData
 			 int parameterNumber, Array<TA, N>& A) const
   {
     FILE* grib_file;
- 
+
     grib_file = fopen(FileName.c_str(), "r");
     grib_multi_support_on(0);
 
