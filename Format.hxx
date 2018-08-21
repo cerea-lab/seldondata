@@ -323,6 +323,9 @@ namespace SeldonData
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
 
+    template<class TA, int N>
+    void AppendRecord(Array<TA, N>& A, string FileName, string variable) const;
+
     // For dimensions.
     void ReadDimension(string FileName, string variable, int dim_num,
                        int& dim_value) const;

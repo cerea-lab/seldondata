@@ -1731,6 +1731,80 @@ namespace SeldonData
 
   }
 
+  //! Appends data to a record variable in a netCDF file.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, 
+				     string FileName, string variable) const
+  {
+
+    NcFile File(FileName.c_str(), NcFile::Write);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+                    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ((i < Nb_vars) && (string(File.get_var(i)->name()) != variable))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nb_vars)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+                    "Unable to find variable \"" + variable
+                    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    // Checks the dimensions.
+    if (var->num_dims() != N+1)
+      throw WrongDim("FormatNetCDF<T>::"
+                     "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+                     "Data has " + to_str(N) +
+                     "dimensions, but stored data records have "
+                     + to_str(var->num_dims() - 1) + "dimensions.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    // Checks the sizes of the dimensions.
+    long* output_dimensions = var->edges();
+    for (i = 1; i < var->num_dims(); i++)
+      if (A.extent(i-1) > output_dimensions[i])
+        throw WrongIndex("FormatNetCDF<T>::"
+                         "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+                         "Array extent is " + to_str(A.extent(i))
+                         + " along dimension #" + to_str(i)
+                         + " , but it should not be strictly more than "
+                         + to_str(output_dimensions[i]) + ".");
+    delete[] output_dimensions;
+#endif
+
+    // Set the current record to the last written record.
+    int last_rec = var->num_vals()/var->rec_size();
+    var->set_rec(last_rec);
+
+    bool op = var->put_rec(A.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+                    "Output operation was not successful.");
+#endif
+
+  }
+
   /////////////////////////////////////////////////
   // Reads one dimension in a netcdf format file //
   /////////////////////////////////////////////////
