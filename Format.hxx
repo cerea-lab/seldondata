@@ -317,12 +317,13 @@ namespace SeldonData
 
     template<class TD, int N, class TG>
     void Read(string FileName, string variable, Data<TD, N, TG>& D) const;
+    template<class TD, int N, class TG>
+    void AppendRecord(Data<TD, N, TG>& D, string FileName, string variable) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
-
     template<class TA, int N>
     void AppendRecord(Array<TA, N>& A, string FileName, string variable) const;
 

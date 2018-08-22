@@ -1655,6 +1655,15 @@ namespace SeldonData
 
   }
 
+  //! Appends data to a record variable in a netCDF file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D,
+				     string FileName, string variable) const
+  {
+    this->AppendRecord(D.GetArray(), FileName, variable);
+  }
+
   /*********/
   /* Array */
   /*********/
