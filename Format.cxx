@@ -1658,10 +1658,10 @@ namespace SeldonData
   //! Appends data to a record variable in a netCDF file.
   template<class T>
   template<class TD, int N, class TG>
-  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D,
+  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D, TD rec_value,
 				     string FileName, string variable) const
   {
-    this->AppendRecord(D.GetArray(), FileName, variable);
+    this->AppendRecord(D.GetArray(), rec_value, FileName, variable);
   }
 
   /*********/
@@ -1743,7 +1743,7 @@ namespace SeldonData
   //! Appends data to a record variable in a netCDF file.
   template<class T>
   template<class TA, int N>
-  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A,
+  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, TA rec_value,
 				     string FileName, string variable) const
   {
 
@@ -1753,7 +1753,8 @@ namespace SeldonData
     // Checks if the file is valid.
     if (!File.is_valid())
       throw IOError("FormatNetCDF<T>::"
-		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
                     "\"" + FileName + "\" is not a valid netCDF file.");
 #endif
 
@@ -1767,7 +1768,8 @@ namespace SeldonData
     // Checks whether the variable was found.
     if (i == Nb_vars)
       throw IOError("FormatNetCDF<T>::"
-		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
                     "Unable to find variable \"" + variable
                     + "\" in \"" + FileName + "\".");
 #endif
@@ -1778,7 +1780,8 @@ namespace SeldonData
     // Checks the size.
     if (var->rec_size() != A.size())
       throw WrongDim("FormatNetCDF<T>::"
-                     "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+		     "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		     "string FileName, string variable)",
                      "Data size is " + to_str(A.size()) +
                      ", but record size is "
                      + to_str(var->rec_size()));
@@ -1790,7 +1793,8 @@ namespace SeldonData
     for (i = 1; i < var->num_dims(); i++)
       if (A.extent(i-1) > output_dimensions[i])
         throw WrongIndex("FormatNetCDF<T>::"
-                         "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+			 "AppendRecord(Array<TA, N>& A, TA rec_value,"
+			 "string FileName, string variable)",
                          "Array extent is " + to_str(A.extent(i))
                          + " along dimension #" + to_str(i)
                          + " , but it should not be strictly more than "
@@ -1798,20 +1802,46 @@ namespace SeldonData
     delete[] output_dimensions;
 #endif
 
-    // Set the current record to the last written record.
+    // Sets the current record to the last written record and appends data.
     int last_rec = var->num_vals()/var->rec_size();
     var->set_rec(last_rec);
-
     bool op = var->put_rec(A.data());
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks whether output operation succeeded.
     if (!op)
       throw IOError("FormatNetCDF<T>::"
-		    "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
                     "Output operation was not successful.");
 #endif
 
+    // Gets the coordinate record variable.
+    NcVar* var_c;
+    var_c = File.get_var(File.rec_dim()->name());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable is valid.
+    if (!var_c->is_valid())
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
+                    "\"" + string(File.rec_dim()->name()) +
+		    "\" is not a coordinate variable.");
+#endif
+
+    // Appends the record value to the coordinate record variable.
+    var_c->set_rec(last_rec);
+    op = var_c->put_rec(&rec_value);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
+                    "Output operation was not successful.");
+#endif
   }
 
   /////////////////////////////////////////////////
