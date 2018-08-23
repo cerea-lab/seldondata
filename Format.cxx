@@ -1775,13 +1775,13 @@ namespace SeldonData
     NcVar* var = File.get_var(i);
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
-    // Checks the dimensions.
-    if (var->num_dims() != N+1)
+    // Checks the size.
+    if (var->rec_size() != N)
       throw WrongDim("FormatNetCDF<T>::"
                      "AppendRecord(Array<TA, N>& A, string FileName, string variable)",
-                     "Data has " + to_str(N) +
-                     "dimensions, but stored data records have "
-                     + to_str(var->num_dims() - 1) + "dimensions.");
+                     "Data size is " + to_str(A.size()) +
+                     ", but record size is "
+                     + to_str(var->rec_size()));
 #endif
 
 #ifdef SELDONDATA_DEBUG_CHECK_INDICES
