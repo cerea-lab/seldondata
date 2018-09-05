@@ -2119,6 +2119,139 @@ namespace SeldonData
 #endif
   }
 
+  //! Appends data to a record variable in a netCDF file when record coordinate
+  //! variable has bounds.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, TA rec_value,
+					       Array<TA, 2>& RecBounds,
+					       string FileName, string variable)
+    const
+  {
+
+    NcFile File(FileName.c_str(), NcFile::Write);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, string FileName",
+                    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ((i < Nb_vars) && (string(File.get_var(i)->name()) != variable))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nb_vars)
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Unable to find variable \"" + variable
+                    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    // Checks the size.
+    if (var->rec_size() != A.size())
+      throw WrongDim("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		     "string FileName, string variable)",
+                     "Data size is " + to_str(A.size()) +
+                     ", but record size is "
+                     + to_str(var->rec_size()));
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    // Checks the dimensions.
+    long* output_dimensions = var->edges();
+    for (i = 1; i < var->num_dims(); i++)
+      if (A.extent(i-1) > output_dimensions[i])
+        throw WrongIndex("FormatNetCDF<T>::"
+			 "AppendRecordWithBounds(Array<TA, N>& A, "
+			 "string FileName, string variable)",
+                         "Array extent is " + to_str(A.extent(i))
+                         + " along dimension #" + to_str(i)
+                         + " , but it should not be strictly more than "
+                         + to_str(output_dimensions[i]) + ".");
+    delete[] output_dimensions;
+#endif
+
+    // Sets the current record to the last written record and appends data.
+    int last_rec = var->num_vals()/var->rec_size();
+    var->set_rec(last_rec);
+    bool op = var->put_rec(A.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Output operation was not successful.");
+#endif
+
+    // Gets the coordinate record variable.
+    NcVar* var_c;
+    var_c = File.get_var(File.rec_dim()->name());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable is valid.
+    if (!var_c->is_valid())
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "\"" + string(File.rec_dim()->name())
+		    + "\" is not a coordinate variable.");
+#endif
+    
+    // Appends the record value to the coordinate record variable.
+    var_c->set_rec(last_rec);
+    op = var_c->put_rec(&rec_value);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, "
+		    "string FileName, string variable)",
+		    "rec_value has not the same type as the coordinate "
+		    "record variable.");
+#endif
+
+    // Gets the boundary record variable.
+    NcAtt* att_bounds = var_c->get_att("bounds");
+    NcVar* var_b;
+    var_b = File.get_var(att_bounds->as_string(0));
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable has bounds.
+    if (!var_b->is_valid())
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "\"" + variable
+		    + "\" has no associated boundary variable.");
+#endif
+    
+    // Appends the record bounds to the boundary variable.
+    delete att_bounds;
+    var_b->set_rec(last_rec);
+    op = var_b->put_rec(RecBounds.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, "
+		    "Array<TA, 2>& RecBounds, string FileName, "
+		    "string variable)", "RecBounds has not the same type"
+		    "as the boundary record variable.");
+#endif
+    
+  }
+
   /////////////////////////////////////////////////
   // Reads one dimension in a netcdf format file //
   /////////////////////////////////////////////////

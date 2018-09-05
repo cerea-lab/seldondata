@@ -351,6 +351,10 @@ namespace SeldonData
     template<class TA, int N>
     void AppendRecord(Array<TA, N>& A, TA rec_value, string FileName,
 		      string variable) const;
+    template<class TA, int N>
+    void AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, 
+				Array<TA, 2>& RecBounds, string FileName,
+				string variable) const;
 
     // For dimensions.
     void ReadDimension(string FileName, string variable, int dim_num,
