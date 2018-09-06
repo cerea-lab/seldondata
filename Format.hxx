@@ -341,6 +341,10 @@ namespace SeldonData
     template<class TD, int N, class TG>
     void AppendRecord(Data<TD, N, TG>& D, TD rec_value, string FileName,
 		      string variable) const;
+    template<class TD, int N, class TG>
+    void AppendRecordWithBounds(Data<TD, N, TG>& D, TD rec_value,
+				Data<TD, 2, TG>& RecBounds, string FileName,
+				string variable) const;
 
     // Array.
 
@@ -352,7 +356,7 @@ namespace SeldonData
     void AppendRecord(Array<TA, N>& A, TA rec_value, string FileName,
 		      string variable) const;
     template<class TA, int N>
-    void AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, 
+    void AppendRecordWithBounds(Array<TA, N>& A, TA rec_value,
 				Array<TA, 2>& RecBounds, string FileName,
 				string variable) const;
 

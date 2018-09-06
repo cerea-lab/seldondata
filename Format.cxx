@@ -1872,6 +1872,21 @@ namespace SeldonData
 
   }
 
+  //! Appends data to a record variable in a netCDF file when record coordinate
+  //! variable has bounds.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::AppendRecordWithBounds(Data<TD, N, TG>& D, TD rec_value,
+					       Data<TD, 2, TG>& RecBounds,
+					       string FileName,
+					       string variable) const
+  {
+
+    this->AppendRecordWithBounds(D.GetArray(), rec_value, RecBounds.GetArray(),
+		       FileName, variable);
+
+  }
+
   /*********/
   /* Array */
   /*********/
@@ -2206,7 +2221,7 @@ namespace SeldonData
                     "\"" + string(File.rec_dim()->name())
 		    + "\" is not a coordinate variable.");
 #endif
-    
+
     // Appends the record value to the coordinate record variable.
     var_c->set_rec(last_rec);
     op = var_c->put_rec(&rec_value);
@@ -2234,7 +2249,7 @@ namespace SeldonData
                     "\"" + variable
 		    + "\" has no associated boundary variable.");
 #endif
-    
+
     // Appends the record bounds to the boundary variable.
     delete att_bounds;
     var_b->set_rec(last_rec);
@@ -2249,7 +2264,7 @@ namespace SeldonData
 		    "string variable)", "RecBounds has not the same type"
 		    "as the boundary record variable.");
 #endif
-    
+
   }
 
   /////////////////////////////////////////////////
