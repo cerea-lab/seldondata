@@ -337,28 +337,28 @@ namespace SeldonData
     template<class TD, int N, class TG>
     void Read(string FileName, string variable, Data<TD, N, TG>& D) const;
     template<class TD, int N, class TG>
-    void Write(Data<TD, N, TG>& D, string FileName, string variable) const;
+    void Write(Data<TD, N, TG>& D, string variable, string FileName) const;
     template<class TD, int N, class TG>
-    void AppendRecord(Data<TD, N, TG>& D, TD rec_value, string FileName,
-		      string variable) const;
+    void AppendRecord(Data<TD, N, TG>& D, string variable, TD rec_value,
+		      string FileName) const;
     template<class TD, int N, class TG>
-    void AppendRecordWithBounds(Data<TD, N, TG>& D, TD rec_value,
-				Data<TD, 2, TG>& RecBounds, string FileName,
-				string variable) const;
+    void AppendRecordWithBounds(Data<TD, N, TG>& D, string variable,
+				TD rec_value, Data<TD, 2, TG>& RecBounds,
+				string FileName) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
     template<class TA, int N>
-    void Write(Array<TA, N>& A, string FileName, string variable) const;
+    void Write(Array<TA, N>& A, string variable, string FileName) const;
     template<class TA, int N>
-    void AppendRecord(Array<TA, N>& A, TA rec_value, string FileName,
-		      string variable) const;
+    void AppendRecord(Array<TA, N>& A, string variable, TA rec_value,
+		      string FileName) const;
     template<class TA, int N>
-    void AppendRecordWithBounds(Array<TA, N>& A, TA rec_value,
-				Array<TA, 2>& RecBounds, string FileName,
-				string variable) const;
+    void AppendRecordWithBounds(Array<TA, N>& A, string variable,
+				TA rec_value, Array<TA, 2>& RecBounds,
+				string FileName) const;
 
     // For dimensions.
     void ReadDimension(string FileName, string variable, int dim_num,

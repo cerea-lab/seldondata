@@ -1853,22 +1853,22 @@ namespace SeldonData
   //! Writes a variable in a netCDF file.
   template<class T>
   template<class TD, int N, class TG>
-  void FormatNetCDF<T>::Write(Data<TD, N, TG>& D, string FileName,
-			      string variable) const
+  void FormatNetCDF<T>::Write(Data<TD, N, TG>& D, string variable,
+			      string FileName) const
   {
 
-    this->Write(D.GetArray(), FileName, variable);
+    this->Write(D.GetArray(), variable, FileName);
 
   }
 
   //! Appends data to a record variable in a netCDF file.
   template<class T>
   template<class TD, int N, class TG>
-  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D, TD rec_value,
-				     string FileName, string variable) const
+  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D, string variable,
+				     TD rec_value, string FileName) const
   {
 
-    this->AppendRecord(D.GetArray(), rec_value, FileName, variable);
+    this->AppendRecord(D.GetArray(), variable, rec_value, FileName);
 
   }
 
@@ -1876,14 +1876,14 @@ namespace SeldonData
   //! variable has bounds.
   template<class T>
   template<class TD, int N, class TG>
-  void FormatNetCDF<T>::AppendRecordWithBounds(Data<TD, N, TG>& D, TD rec_value,
+  void FormatNetCDF<T>::AppendRecordWithBounds(Data<TD, N, TG>& D,
+					       string variable, TD rec_value,
 					       Data<TD, 2, TG>& RecBounds,
-					       string FileName,
-					       string variable) const
+					       string FileName) const
   {
 
-    this->AppendRecordWithBounds(D.GetArray(), rec_value, RecBounds.GetArray(),
-		       FileName, variable);
+    this->AppendRecordWithBounds(D.GetArray(), variable, rec_value,
+				 RecBounds.GetArray(), FileName);
 
   }
 
@@ -1966,8 +1966,8 @@ namespace SeldonData
   //! Writes a variable in a netCDF file.
   template<class T>
   template<class TA, int N>
-  void FormatNetCDF<T>::Write(Array<TA, N>& A, string FileName,
-			      string variable) const
+  void FormatNetCDF<T>::Write(Array<TA, N>& A, string variable,
+			      string FileName) const
   {
 
     NcFile File(FileName.c_str(), NcFile::Write);
@@ -2038,8 +2038,8 @@ namespace SeldonData
   //! Appends data to a record variable in a netCDF file.
   template<class T>
   template<class TA, int N>
-  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, TA rec_value,
-				     string FileName, string variable) const
+  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, string variable,
+				     TA rec_value, string FileName) const
   {
 
     NcFile File(FileName.c_str(), NcFile::Write);
@@ -2138,9 +2138,10 @@ namespace SeldonData
   //! variable has bounds.
   template<class T>
   template<class TA, int N>
-  void FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, TA rec_value,
+  void FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A,
+					       string variable, TA rec_value,
 					       Array<TA, 2>& RecBounds,
-					       string FileName, string variable)
+					       string FileName)
     const
   {
 
