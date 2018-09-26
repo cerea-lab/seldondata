@@ -1678,30 +1678,31 @@ namespace SeldonData
 
   }
 
-  // Fonction de test. Pourra être supprimée.
+  //! Test function. Print all global attributes, dimensions and variables 
+  //! (with dimensions and attributes).
   template<class T>
   void FormatNetCDF<T>::PrintMemberVariables() const
   {
 
-    cout<<"Les attributs sont :"<<endl;
+    cout<<"Attributes:"<<endl;
     for(unsigned int a=0; a<globalAttributes.size(); a++)
       cout<<' '<<globalAttributes[a].first<<" : "<<globalAttributes[a].second
 	  <<endl;
 
-    cout<<"Les dimensions sont :"<<endl;
+    cout<<"Dimensions:"<<endl;
     for(unsigned int d=0; d<dimensions.size(); d++)
-      cout<<' '<<dimensions[d].first + ", taille : "<<dimensions[d].second
+      cout<<' '<<dimensions[d].first + ", size: "<<dimensions[d].second
 	  <<endl;
 
-    cout<<"Les variables sont :"<<endl;
+    cout<<"Variables:"<<endl;
     for(unsigned int v=0; v<variables.size(); v++)
       {
-	cout<<' '<<variables[v].first + ", dimensions : ";
+	cout<<' '<<variables[v].first + ", dimensions: ";
 	for (unsigned int d=0; d<variables[v].second.size(); d++)
 	  cout<<variables[v].second[d]<<' ';
 	cout<<endl;
 	for (unsigned int a=0; a<varAttributes[v].size(); a++)
-	  cout<<"  "<<varAttributes[v][a].first<<" : "
+	  cout<<"  "<<varAttributes[v][a].first<<": "
 	      <<varAttributes[v][a].second<<endl;
       }
 
