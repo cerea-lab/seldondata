@@ -1610,7 +1610,7 @@ namespace SeldonData
   {
   }
 
-  //! Sets global attributes
+  //! Sets global attributes.
   /*!
     \param the list of global attributes (string name, string value)
    */
@@ -1635,7 +1635,7 @@ namespace SeldonData
 
   }
 
-  //! Sets variables
+  //! Sets variables.
   /*!
     \param the list of variables (string name, list of string dimensions)
   */
@@ -1649,7 +1649,7 @@ namespace SeldonData
 
   }
 
-  //! Sets attributes to variable
+  //! Sets attributes to variable.
   /*!
     \param the list of attributes (string name, string value)
     \param the variable (string name)
@@ -1708,7 +1708,7 @@ namespace SeldonData
 
   }
 
-  //! Creates an empty netCDF file with a structure based upon member variables
+  //! Creates an empty netCDF file with a structure based upon member variables.
   template<class T>
   void FormatNetCDF<T>::CreateStructuredFile(string FileName) const
   {
