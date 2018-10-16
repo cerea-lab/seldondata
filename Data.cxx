@@ -2593,6 +2593,13 @@ namespace SeldonData
     data_ = data.GetArray();
   }
 
+  template <class T, int N, class TG>
+      void Data<T, N, TG>::ReferenceCopy(T* data)
+      {
+          Array<T, N> refCopyData(data, data_.shape(), neverDeleteData) ;
+          data_ = refCopyData ;
+      }
+
   //! Returns the number of stored elements.
   /*!
     \return Number of elements.

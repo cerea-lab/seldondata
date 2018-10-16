@@ -1507,7 +1507,7 @@ namespace SeldonData
     int k(0), l(0);
     bool newline;
 
-    while ((i < nb_elements) && !is_empty(FileStream))
+    while ((i < nb_elements) && !Talos::is_empty(FileStream))
       {
 
         if (k < int(markups.size()))
@@ -1516,7 +1516,7 @@ namespace SeldonData
               {
                 this->SkipMarkup(FileStream, pos_cur - pos_beg, l);
                 newline = false;
-                while ((!is_empty(FileStream))
+                while ((!Talos::is_empty(FileStream))
                        && FileStream.Discard(FileStream.
                                              PeekFullLine(position)))
                   {
@@ -1546,7 +1546,7 @@ namespace SeldonData
 #endif
 
             newline = false;
-            while (!is_empty(FileStream)
+            while (!Talos::is_empty(FileStream)
                    && FileStream.Discard(FileStream.PeekFullLine(position)))
               {
                 newline = true;
@@ -1560,7 +1560,7 @@ namespace SeldonData
             pos_cur = FileStream.tellg();
 
             k++;
-            if (!is_empty(FileStream))
+            if (!Talos::is_empty(FileStream))
               l++;
           }
         else
@@ -1568,7 +1568,7 @@ namespace SeldonData
             k = 0;
             l = 0;
             FileStream.GetFullLine();
-            while ((!is_empty(FileStream))
+            while ((!Talos::is_empty(FileStream))
                    && FileStream.Discard(FileStream.PeekFullLine(position)))
               FileStream.seekg(position);
             pos_beg = pos_cur = FileStream.tellg();
