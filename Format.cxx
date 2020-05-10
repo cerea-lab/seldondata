@@ -2072,7 +2072,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks the size.
-    if (var->rec_size() != A.size())
+    if (var->rec_size() != int(A.size()))
       throw WrongDim("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
 		     "string FileName, string variable)",
                      "Data size is " + to_str(A.size()) +
@@ -2175,7 +2175,7 @@ namespace SeldonData
 
 #ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
     // Checks the size.
-    if (var->rec_size() != A.size())
+    if (var->rec_size() != int(A.size()))
       throw WrongDim("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
 		     "string FileName, string variable)",
                      "Data size is " + to_str(A.size()) +
