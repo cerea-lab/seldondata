@@ -2,13 +2,6 @@ o--------------------o
 | SELDONDATA HISTORY |
 o--------------------o
 
-Version 1.7.2 (2019-08-02)
--------------
-
-** Improvements:
-- Functions are corrected for compatibility to C++11 (Alban Farchi)
-
-
 Version 1.7.1 (2018-04-10)
 -------------
 

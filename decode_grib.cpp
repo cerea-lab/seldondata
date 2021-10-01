@@ -20,6 +20,7 @@
 // It is based on and makes calls to WGRIB, by Wesley Ebisuzaki.
 // WGRIB home page : http://www.cpc.ncep.noaa.gov/products/wesley/wgrib.html
 
+// Comments added by Joffrey Dumont
 
 #include <float.h>
 #include <cstdlib>
@@ -32,6 +33,8 @@
 #include "bms.h"
 #include "bds.h"
 #include "cnames.h"
+
+#include <unistd.h>
 
 #define MSEEK        1024
 #define BUFF_ALLOC0  40000
@@ -52,6 +55,7 @@ extern "C"
   int missing_points(unsigned char *bitmap, int n);
 }
 
+
 int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
                 int *nx, int *ny)
 {
@@ -61,43 +65,59 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
   long int nxny;
   double temp;
 
+
   if ((buffer = (unsigned char *) malloc(BUFF_ALLOC0)) == NULL)
     {
-      fprintf(stderr, "not enough memory\n");
+      fprintf(stderr, "decode_grib::not enough memory\n");
     }
-
   buffer_size = BUFF_ALLOC0;
-
+  
+  /*
+    seek_grib from wgrib is used to check if the sequence of characters "G" "R" "I" "B" "1"
+    appears in grib_file. 
+    Each GRIB1 "message" (which corresponds to header+matrix of a field for a specific vertical level and a specific time)
+    of a grib file is indicated by this sequence of characters
+  */
   msg = seek_grib(grib_file, pos, &len_grib, buffer, MSEEK);
+
+  // Following seek_grib, several checks that the message is valid are made in this code
   if (msg == NULL)
     {
-      fprintf(stderr, "missing GRIB record(s)\n");
+      fprintf(stderr, "decode_grib::seekgrib message is null: missing GRIB record(s)\n");
       return 1;
     }
 
   /* read all whole grib record */
   if (len_grib + msg - buffer > buffer_size)
     {
-      buffer_size = len_grib + msg - buffer + 1000;
-      buffer = (unsigned char *) realloc((void *) buffer, buffer_size);
+        buffer_size = len_grib + msg - buffer + 1000;
+
+        buffer = (unsigned char *) realloc((void *) buffer, buffer_size);
       if (buffer == NULL)
         {
-          fprintf(stderr, "ran out of memory\n");
+          fprintf(stderr, "decode_grib::ran out of memory\n");
           return 1;
         }
     }
 
   if (read_grib(grib_file, *pos, len_grib, buffer) == 0)
     {
-      fprintf(stderr, "error, could not read to end of record %ld\n", count);
+      fprintf(stderr, "decode_grib::error, could not read to end of record %ld\n", count);
       return 1;
     }
 
+  /*
+    IDS, PDS, GDS, BMS, BDS are sections of the GRIB message. the following lines indicate that the cursor 
+    is goind from IDS to PDS (+8 which is the size of IDS), then from PDS to GDS (+PDS_LEN(pds))
+    and then again from GDS to BMS and to BDS
+  */
   msg = buffer;
   pds = (msg + 8);
   pointer = pds + PDS_LEN(pds);
-
-  if (PDS_HAS_GDS(pds))
+  
+  //fprintf(stderr, "\n pointeur 1: %2x %2x %2x %2x\n", pointer[0], pointer[1],pointer[2], pointer[3]);
+  
+    if (PDS_HAS_GDS(pds))
     {
       gds = pointer;
       pointer += GDS_LEN(gds);
@@ -106,10 +126,10 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
     {
       gds = NULL;
     }
-
+  
   if (PDS_HAS_BMS(pds))
     {
-      bms = pointer;
+     bms = pointer;
       pointer += BMS_LEN(bms);
     }
   else
@@ -119,17 +139,18 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
 
   bds = pointer;
   pointer += BDS_LEN(bds);
-
+  
   if (pointer[0] != 0x37 || pointer[1] != 0x37 ||
       pointer[2] != 0x37 || pointer[3] != 0x37)
     {
-      fprintf(stderr, "\n\n    missing end section\n");
+      fprintf(stderr, "\n\n    decode_grib:missing end section\n");
       fprintf(stderr, "%2x %2x %2x %2x\n", pointer[0], pointer[1],
               pointer[2], pointer[3]);
+      
       return 1;
     }
-
-  if (gds != NULL)
+  
+    if (gds != NULL)
     GDS_grid(gds, bds, nx, ny, &nxny);
   else if (bms != NULL)
     {
@@ -141,7 +162,7 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
       if (BDS_NumBits(bds) == 0)
         {
           nxny = *nx = 1;
-          fprintf(stderr, "Missing GDS, constant record .. cannot "
+          fprintf(stderr, "decode_grib::Missing GDS, constant record .. cannot "
                   "determine number of data points\n");
         }
       else
@@ -162,9 +183,9 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
             }
           if (i != nxny)
             {
-              fprintf(stderr, "grib header at record %ld: two values of nxny %ld %d\n",
+              fprintf(stderr, "decode_grib::grib header at record %ld: two values of nxny %ld %d\n",
                       count, nxny, i);
-              fprintf(stderr, "   LEN %d DataStart %d UnusedBits %d #Bits %d nxny %ld\n",
+              fprintf(stderr, "decode_grib::LEN %d DataStart %d UnusedBits %d #Bits %d nxny %ld\n",
                       BDS_LEN(bds), BDS_DataStart(bds), BDS_UnusedBits(bds),
                       BDS_NumBits(bds), nxny);
               return_code = 1;
@@ -176,10 +197,9 @@ int decode_grib(FILE *grib_file, long *pos, int *param, float **array,
 
   *param = PDS_PARAM(pds);
 
-
   if ((*array = (float *) malloc(sizeof(float) * nxny)) == NULL)
     {
-      fprintf(stderr, "memory problems\n");
+      fprintf(stderr, "decode_grib::memory problems\n");
       exit(8);
     }
   temp = int_power(10.0, - PDS_DecimalScale(pds));
