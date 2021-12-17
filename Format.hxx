@@ -302,10 +302,29 @@ namespace SeldonData
   {
 
   protected:
+    //! List of global attributes (string name, string value).
+    vector<pair<string, string> > globalAttributes;
+    //! List of dimensions (string name, int size).
+    vector<pair<string, int> > dimensions;
+    //! List of variables (string name, list of dimension names).
+    vector<pair<string, vector<string> > > variables;
+    //! List of variable attributes (string name, string value)
+    vector<vector<pair<string, string> > > varAttributes;
 
   public:
     FormatNetCDF()  throw();
     ~FormatNetCDF()  throw();
+
+    void SetGlobalAttributes(vector<pair<string, string> > atts);
+    void SetDimensions(vector<pair<string, int> > dims);
+    void SetVariables(vector<pair<string, vector<string> > > vars);
+    void SetAttributesToVariable(vector<pair<string, string> > atts,
+				 string varName);
+
+    void PrintMemberVariables() const;
+
+    void CreateStructuredFile(string FileName) const;
+
     // For variables.
     // Grid.
 
@@ -318,11 +337,29 @@ namespace SeldonData
 
     template<class TD, int N, class TG>
     void Read(string FileName, string variable, Data<TD, N, TG>& D) const;
+    template<class TD, int N, class TG>
+    void Write(Data<TD, N, TG>& D, string variable, string FileName) const;
+    template<class TD, int N, class TG>
+    void AppendRecord(Data<TD, N, TG>& D, string variable, TD rec_value,
+		      string FileName) const;
+    template<class TD, int N, class TG>
+    void AppendRecordWithBounds(Data<TD, N, TG>& D, string variable,
+				TD rec_value, Data<TD, 2, TG>& RecBounds,
+				string FileName) const;
 
     // Array.
 
     template<class TA, int N>
     void Read(string FileName, string variable, Array<TA, N>& A) const;
+    template<class TA, int N>
+    void Write(Array<TA, N>& A, string variable, string FileName) const;
+    template<class TA, int N>
+    void AppendRecord(Array<TA, N>& A, string variable, TA rec_value,
+		      string FileName) const;
+    template<class TA, int N>
+    void AppendRecordWithBounds(Array<TA, N>& A, string variable,
+				TA rec_value, Array<TA, 2>& RecBounds,
+				string FileName) const;
 
     // For dimensions.
     void ReadDimension(string FileName, string variable, int dim_num,

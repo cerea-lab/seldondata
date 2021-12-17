@@ -1507,7 +1507,7 @@ namespace SeldonData
     int k(0), l(0);
     bool newline;
 
-    while ((i < nb_elements) && !is_empty(FileStream))
+    while ((i < nb_elements) && !Talos::is_empty(FileStream))
       {
 
         if (k < int(markups.size()))
@@ -1516,7 +1516,7 @@ namespace SeldonData
               {
                 this->SkipMarkup(FileStream, pos_cur - pos_beg, l);
                 newline = false;
-                while ((!is_empty(FileStream))
+                while ((!Talos::is_empty(FileStream))
                        && FileStream.Discard(FileStream.
                                              PeekFullLine(position)))
                   {
@@ -1534,9 +1534,8 @@ namespace SeldonData
 
             i += this->ReadMarkup(FileStream, pos_cur - pos_beg, l,
                                   &data[i], nb_elements - i);
-	    
-    
-	    //#ifdef SELDONDATA_DEBUG_CHECK_IO
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
             // Checks if data was read.
             if (!FileStream.good())
               throw IOError("FormatFormattedText::Read(ExtStream& FileStream,"
@@ -1544,10 +1543,10 @@ namespace SeldonData
                             string("Unable to read data associated with <")
                             + info_str[l] + " " + to_str(info_nb0[l]) + " "
                             + to_str(info_nb1[l]) + ">.");
-	    //#endif
+#endif
 
             newline = false;
-            while (!is_empty(FileStream)
+            while (!Talos::is_empty(FileStream)
                    && FileStream.Discard(FileStream.PeekFullLine(position)))
               {
                 newline = true;
@@ -1561,7 +1560,7 @@ namespace SeldonData
             pos_cur = FileStream.tellg();
 
             k++;
-            if (!is_empty(FileStream))
+            if (!Talos::is_empty(FileStream))
               l++;
           }
         else
@@ -1569,14 +1568,14 @@ namespace SeldonData
             k = 0;
             l = 0;
             FileStream.GetFullLine();
-            while ((!is_empty(FileStream))
+            while ((!Talos::is_empty(FileStream))
                    && FileStream.Discard(FileStream.PeekFullLine(position)))
               FileStream.seekg(position);
             pos_beg = pos_cur = FileStream.tellg();
           }
       }
 
-    //#ifdef SELDONDATA_DEBUG_CHECK_IO
+#ifdef SELDONDATA_DEBUG_CHECK_IO
     // Checks if data was read.
     if (i < nb_elements)
       throw IOError("FormatFormattedText::Read"
@@ -1585,7 +1584,7 @@ namespace SeldonData
                     string("Only ") + to_str(i) +
                     " elements were read instead of "
                     + to_str(nb_elements) + ".");
-    //#endif
+#endif
 
     FileStream.SetDelimiters(delimiters);
     FileStream.SetComments(comments);
@@ -1611,9 +1610,205 @@ namespace SeldonData
   {
   }
 
-  ////////////////////////////////////////////////
-  // Reads one variable in a netcdf format file //
-  ////////////////////////////////////////////////
+  //! Sets global attributes.
+  /*!
+    \param the list of global attributes (string name, string value)
+   */
+  template<class T>
+  void FormatNetCDF<T>::SetGlobalAttributes(vector<pair<string, string> > atts)
+  {
+
+    globalAttributes = atts;
+
+  }
+
+  //! Sets dimensions
+  /*!
+    \param the list of dimensions (string name, int size)
+    Size of an unlimited dimension must be defined as -1.
+  */
+  template<class T>
+  void FormatNetCDF<T>::SetDimensions(vector<pair<string, int> > dims)
+  {
+
+    dimensions = dims;
+
+  }
+
+  //! Sets variables.
+  /*!
+    \param the list of variables (string name, list of string dimensions)
+  */
+  template<class T>
+  void FormatNetCDF<T>::SetVariables(vector<pair<string, vector<string> > >
+				     vars)
+  {
+
+    variables = vars;
+    varAttributes.resize(variables.size());
+
+  }
+
+  //! Sets attributes to variable.
+  /*!
+    \param the list of attributes (string name, string value)
+    \param the variable (string name)
+  */
+  template<class T>
+  void FormatNetCDF<T>::SetAttributesToVariable(vector<pair<string, string> >
+						atts,
+						string varName)
+  {
+
+    int Nvars = int(variables.size());
+    int i(0);
+    while ((i < Nvars) && (variables[i].first != varName))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nvars)
+      throw IOError("FormatNetCDF<T>::"
+		    "SetAttributesToVariable()",
+                    "Unable to find variable \"" + varName
+                    + "\".");
+#endif
+
+    varAttributes[i] = atts;
+
+  }
+
+  //! Test function. Print all global attributes, dimensions and variables 
+  //! (with dimensions and attributes).
+  template<class T>
+  void FormatNetCDF<T>::PrintMemberVariables() const
+  {
+
+    cout<<"Attributes:"<<endl;
+    for(unsigned int a=0; a<globalAttributes.size(); a++)
+      cout<<' '<<globalAttributes[a].first<<" : "<<globalAttributes[a].second
+	  <<endl;
+
+    cout<<"Dimensions:"<<endl;
+    for(unsigned int d=0; d<dimensions.size(); d++)
+      cout<<' '<<dimensions[d].first + ", size: "<<dimensions[d].second
+	  <<endl;
+
+    cout<<"Variables:"<<endl;
+    for(unsigned int v=0; v<variables.size(); v++)
+      {
+	cout<<' '<<variables[v].first + ", dimensions: ";
+	for (unsigned int d=0; d<variables[v].second.size(); d++)
+	  cout<<variables[v].second[d]<<' ';
+	cout<<endl;
+	for (unsigned int a=0; a<varAttributes[v].size(); a++)
+	  cout<<"  "<<varAttributes[v][a].first<<": "
+	      <<varAttributes[v][a].second<<endl;
+      }
+
+  }
+
+  //! Creates an empty netCDF file with a structure based upon member variables.
+  template<class T>
+  void FormatNetCDF<T>::CreateStructuredFile(string FileName) const
+  {
+
+    // Creates a new empty file (even if the named file already exists).
+    NcFile File(FileName.c_str(), NcFile::Replace);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::CreateStructuredFile(string FileName)",
+                    "\"" + FileName + "\" cannot be created.");
+#endif
+
+    // Defines global attributes.
+    for (unsigned int a=0; a<globalAttributes.size(); a++)
+      {
+	bool op = File.add_att(globalAttributes[a].first.c_str(),
+			       globalAttributes[a].second.c_str());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	// Checks whether output operation succeeded.
+	if (!op)
+	  throw IOError("FormatNetCDF<T>::CreateStructuredFile(string FileName)"
+			, "Global attribute #" + to_str(a)
+			+ " cannot be added to the file \"" + FileName + "\".");
+#endif
+
+      }
+
+    // Defines the dimensions.
+    vector<NcDim *> dims(dimensions.size());
+    for (unsigned int d=0; d<dimensions.size(); d++)
+      {
+	if (dimensions[d].second != -1)
+	  dims[d] = File.add_dim(dimensions[d].first.c_str(),
+				 dimensions[d].second);
+	else // record dimension
+	  dims[d] = File.add_dim(dimensions[d].first.c_str());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	// Checks if the dimension is valid.
+	if (!dims[d]->is_valid())
+	  throw IOError("FormatNetCDF<T>::CreateStructuredFile"
+			"(string FileName)",
+			"Dimension #" + to_str(d)
+			+ " cannot be added to the file \""
+			+ FileName + "\".");
+#endif
+      }
+
+    // Defines the variables.
+    vector<NcVar *> vars(variables.size());
+    for (unsigned int v=0; v<variables.size(); v++)
+      {
+	int NvarDims = variables[v].second.size();
+	const NcDim **varDims = new const NcDim*[NvarDims];
+	for (int d=0; d<NvarDims; d++)
+	  varDims[d] = File.get_dim(variables[v].second[d].c_str());
+    	vars[v] = File.add_var(variables[v].first.c_str(), ncFloat,
+			       NvarDims, varDims);
+	delete varDims;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	// Checks if the variable is valid.
+	if (!vars[v]->is_valid())
+	  throw IOError("FormatNetCDF<T>::CreateStructuredFile"
+			"(string FileName)",
+			"Variable #" + to_str(v)
+			+ " cannot be added to the file \""
+			+ FileName + "\".");
+#endif
+      }
+
+    // Defines the variable attributes.
+    for (unsigned int v=0; v<variables.size(); v++)
+      for (unsigned int a=0; a<varAttributes[v].size(); a++)
+	{
+	  bool op = vars[v]->add_att(varAttributes[v][a].first.c_str(),
+				     varAttributes[v][a].second.c_str());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+	  // Checks whether output operation succeeded.
+	  if (!op)
+	    throw IOError("FormatNetCDF<T>::CreateStructuredFile"
+			  "(string FileName)",
+			  "Variable attribute #" + to_str(a)
+			  + " cannot be added to the variable \""
+			  + variables[v].first + "\" in the file \""
+			  + FileName + "\".");
+#endif
+	}
+
+  }
+
+
+
+  //////////////////////////////////////////////////////////
+  // Reads or writes one variable in a netcdf format file //
+  //////////////////////////////////////////////////////////
 
   /********/
   /* Grid */
@@ -1653,6 +1848,43 @@ namespace SeldonData
   {
 
     this->Read(FileName, variable, D.GetArray());
+
+  }
+
+  //! Writes a variable in a netCDF file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::Write(Data<TD, N, TG>& D, string variable,
+			      string FileName) const
+  {
+
+    this->Write(D.GetArray(), variable, FileName);
+
+  }
+
+  //! Appends data to a record variable in a netCDF file.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::AppendRecord(Data<TD, N, TG>& D, string variable,
+				     TD rec_value, string FileName) const
+  {
+
+    this->AppendRecord(D.GetArray(), variable, rec_value, FileName);
+
+  }
+
+  //! Appends data to a record variable in a netCDF file when record coordinate
+  //! variable has bounds.
+  template<class T>
+  template<class TD, int N, class TG>
+  void FormatNetCDF<T>::AppendRecordWithBounds(Data<TD, N, TG>& D,
+					       string variable, TD rec_value,
+					       Data<TD, 2, TG>& RecBounds,
+					       string FileName) const
+  {
+
+    this->AppendRecordWithBounds(D.GetArray(), variable, rec_value,
+				 RecBounds.GetArray(), FileName);
 
   }
 
@@ -1728,6 +1960,311 @@ namespace SeldonData
     if (!op)
       throw IOError("FormatNetCDF<T>::Read(string FileName, Array<TA, N>& A)",
                     "Data type doesn't match type of stored values.");
+#endif
+
+  }
+
+  //! Writes a variable in a netCDF file.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::Write(Array<TA, N>& A, string variable,
+			      string FileName) const
+  {
+
+    NcFile File(FileName.c_str(), NcFile::Write);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::Write(Array<TA, N>& A, string FileName)",
+                    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ((i < Nb_vars) && (string(File.get_var(i)->name()) != variable))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nb_vars)
+      throw IOError("FormatNetCDF<T>::Write(Array<TA, N>& A, string FileName)",
+                    "Unable to find variable \"" + variable
+                    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    // Checks the dimension.
+    if (var->num_dims() != N)
+      throw WrongDim("FormatNetCDF<T>::"
+                     "Write(Array<TA, N>& A, string FileName, )",
+                     "Data has " + to_str(N) +
+                     "dimensions, but stored data has "
+                     + to_str(var->num_dims()) + "dimensions.");
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    long* input_dimensions = var->edges();
+    for (i = 0; i < var->num_dims(); i++)
+      if (A.extent(i) > input_dimensions[i])
+        throw WrongIndex("FormatNetCDF<T>::"
+                         "Write(Array<TA, N>& A, string FileName)",
+                         "Array extent is " + to_str(A.extent(i))
+                         + " along dimension #" + to_str(i)
+                         + " , but it should not be strictly more than "
+                         + to_str(input_dimensions[i]) + ".");
+    delete[] input_dimensions;
+#endif
+
+    long* extents = new long[N];
+    for (i = 0; i < N; i++)
+      extents[i] = A.extent(i);
+
+    bool op = var->put(A.data(), extents);
+
+    delete [] extents;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether input operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::Write(Array<TA, N>& A, string FileName)",
+                    "Data type doesn't match type of stored values.");
+#endif
+
+  }
+
+  //! Appends data to a record variable in a netCDF file.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, string variable,
+				     TA rec_value, string FileName) const
+  {
+
+    NcFile File(FileName.c_str(), NcFile::Write);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, string FileName",
+                    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ((i < Nb_vars) && (string(File.get_var(i)->name()) != variable))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nb_vars)
+      throw IOError("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Unable to find variable \"" + variable
+                    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    // Checks the size.
+    if (var->rec_size() != int(A.size()))
+      throw WrongDim("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
+		     "string FileName, string variable)",
+                     "Data size is " + to_str(A.size()) +
+                     ", but record size is "
+                     + to_str(var->rec_size()));
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    // Checks the dimensions.
+    long* output_dimensions = var->edges();
+    for (i = 1; i < var->num_dims(); i++)
+      if (A.extent(i-1) > output_dimensions[i])
+        throw WrongIndex("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
+			 "string FileName, string variable)",
+                         "Array extent is " + to_str(A.extent(i))
+                         + " along dimension #" + to_str(i)
+                         + " , but it should not be strictly more than "
+                         + to_str(output_dimensions[i]) + ".");
+    delete[] output_dimensions;
+#endif
+
+    // Sets the current record to the last written record and appends data.
+    int last_rec = var->num_vals()/var->rec_size();
+    var->set_rec(last_rec);
+    bool op = var->put_rec(A.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Output operation was not successful.");
+#endif
+
+    // Gets the coordinate record variable.
+    NcVar* var_c;
+    var_c = File.get_var(File.rec_dim()->name());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable is valid.
+    if (!var_c->is_valid())
+      throw IOError("FormatNetCDF<T>::AppendRecord(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "\"" + string(File.rec_dim()->name())
+		    + "\" is not a coordinate variable.");
+#endif
+
+    // Appends the record value to the coordinate record variable.
+    var_c->set_rec(last_rec);
+    op = var_c->put_rec(&rec_value);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecord(Array<TA, N>& A, TA rec_value,"
+		    "string FileName, string variable)",
+		    "rec_value has not the same type as the coordinate "
+		    "record variable.");
+#endif
+  }
+
+  //! Appends data to a record variable in a netCDF file when record coordinate
+  //! variable has bounds.
+  template<class T>
+  template<class TA, int N>
+  void FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A,
+					       string variable, TA rec_value,
+					       Array<TA, 2>& RecBounds,
+					       string FileName)
+    const
+  {
+
+    NcFile File(FileName.c_str(), NcFile::Write);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file is valid.
+    if (!File.is_valid())
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, string FileName",
+                    "\"" + FileName + "\" is not a valid netCDF file.");
+#endif
+
+    int Nb_vars = File.num_vars();
+
+    int i(0);
+    while ((i < Nb_vars) && (string(File.get_var(i)->name()) != variable))
+      i++;
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether the variable was found.
+    if (i == Nb_vars)
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Unable to find variable \"" + variable
+                    + "\" in \"" + FileName + "\".");
+#endif
+
+    NcVar* var = File.get_var(i);
+
+#ifdef SELDONDATA_DEBUG_CHECK_DIMENSIONS
+    // Checks the size.
+    if (var->rec_size() != int(A.size()))
+      throw WrongDim("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		     "string FileName, string variable)",
+                     "Data size is " + to_str(A.size()) +
+                     ", but record size is "
+                     + to_str(var->rec_size()));
+#endif
+
+#ifdef SELDONDATA_DEBUG_CHECK_INDICES
+    // Checks the dimensions.
+    long* output_dimensions = var->edges();
+    for (i = 1; i < var->num_dims(); i++)
+      if (A.extent(i-1) > output_dimensions[i])
+        throw WrongIndex("FormatNetCDF<T>::"
+			 "AppendRecordWithBounds(Array<TA, N>& A, "
+			 "string FileName, string variable)",
+                         "Array extent is " + to_str(A.extent(i))
+                         + " along dimension #" + to_str(i)
+                         + " , but it should not be strictly more than "
+                         + to_str(output_dimensions[i]) + ".");
+    delete[] output_dimensions;
+#endif
+
+    // Sets the current record to the last written record and appends data.
+    int last_rec = var->num_vals()/var->rec_size();
+    var->set_rec(last_rec);
+    bool op = var->put_rec(A.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "Output operation was not successful.");
+#endif
+
+    // Gets the coordinate record variable.
+    NcVar* var_c;
+    var_c = File.get_var(File.rec_dim()->name());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable is valid.
+    if (!var_c->is_valid())
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "\"" + string(File.rec_dim()->name())
+		    + "\" is not a coordinate variable.");
+#endif
+
+    // Appends the record value to the coordinate record variable.
+    var_c->set_rec(last_rec);
+    op = var_c->put_rec(&rec_value);
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, "
+		    "string FileName, string variable)",
+		    "rec_value has not the same type as the coordinate "
+		    "record variable.");
+#endif
+
+    // Gets the boundary record variable.
+    NcAtt* att_bounds = var_c->get_att("bounds");
+    NcVar* var_b;
+    var_b = File.get_var(att_bounds->as_string(0));
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the coordinate record variable has bounds.
+    if (!var_b->is_valid())
+      throw IOError("FormatNetCDF<T>::AppendRecordWithBounds(Array<TA, N>& A, "
+		    "string FileName, string variable)",
+                    "\"" + variable
+		    + "\" has no associated boundary variable.");
+#endif
+
+    // Appends the record bounds to the boundary variable.
+    delete att_bounds;
+    var_b->set_rec(last_rec);
+    op = var_b->put_rec(RecBounds.data());
+
+#ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks whether output operation succeeded.
+    if (!op)
+      throw IOError("FormatNetCDF<T>::"
+		    "AppendRecordWithBounds(Array<TA, N>& A, TA rec_value, "
+		    "Array<TA, 2>& RecBounds, string FileName, "
+		    "string variable)", "RecBounds has not the same type"
+		    "as the boundary record variable.");
 #endif
 
   }
@@ -1953,6 +2490,7 @@ namespace SeldonData
     grib_file = fopen(FileName.c_str(), "r");
 
 #ifdef SELDONDATA_DEBUG_CHECK_IO
+    // Checks if the file was opened.
     if (grib_file == NULL)
       throw IOError("FormatGrib::Read"
                     "(string FileName, int variable, Array<TA, N>& A)",

@@ -259,7 +259,8 @@ namespace SeldonData
     int i, j;
     for (i = 0; i < N; i++)
       for (j = 0; j < N; j++)
-        if ((grids_(i)->GetLength(j) != 0) && (grids_(i)->GetLength(j) != grids_(j)->GetLength()))
+        if ((grids_(i)->GetLength(j) != 0)
+            && (grids_(i)->GetLength(j) != grids_(j)->GetLength()))
           {
             cout << "ERROR!" << endl;
             cout << "Wrong dimension in Data<T, N, TG>::Data(Grid<TG>, ...)."
@@ -2591,6 +2592,13 @@ namespace SeldonData
     data_.resize(data.GetArray().shape());
     data_ = data.GetArray();
   }
+
+  template <class T, int N, class TG>
+      void Data<T, N, TG>::ReferenceCopy(T* data)
+      {
+          Array<T, N> refCopyData(data, data_.shape(), neverDeleteData) ;
+          data_ = refCopyData ;
+      }
 
   //! Returns the number of stored elements.
   /*!
